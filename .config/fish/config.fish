@@ -32,6 +32,10 @@ set -gx PATH bin $PATH
 set -gx PATH ~/bin $PATH
 set -gx PATH ~/.local/bin $PATH
 
+function kstart
+    komorebic start -c (wslpath -w "/mnt/c/Users/imran/komorebi.json") --whkd $argv
+end
+
 # Zoxide
 zoxide init fish | source
 

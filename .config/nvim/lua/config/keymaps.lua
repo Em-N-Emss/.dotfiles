@@ -24,7 +24,7 @@ keymap.set("i", "<C-c", "<Esc>") -- Quitte l'insertion pour revenir au mode norm
 
 --- Incrémenter/Décrémenter une valeur
 keymap.set("n", "+", "<C-a>")
-keymap.set("n", "-", "C-x")
+keymap.set("n", "-", "<C-x>")
 
 --- Supprime un mot en arrière
 keymap.set("n", "dw", 'vb"_d')

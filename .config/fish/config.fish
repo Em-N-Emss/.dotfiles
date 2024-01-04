@@ -47,7 +47,7 @@ function ktstart
     end
 
     # Récupère la session "Em" si elle existe, sinon la crée
-    tmux has-session -t Em >/dev/null; and tmux switch-client -t Em; or tmux new -s Em
+    tmux has-session -t Em >/dev/null; and tmux attach-session -t Em; or tmux new -s Em
 end
 
 function ktend

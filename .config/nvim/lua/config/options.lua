@@ -30,3 +30,7 @@ vim.opt.splitkeep = "cursor" -- Garde le curseur dans une fenêtre sans changer 
 vim.opt.backspace = { "start", "eol", "indent" } -- Rend la supression efficace dans le contexte du curseur
 
 vim.opt.backup = false -- Evite de créer un backup lors de l'ouverture de fichier (Optimisation)
+
+vim.opt.incsearch = true -- Recheche mise à jour à chaque fois que l'on tape une nouvelle lettre (Pratique)
+
+vim.opt.undofile = true -- Permet de sauvegarder les traces de l'édition pour récupérer le fichier avant les dernières modifications

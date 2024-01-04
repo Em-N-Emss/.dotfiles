@@ -40,25 +40,32 @@ keymap.set("n", "<Leader>O", "O<Esc>^Da", opts) --Version au dessus
 keymap.set("n", "<C-m>", "<C-i>", opts)
 
 -- Gestion des onglets
-keymap.set("n", "te", ":tabedit")
-keymap.set("n", "<tab>", ":tabnext<Return>", opts)
-keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
+keymap.set("n", "te", ":tabedit") -- Ouvre un nouvel onglet
+keymap.set("n", "<tab>", ":tabnext<Return>", opts) -- Passe à l'onglet suivant
+keymap.set("n", "<s-tab>", ":tabprev<Return>", opts) -- Passe à l'onglet précédent
 
 -- Diviser la fenêtre courante
-keymap.set("n", "ss", ":split<Return>", opts)
-keymap.set("n", "sv", ":vsplit<Return>", opts)
+keymap.set("n", "ss", ":split<Return>", opts) -- Division de la fenêtre horizontalement
+keymap.set("n", "sv", ":vsplit<Return>", opts) -- Division de la fenêtre verticalement
 
 -- Déplacement de fenêtre en fenêtre
-keymap.set("n", "sh", "<C-w>h")
-keymap.set("n", "sk", "<C-w>k")
-keymap.set("n", "sj", "<C-w>j")
-keymap.set("n", "sl", "<C-w>l")
+keymap.set("n", "sh", "<C-w>h") -- Aller à la fenêtre gauche
+keymap.set("n", "sk", "<C-w>k") -- Aller à la fenêtre en haut
+keymap.set("n", "sj", "<C-w>j") -- Aller à la fenêtre en bas
+keymap.set("n", "sl", "<C-w>l") -- Aller à la fenêtre droite
 
 -- Ajuster la fenêtre
-keymap.set("n", "<C-w><left>", "<C-w><")
-keymap.set("n", "<C-w><right>", "<C-w>>")
-keymap.set("n", "<C-w><up>", "<C-w>+")
-keymap.set("n", "<C-w><down>", "<C-w>-")
+keymap.set("n", "<C-w><left>", "<C-w><") -- Réduit la largeur de la fenêtre
+keymap.set("n", "<C-w><right>", "<C-w>>") -- Augmente la largeur de la fenêtre
+keymap.set("n", "<C-w><up>", "<C-w>+") -- Augmente la hauteur de la fenêtre
+keymap.set("n", "<C-w><down>", "<C-w>-") -- Réduit la hauteur de la fenêtre
+
+-- Recentrage avec les déplacement dans VIM
+keymap.set("n", "J", "mzJ`z") -- Concatène la ligne actuelle et suivante sans espace
+keymap.set("n", "<C-d>", "<C-d>zz") -- Déplacement du curseur vers le bas en restant au milieu
+keymap.set("n", "<C-u>", "<C-u>zz") -- Déplacement du curseur vers le haut en restant au milieu
+keymap.set("n", "n", "nzzzv") -- Lors de la recherche d'une occurrence, recentre le curseur au milieu de l'ecran
+keymap.set("n", "N", "Nzzzv") -- Pareil mais en arrière
 
 -- Diagnostics
 keymap.set("n", "<C-j>", function()

@@ -32,8 +32,11 @@ set -gx PATH bin $PATH
 set -gx PATH ~/bin $PATH
 set -gx PATH ~/.local/bin $PATH
 
-function kstart
-    komorebic start -c (wslpath -w "/mnt/c/Users/imran/komorebi.json") --whkd $argv
+function ktstart
+    if not pgrep -f komorebic >/dev/null
+        komorebic start -c (wslpath -w "/mnt/c/Users/imran/komorebi.json") --whkd $argv
+    end
+    tmux new -s Em
 end
 
 # Zoxide

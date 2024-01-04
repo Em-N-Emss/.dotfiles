@@ -42,3 +42,6 @@
 ## Windows Tiling
 
 - [Komorebi](https://github.com/LGUG2Z/komorebi) - Un peu comme i3 mais pour Windows
+- Après avoir suivi l'installation de Komorebi, créer un lien symbolique avec `komorebic`.
+Pour cela la commande est : `ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/bin/komorebic`
+Ne pas oublier de créer le dossier bin dans la racine avec : `mkdir -p ~/bin/`

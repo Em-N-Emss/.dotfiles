@@ -41,27 +41,34 @@ fish_add_path ~/bin
 fish_add_path ~/.local/bin
 
 function ktstart
-    # Check si komorebi n'est pas déjà démarré
-    if not pgrep -f komorebic >/dev/null
+    # Vérifie si komorebi n'est pas déjà démarré
+    if not pgrep -f komorebi >/dev/null
         komorebic start -c (wslpath -w "/mnt/c/Users/imran/komorebi.json") --whkd $argv
     end
 
-    # Laisse le temps au terminal de respirer
-    sleep 1
-
-    # Lance Tmux avec le nom de la session Em
-    tmux new -s Em
+    # Récupère la session "Em" si elle existe, sinon la crée
+    tmux has-session -t Em >/dev/null; and tmux switch-client -t Em; or tmux new -s Em
 end
 
 function ktend
     # Byebye Komorebi
     komorebic stop
 
-    # Laisse le temps au terminal de respirer
-    sleep 1
+    # Attente limitée à 5 secondes pour la terminaison de Komorebi
+    for i in (seq 1 5)
+        if not pgrep -f komorebi >/dev/null
+            break
+        end
+        sleep 1
+    end
 
-    # Ferme toutes les sessions Tmux
-    tmux kill-server
+    # Ferme toutes les sessions Tmux sauf "Em"
+    for session in (tmux list-sessions -F "#{session_name}" | grep -v "Em")
+        tmux kill-session -t $session
+    end
+
+    # Se détache de la session "Em"
+    tmux detach-client -s Em
 end
 
 # Zoxide

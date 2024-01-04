@@ -15,7 +15,6 @@ if status is-interactive
 
     alias ls "ls -p -G"
     alias la "ls -A"
-    alias g git
     command -qv nvim && alias vim nvim
     alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
@@ -33,10 +32,21 @@ set -gx PATH ~/bin $PATH
 set -gx PATH ~/.local/bin $PATH
 
 function ktstart
+    # Check si komorebi n'est pas déjà démarré
     if not pgrep -f komorebic >/dev/null
         komorebic start -c (wslpath -w "/mnt/c/Users/imran/komorebi.json") --whkd $argv
     end
+
+    # Lance Tmux avec le nom de la session Em
     tmux new -s Em
+end
+
+function ktend
+    # Byebye Komorebi
+    komorebic stop
+
+    # Ferme toutes les sessions Tmux
+    tmux kill-server
 end
 
 # Zoxide

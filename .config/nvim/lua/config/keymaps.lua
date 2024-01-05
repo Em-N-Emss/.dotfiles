@@ -9,9 +9,6 @@ discipline.jerigros()
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
---- Le Saint-Graal de VIM : L'AUTOCOMPLETION DE ENTRER A TAB
-keymap.set("i", "<Tab>", "<C-n>", opts)
-
 --- Copier-Coler dans le système
 keymap.set({ "n", "v" }, "<leader>y", [["+y]]) -- Copier ce qui est surligné
 keymap.set("n", "<leader>Y", [["+Y]]) -- Copier la ligne

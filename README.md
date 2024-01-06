@@ -6,6 +6,7 @@
 - Git >= **2.19.0** (for partial clones support)
 - [LazyVim](https://www.lazyvim.org/)
 - a [Nerd Font](https://www.nerdfonts.com/)(v3.0 or greater) **_(optional, but needed to display some icons)_**
+- [commitizen](https://github.com/commitizen/cz-cli)
 - [lazygit](https://github.com/jesseduffield/lazygit) **_(optional)_**
 - a **C** compiler for `nvim-treesitter`. See [here](https://github.com/nvim-treesitter/nvim-treesitter#requirements)
 - for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) **_(optional)_**

@@ -40,9 +40,23 @@
 - [z](https://www.powershellgallery.com/packages/z) - Directory jumper
 - [PSFzf](https://github.com/kelleyma49/PSFzf) - Fuzzy finder
 
+## Dossier bin, link au système Windows
+- Ne pas oublier de créer le dossier bin dans la racine avec : `mkdir -p ~/bin/`
+- le dossier bin sert d'alias symlink pour tous les fichiers présent dans Windows, ça permet d'éviter de ReDL des fichiers pour le système WSL.
+- La technique d'alias symlink est : `ln -s /mnt/c/chemin/vers/fichier ~/bin/fichier`
+
 ## Windows Tiling
 
 - [Komorebi](https://github.com/LGUG2Z/komorebi) - Un peu comme i3 mais pour Windows
 - Après avoir suivi l'installation de Komorebi, créer un lien symbolique avec `komorebic`.
 Pour cela la commande est : `ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/bin/komorebic`
-Ne pas oublier de créer le dossier bin dans la racine avec : `mkdir -p ~/bin/`
+- Exemple avec moi ce serait : `ln -s /mnt/c/Users/imran/scoop/shims/komorebic.exe ~/bin/komorebic`
+
+## Remap hotkeys
+
+- [AutoHotKey](https://www.autohotkey.com/) - Permet de remap des touches sur windows
+- Installer aussi Ahk2Exe.exe ça facilitera la tâche en transformant vos scripts en .exe
+- Le lien symbolique est : `ln -s /mnt/c/chemin/vers/AutoHotKey ~/bin/AutoHotKey`
+- Exemple avec moi ce serait : `ln -s /mnt/c/Divers/AutoHotKey ~/bin/AutoHotKey`
+- L'utilisation des scripts permet d'avoir les même touches que sur VIM ou faciliter l'utilisation de VIM
+- Pour lancer les scripts dès le démarrage du pc, ouvrir l'explorateur de fichiers et copier/coller ce chemin : `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup`. Déposer vos scripts dans le dossier.

@@ -33,12 +33,25 @@ if status is-interactive
 end
 
 
-# set -gx PATH bin $PATH
-# set -gx PATH ~/bin $PATH
-# set -gx PATH ~/.local/bin $PATH
-fish_add_path bin
-fish_add_path ~/bin
-fish_add_path ~/.local/bin
+set -gx PATH bin $PATH
+set -gx PATH ~/bin $PATH
+set -gx PATH ~/.local/bin $PATH
+# fish_add_path bin
+# fish_add_path ~/bin
+# fish_add_path ~/.local/bin
+
+# NodeJS
+set -gx PATH node_modules/.bin $PATH
+
+# NVM
+function __check_rvm --on-variable PWD --description 'Do nvm stuff'
+    status --is-command-substitution; and return
+
+    if test -f .nvmrc; and test -r .nvmrc
+        nvm use
+    else
+    end
+end
 
 function ktstart
     # Vérifie si komorebi n'est pas déjà démarré

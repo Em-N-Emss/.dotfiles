@@ -65,7 +65,7 @@ keymap.set("n", "n", "nzzzv") -- Lors de la recherche d'une occurrence, recentre
 keymap.set("n", "N", "Nzzzv") -- Pareil mais en arrière
 
 -- Diagnostics
-keymap.set("n", "<C-j>", function()
+keymap.set("n", "<C-n>", function()
   vim.diagnostic.goto_next()
 end, opts)
 

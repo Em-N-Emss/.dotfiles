@@ -34,3 +34,9 @@ vim.opt.backup = false -- Evite de créer un backup lors de l'ouverture de fichi
 vim.opt.incsearch = true -- Recheche mise à jour à chaque fois que l'on tape une nouvelle lettre (Pratique)
 
 vim.opt.undofile = true -- Permet de sauvegarder les traces de l'édition pour récupérer le fichier avant les dernières modifications
+
+vim.opt.showcmd = true -- Permet de voir les commandes que l'on tape
+
+vim.opt.cmdheight = 1
+
+vim.opt.shell = "fish" -- Met Fish en shell par defaut

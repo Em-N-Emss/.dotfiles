@@ -6,7 +6,6 @@
 - Git >= **2.19.0** (for partial clones support)
 - [LazyVim](https://www.lazyvim.org/)
 - a [Nerd Font](https://www.nerdfonts.com/)(v3.0 or greater) **_(optional, but needed to display some icons)_**
-- [commitizen](https://github.com/commitizen/cz-cli)
 - [lazygit](https://github.com/jesseduffield/lazygit) **_(optional)_**
 - a **C** compiler for `nvim-treesitter`. See [here](https://github.com/nvim-treesitter/nvim-treesitter#requirements)
 - for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) **_(optional)_**
@@ -60,3 +59,7 @@ Pour cela la commande est : `ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/
 - Exemple avec moi ce serait : `ln -s /mnt/c/Divers/AutoHotKey ~/bin/AutoHotKey`
 - L'utilisation des scripts permet d'avoir les même touches que sur VIM ou faciliter l'utilisation de VIM
 - Pour lancer les scripts dès le démarrage du pc, ouvrir l'explorateur de fichiers et copier/coller ce chemin : `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup`. Déposer vos scripts dans le dossier.
+
+## Git workflow
+- [commitizen](https://github.com/commitizen/cz-cli) - Permet de générer des meilleurs commits
+- Afin de pouvoir utiliser commitizen dans tous le système : `npm install -g cz-conventional-changelog` et ensuite `echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc`

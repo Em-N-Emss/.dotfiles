@@ -17,7 +17,7 @@ if status is-interactive
     # Navigation de fichiers
     alias ls "ls -p -G"
     alias la "ls -A"
-
+    alias g git
     command -qv nvim && alias vim nvim
 
     # Alias pour .dotfiles sur git
@@ -53,7 +53,7 @@ function __check_rvm --on-variable PWD --description 'Do nvm stuff'
     end
 end
 
-function ktstart
+function kts
     # Vérifie si komorebi n'est pas déjà démarré
     if not pgrep -f komorebi >/dev/null
         komorebic start -c (wslpath -w "/mnt/c/Users/imran/komorebi.json") --whkd $argv
@@ -63,7 +63,7 @@ function ktstart
     tmux has-session -t Em >/dev/null; and tmux attach-session -t Em; or tmux new -s Em
 end
 
-function ktend
+function kte
     # Byebye Komorebi
     komorebic stop
 

@@ -64,4 +64,4 @@ Pour cela la commande est : `ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/
 - [commitizen](https://github.com/commitizen/cz-cli) - Permet de générer des meilleurs commits
 - Afin de pouvoir utiliser commitizen dans tous le système : `npm install -g cz-conventional-changelog` et ensuite `echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc`
 - [hub](https://github.com/mislav/hub) - Permet d'ouvrir la page github du projet
-- Pour cela il faut initialiser le token ici https://github.com/settings/tokens, installer [wslu](https://github.com/wslutilities/wslu#feature), enfin mettre ces deux lignes `export DISPLAY=:0` et `export BROWSER=/usr/bin/wslview`
+- Pour cela il faut initialiser le token ici https://github.com/settings/tokens, installer [wslu](https://github.com/wslutilities/wslu#feature), enfin mettre ces deux lignes `export DISPLAY=:0` et `export BROWSER=/usr/bin/wslview` dans `.bashrc`

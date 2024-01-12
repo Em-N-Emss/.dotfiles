@@ -7,6 +7,8 @@
 - [LazyVim](https://www.lazyvim.org/)
 - a [Nerd Font](https://www.nerdfonts.com/)(v3.0 or greater) **_(optional, but needed to display some icons)_**
 - [lazygit](https://github.com/jesseduffield/lazygit) **_(optional)_**
+- [Brew](https://brew.sh/) - Package installer
+- [Tmux](https://doc.ubuntu-fr.org/tmux) - LE SANG DE LA VEINE
 - a **C** compiler for `nvim-treesitter`. See [here](https://github.com/nvim-treesitter/nvim-treesitter#requirements)
 - for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) **_(optional)_**
   - **live grep**: [ripgrep](https://github.com/BurntSushi/ripgrep)

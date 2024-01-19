@@ -22,10 +22,10 @@
 
 ## Importer mes dotfiles
 
-- Avant de cloner faire ceci pour le shell de base : `alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'`
-- Afin d'éviter des problèmes de récursivité : `echo ".cfg" >> .gitignore`
-- Maintenant cloner le repo en BARE (très important ) : `git clone --bare <git-repo-url> $HOME/.cfg`
-- Enfin redéfinir l'alias cette fois ci pour fish (Non nécessaire si bash est utilisé): `config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'`
+- Avant de cloner faire ceci pour le shell de base : `alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'`
+- Afin d'éviter des problèmes de récursivité : `echo ".dotfiles" >> .gitignore`
+- Maintenant cloner le repo en BARE (très important ) : `git clone --bare <git-repo-url> $HOME/.dotfiles`
+- Enfin redéfinir l'alias cette fois ci pour fish (Non nécessaire si bash est utilisé): `config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'`
 - Récupérer tout en faisant : `config checkout`
 - Il va y avoir de conflits si .gitignore est déjà présent dans ce genre la : `error: The following untracked working tree files would be overwritten by checkout:
     .bashrc

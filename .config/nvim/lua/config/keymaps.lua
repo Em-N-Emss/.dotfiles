@@ -2,9 +2,10 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-local discipline = require("dylan.discipline")
-
-discipline.jerigros()
+-- Restriction de déplacement pour maitriser VIM
+-- local discipline = require("dylan.discipline")
+--
+-- discipline.jerigros()
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
@@ -66,9 +67,9 @@ keymap.set("n", "N", "Nzzzv") -- Pareil mais en arrière
 
 -- Diagnostics
 keymap.set("n", "<C-n>", function()
-  vim.diagnostic.goto_next()
+    vim.diagnostic.goto_next()
 end, opts)
 
 keymap.set("n", "<leader>r", function()
-  require("dylan.utils").replaceHexWithHSL()
+    require("dylan.utils").replaceHexWithHSL()
 end)

@@ -37,7 +37,7 @@ echo ".dotfiles" >> .gitignore
 - Maintenant cloner le repo en BARE (très important ) :
 
 ```bash
-git clone --bare <git-repo-url> $HOME/.dotfiles
+git clone --bare https://github.com/Em-N-Emss/.dotfiles $HOME/.dotfiles
 ```
 
 - Enfin redéfinir l'alias cette fois ci pour fish (Non nécessaire si bash est utilisé):

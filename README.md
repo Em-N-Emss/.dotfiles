@@ -139,20 +139,21 @@ ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/bin/komorebic
 ## Remap hotkeys
 
 - [AutoHotKey](https://www.autohotkey.com/) - Permet de remap des touches sur windows
-- Installer aussi Ahk2Exe.exe ça facilitera la tâche en transformant vos scripts en .exe
-- Le lien symbolique est :
 
-```bash
-ln -s /mnt/c/chemin/vers/AutoHotKey ~/bin/AutoHotKey
-```
+  - Installer aussi Ahk2Exe.exe ça facilitera la tâche en transformant vos scripts en .exe
+  - Le lien symbolique est :
 
-- Exemple avec moi ce serait : `ln -s /mnt/c/Divers/AutoHotKey ~/bin/AutoHotKey`
-- L'utilisation des scripts permet d'avoir les même touches que sur VIM ou faciliter l'utilisation de VIM
-- Pour lancer les scripts dès le démarrage du pc, ouvrir l'explorateur de fichiers et copier/coller et déposer vos scripts dans ce chemin :
+  ```bash
+  ln -s /mnt/c/chemin/vers/AutoHotKey ~/bin/AutoHotKey
+  ```
 
-```bash
-%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
-```
+  - Exemple avec moi ce serait : `ln -s /mnt/c/Divers/AutoHotKey ~/bin/AutoHotKey`
+  - L'utilisation des scripts permet d'avoir les même touches que sur VIM ou faciliter l'utilisation de VIM
+  - Pour lancer les scripts dès le démarrage du pc, ouvrir l'explorateur de fichiers et copier/coller et déposer vos scripts dans ce chemin :
+
+  ```bash
+  %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
+  ```
 
 ## Git workflow
 

@@ -94,11 +94,10 @@ config config --local status.showUntrackedFiles no
 fisher install ilancosman/tide@v6
 ```
 
-- [Nerd fonts](https://github.com/ryanoasis/nerd-fonts) - Powerline-patched fonts. I use Hack.
-- [z for fish](https://github.com/jethrokuan/z) - Directory jumping (ne pas oublier de prendre [Zoxide](https://github.com/ajeetdsouza/zoxide))
-- [Eza](https://github.com/eza-community/eza) - `ls` replacement (Même chose ne pas oublier de prendre avec la version fish cette fois ci : [Eza_fish](https://github.com/plttn/fish-eza))
+- [Zoxide](https://github.com/ajeetdsouza/zoxide) - Directory jumping (ne pas oublier de prendre la version fish [z for fish](https://github.com/jethrokuan/z))
+- [Eza](https://github.com/eza-community/eza) - `ls` replacement (Même chose ne pas oublier de prendre avec la version fish [Eza_fish](https://github.com/plttn/fish-eza))
 - [ghq](https://github.com/x-motemen/ghq) - Local Git repository organizer
-- [fzf](https://github.com/PatrickF1/fzf.fish) - Interactive filtering (Normal [Fzf](https://github.com/junegunn/fzf))
+- [Fzf](https://github.com/junegunn/fzf) - Interactive filtering (Version fish : [fzf](https://github.com/PatrickF1/fzf.fish))
 
 ## PowerShell setup (Windows)
 
@@ -149,33 +148,32 @@ ln -s /mnt/c/chemin/vers/AutoHotKey ~/bin/AutoHotKey
 
 - Exemple avec moi ce serait : `ln -s /mnt/c/Divers/AutoHotKey ~/bin/AutoHotKey`
 - L'utilisation des scripts permet d'avoir les même touches que sur VIM ou faciliter l'utilisation de VIM
-- Pour lancer les scripts dès le démarrage du pc, ouvrir l'explorateur de fichiers et copier/coller ce chemin :
+- Pour lancer les scripts dès le démarrage du pc, ouvrir l'explorateur de fichiers et copier/coller et déposer vos scripts dans ce chemin :
 
 ```bash
-%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup`. Déposer vos scripts dans le dossier.
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
 ```
 
 ## Git workflow
 
 - [commitizen](https://github.com/commitizen/cz-cli) - Permet de générer des meilleurs commits
-- Afin de pouvoir utiliser commitizen dans tous le système :
 
-```bash
-npm install -g cz-conventional-changelog
-```
+  - Afin de pouvoir utiliser commitizen dans tous le système :
 
-et ensuite :
+  ```bash
+  npm install -g cz-conventional-changelog
+  ```
 
-```bash
-echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
-```
+  - et ensuite mettre ça dans un script:
+
+  ```bash
+  echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
+  ```
 
 - [hub](https://github.com/mislav/hub) - Permet d'ouvrir la page github du projet
-- Pour cela il faut initialiser le token ici https://github.com/settings/tokens, installer [wslu](https://github.com/wslutilities/wslu#feature), enfin mettre ces deux lignes
+- Pour cela il faut initialiser le token ici https://github.com/settings/tokens, installer [wslu](https://github.com/wslutilities/wslu#feature), enfin mettre ces deux lignes dans `.bashrc` :
 
 ```bash
 export DISPLAY=:0
 export BROWSER=/usr/bin/wslview
 ```
-
-dans `.bashrc`

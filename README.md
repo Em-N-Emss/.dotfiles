@@ -172,9 +172,12 @@ ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/bin/komorebic
   ```
 
 - [hub](https://github.com/mislav/hub) - Permet d'ouvrir la page github du projet
-- Pour cela il faut initialiser le token ici https://github.com/settings/tokens, installer [wslu](https://github.com/wslutilities/wslu#feature), enfin mettre ces deux lignes dans `.bashrc` :
 
-```bash
-export DISPLAY=:0
-export BROWSER=/usr/bin/wslview
-```
+  - Pour cela il faut initialiser le token ici https://github.com/settings/tokens, enfin mettre ces deux lignes dans `.bashrc` :
+
+  ```bash
+  export DISPLAY=:0
+  export BROWSER=/usr/bin/wslview
+  ```
+
+  - Si problème, installer [wslu](https://github.com/wslutilities/wslu#feature)

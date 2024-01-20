@@ -24,25 +24,55 @@
 
 - Avant de cloner faire ceci pour le shell de base :
 
-```
+```bash
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 ```
+- Afin d'éviter des problèmes de récursivité :
 
-- Afin d'éviter des problèmes de récursivité : `echo ".dotfiles" >> .gitignore`
-- Maintenant cloner le repo en BARE (très important ) : `git clone --bare <git-repo-url> $HOME/.dotfiles`
-- Enfin redéfinir l'alias cette fois ci pour fish (Non nécessaire si bash est utilisé): `config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'`
-- Récupérer tout en faisant : `config checkout`
-- Il va y avoir de conflits si .gitignore est déjà présent dans ce genre la : `error: The following untracked working tree files would be overwritten by checkout:
+```bash
+echo ".dotfiles" >> .gitignore
+```
+- Maintenant cloner le repo en BARE (très important ) :
+
+```bash
+git clone --bare <git-repo-url> $HOME/.dotfiles
+```
+
+- Enfin redéfinir l'alias cette fois ci pour fish (Non nécessaire si bash est utilisé):
+
+```bash
+config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+```
+- Récupérer tout en faisant :
+
+```bash
+config checkout
+```
+- Il va y avoir de conflits si .gitignore est déjà présent dans ce genre la :
+```bash
+error: The following untracked working tree files would be overwritten by checkout:
     .bashrc
     .gitignore
 Please move or remove them before you can switch branches.
-Aborting`
+Aborting
+```
 - Solution :
-  - Back up les fichiers si y a besoin : `mkdir -p .config-backup && \
-config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
-xargs -I{} mv {} .config-backup/{}`
-  - Dégager les fichiers en conflit le plus souvent juste .gitignore (ajouter les autres fichiers derrière .gitignore si besoin) : `rm -rf .gitignore`
-- Enfin dans $HOME faire : `config config --local status.showUntrackedFiles no`
+  - Back up les fichiers si y a besoin :
+  ```bash
+  mkdir -p .config-backup && \
+  config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
+  xargs -I{} mv {} .config-backup/{
+   ```
+  - Dégager les fichiers en conflit le plus souvent juste .gitignore (ajouter les autres fichiers derrière .gitignore si besoin) :
+
+  ```bash
+  rm -rf .gitignore
+  ```
+- Enfin dans $HOME faire :
+
+```bash
+config config --local status.showUntrackedFiles no
+```
 
 ## Shell setup (macOS & Linux)
 

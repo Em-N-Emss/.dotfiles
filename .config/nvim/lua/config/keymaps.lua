@@ -11,11 +11,11 @@ local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
 --- Copier-Coler dans le système
-keymap.set({ "n", "v" }, "<leader>y", [["+y]]) -- Copier ce qui est surligné
-keymap.set("n", "<leader>Y", [["+Y]]) -- Copier la ligne
-keymap.set("x", "<leader>p", [["_dP]]) -- Coupe la partie surlignée et colle ce qu'il y avait dans le presse-papier avant le curseur en mode visuel
+keymap.set({ "n", "v" }, "<leader>y", [["+y]]) -- Copier ce qui est surligné et le met dans le clipboard systeme
+keymap.set("n", "<leader>Y", [["+Y]]) -- Copier la ligne et la met dans le clipboard systeme
+keymap.set("x", "<leader>p", [["_dP]]) -- Coupe la partie surlignée sans la mettre dans le presse-papier et colle ce qu'il y avait dans le presse-papier avant le curseur en mode visuel
 keymap.set({ "n", "v" }, "<leader>d", [["_d]]) -- Coupe (une ou plusieurs lignes) SANS mettre dans le presse-papier système
-keymap.set("n", "x", '"_x"') -- Coupe tout ce qui est selectionné et non un seul caractère
+keymap.set("n", "x", '"_x"') -- Coupe sans mettre dans le presse-papier
 
 --- Tu croyais que j'blaguais Nono ?
 keymap.set("i", "<C-c", "<Esc>") -- Quitte l'insertion pour revenir au mode normal
@@ -59,7 +59,9 @@ keymap.set("n", "<C-w><up>", "<C-w>+") -- Augmente la hauteur de la fenêtre
 keymap.set("n", "<C-w><down>", "<C-w>-") -- Réduit la hauteur de la fenêtre
 
 -- Recentrage avec les déplacement dans VIM
-keymap.set("n", "J", "mzJ`z") -- Concatène la ligne actuelle et suivante sans espace
+keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- Après avoir sélectionnée un morceau de texte, le déplacement d'une ligne vers le bas et le réindente
+keymap.set("v", "K", ":m '<-2<CR>gv=gv") -- Après avoir sélectionnée un morceau de texte, le déplacement d'une ligne vers le haut et le réindente
+keymap.set("n", "J", "mzJ`z") -- Concatène la ligne actuelle et celle du dessous sans espace
 keymap.set("n", "<C-d>", "<C-d>zz") -- Déplacement du curseur vers le bas en restant au milieu
 keymap.set("n", "<C-u>", "<C-u>zz") -- Déplacement du curseur vers le haut en restant au milieu
 keymap.set("n", "n", "nzzzv") -- Lors de la recherche d'une occurrence, recentre le curseur au milieu de l'ecran

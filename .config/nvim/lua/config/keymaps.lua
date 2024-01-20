@@ -67,9 +67,9 @@ keymap.set("n", "N", "Nzzzv") -- Pareil mais en arrière
 
 -- Diagnostics
 keymap.set("n", "<C-n>", function()
-    vim.diagnostic.goto_next()
+	vim.diagnostic.goto_next()
 end, opts)
 
 keymap.set("n", "<leader>r", function()
-    require("dylan.utils").replaceHexWithHSL()
+	require("dylan.utils").replaceHexWithHSL()
 end)

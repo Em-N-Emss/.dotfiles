@@ -68,11 +68,8 @@ function kte
     # Byebye Komorebi
     komorebic stop
 
-    # Attente limitée à 5 secondes pour la terminaison de Komorebi
-    for i in (seq 1 5)
-        if pgrep -f komorebi >/dev/null
-            break
-        end
+    # Attente limitée à 1 seconde pour la terminaison de Komorebi tant que le processus est actif
+    while pgrep -f komorebi >/dev/null
         sleep 1
     end
 

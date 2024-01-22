@@ -70,7 +70,7 @@ function kte
 
     # Attente limitée à 5 secondes pour la terminaison de Komorebi
     for i in (seq 1 5)
-        if not pgrep -f komorebi >/dev/null
+        if pgrep -f komorebi >/dev/null
             break
         end
         sleep 1

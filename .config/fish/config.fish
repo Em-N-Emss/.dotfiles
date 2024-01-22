@@ -56,7 +56,8 @@ end
 function kts
     # Vérifie si komorebi n'est pas déjà démarré
     if not pgrep -f komorebi >/dev/null
-        komorebic start -c (wslpath -w "/mnt/c/Users/imran/komorebi.json") --whkd $argv
+        # La commande pour lancer komorebi avec un chemin dynamique
+        powershell.exe -Command 'komorebic start -c "$Env:USERPROFILE\komorebi.json" --whkd'
     end
 
     # Récupère la session "Em" si elle existe, sinon la crée

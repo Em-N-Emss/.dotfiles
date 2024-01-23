@@ -39,4 +39,4 @@ Session.vim
 .config/fish/fish_variables.x86_64
  
 # WSL
-bin/win_user_profile.sh
+bin/win_path.sh

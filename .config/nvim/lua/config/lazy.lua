@@ -10,17 +10,48 @@ require("lazy").setup({
 	spec = {
 		-- add LazyVim and import its plugins
 		-- { "lazyvim/lazyvim", import = "lazyvim.plugins" },
+		-- Those lines are for solarized osaka theme in lazyvim
+		-- Start
+		-- {
+		-- 	"LazyVim/LazyVim",
+		-- 	import = "lazyvim.plugins",
+		-- 	opts = {
+		-- 		colorscheme = "solarized-osaka",
+		-- 		news = {
+		-- 			lazyvim = true,
+		-- 			neovim = true,
+		-- 		},
+		-- 	},
+		-- },
+		-- End
+		-- Gruvbox theme
+		-- Start
+		-- {
+		-- 	"LazyVim/LazyVim",
+		-- 	import = "lazyvim.plugins",
+		-- 	opts = {
+		-- 		colorscheme = "gruvbox",
+		-- 		news = {
+		-- 			lazyvim = true,
+		-- 			neovim = true,
+		-- 		},
+		-- 	},
+		-- },
+		-- End
+		-- Rose-Pine theme
+		-- Start
 		{
 			"LazyVim/LazyVim",
 			import = "lazyvim.plugins",
 			opts = {
-				colorscheme = "solarized-osaka",
+				colorscheme = "rose-pine",
 				news = {
 					lazyvim = true,
 					neovim = true,
 				},
 			},
 		},
+		-- End
 		-- import any extras modules here
 		{ import = "lazyvim.plugins.extras.lang.typescript" },
 		{ import = "lazyvim.plugins.extras.lang.json" },

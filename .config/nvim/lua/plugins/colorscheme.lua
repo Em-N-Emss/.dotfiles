@@ -19,9 +19,9 @@ return {
 	name = "rose-pine",
 	lazy = true,
 	priority = 1000,
-	opts = function()
-		return {
-			transparent = true,
-		}
-	end,
+	opts = {
+		styles = {
+			transparency = true,
+		},
+	},
 }

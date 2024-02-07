@@ -33,13 +33,9 @@ if status is-interactive
     end
 end
 
-
 set -gx PATH bin $PATH
 set -gx PATH ~/bin $PATH
 set -gx PATH ~/.local/bin $PATH
-# fish_add_path bin
-# fish_add_path ~/bin
-# fish_add_path ~/.local/bin
 
 # NodeJS
 set -gx PATH node_modules/.bin $PATH
@@ -58,29 +54,31 @@ function kts
     # Vérifie si komorebi n'est pas déjà démarré
     if not pgrep -f komorebi >/dev/null
         # La commande pour lancer komorebi avec un chemin dynamique
-        powershell.exe -Command 'komorebic start -c "$Env:USERPROFILE\komorebi.json" --whkd'
+        pwsh.exe -Command 'komorebic start -c "$Env:USERPROFILE\komorebi.json" --whkd'
+        # Permet de lancer YASB avec un chemin dynamique
+        # pwsh.exe -Command 'cd $Env:USERPROFILE\.yasb && python src\main.py'
     end
 
-    # Récupère la session "Em" si elle existe, sinon la crée
-    tmux has-session -t Em >/dev/null; and tmux attach-session -t Em; or tmux new -s Em
+    # Récupère la session "Work" si elle existe, sinon la crée
+    tmux new-session -A -s Work
 end
 
 function kte
     # Byebye Komorebi
     komorebic stop
-
+    # Fermer aussi Whkd par précaution
+    pwsh.exe -Command 'taskkill /f /im whkd.exe'
     # Attente limitée à 1 seconde pour la terminaison de Komorebi tant que le processus est actif
     while pgrep -f komorebi >/dev/null
         sleep 1
     end
 
-    # Ferme toutes les sessions Tmux sauf "Em"
-    for session in (tmux list-sessions -F "#{session_name}" | grep -v "Em")
-        tmux kill-session -t $session
-    end
+    # Se détache de la session courante
+    tmux detach
 
-    # Se détache de la session "Em"
-    tmux detach-client -s Em
+    # Ferme toutes les sessions Tmux sauf "Work"
+    tmux kill-session -a -t Work
+
 end
 
 # Zoxide

@@ -19,9 +19,10 @@ return {
 	name = "rose-pine",
 	lazy = true,
 	priority = 1000,
-	opts = {
-		styles = {
-			transparency = true,
-		},
-	},
+	-- Activer seulement dans Windows Terminal
+	-- opts = {
+	-- 	styles = {
+	-- 		transparency = true,
+	-- 	},
+	-- },
 }

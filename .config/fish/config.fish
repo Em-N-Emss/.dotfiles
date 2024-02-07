@@ -65,6 +65,12 @@ function kts
 end
 
 function kte
+    # Se détache de la session courante
+    tmux detach
+
+    # Ferme toutes les sessions Tmux sauf "Work"
+    tmux kill-session -a -t Work
+
     # Byebye Komorebi
     komorebic stop
 
@@ -75,13 +81,6 @@ function kte
     while pgrep -f komorebi >/dev/null && whkd >/dev/null
         sleep 1
     end
-
-    # Se détache de la session courante
-    tmux detach
-
-    # Ferme toutes les sessions Tmux sauf "Work"
-    tmux kill-session -a -t Work
-
 end
 
 # Zoxide

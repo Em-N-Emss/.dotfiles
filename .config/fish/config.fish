@@ -55,8 +55,9 @@ function kts
     if not pgrep -f komorebi >/dev/null
         # La commande pour lancer komorebi avec un chemin dynamique
         pwsh.exe -Command 'komorebic start -c "$Env:USERPROFILE\komorebi.json" --whkd'
-        # Permet de lancer YASB avec un chemin dynamique
-        # pwsh.exe -Command 'cd $Env:USERPROFILE\.yasb && python src\main.py'
+
+        # Isole YASB dans une session Tmux à part du reste
+        tmux new -d -s yasb pwsh.exe -Command 'cd $Env:USERPROFILE\.yasb && python src\main.py'
     end
 
     # Récupère la session "Work" si elle existe, sinon la crée
@@ -66,10 +67,12 @@ end
 function kte
     # Byebye Komorebi
     komorebic stop
+
     # Fermer aussi Whkd par précaution
     pwsh.exe -Command 'taskkill /f /im whkd.exe'
-    # Attente limitée à 1 seconde pour la terminaison de Komorebi tant que le processus est actif
-    while pgrep -f komorebi >/dev/null
+
+    # Attente limitée à 1 seconde pour la terminaison de Komorebi et whkd tant que les processus sont actifs
+    while pgrep -f komorebi >/dev/null && whkd >/dev/null
         sleep 1
     end
 

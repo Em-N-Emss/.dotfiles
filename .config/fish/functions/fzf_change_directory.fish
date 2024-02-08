@@ -4,6 +4,9 @@ function _fzf_change_directory
         builtin cd $foo
         commandline -r ''
         commandline -f repaint
+        if test -f $foo
+            vim $foo
+        end
     else
         commandline ''
     end

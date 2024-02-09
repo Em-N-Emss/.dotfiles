@@ -19,7 +19,7 @@ function fzf_change_directory
         # WSL
         ls -ad /mnt/c/Users/*/.*
         ls -ad /mnt/c/Divers/*
-        ls -ad $HOME/.config/*/*
+        ls -ad $HOME/.config/*
         ls -ad */ | perl -pe "s#^#$PWD/#" | grep -v \.git
         ls -ad $HOME/Developments/*/* | grep -v \.git
     end | sed -e 's/\/$//' | awk '!a[$0]++' | _fzf_change_directory $argv

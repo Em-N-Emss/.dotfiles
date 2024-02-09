@@ -134,7 +134,7 @@ ln -s /mnt/c/chemin/vers/fichier ~/bin/fichier
 ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/bin/komorebic
 ```
 
-- Exemple avec moi ce serait : `ln -s /mnt/c/Users/imran/scoop/shims/komorebic.exe ~/bin/komorebic`
+- Exemple avec moi ce serait : `ln -s /mnt/c/Users/{user}/scoop/shims/komorebic.exe ~/bin/komorebic`
 
 ## Remap hotkeys
 

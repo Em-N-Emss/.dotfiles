@@ -1,0 +1,48 @@
+#!/bin/bash
+
+today=$(date +"%d-%m-%Y")
+yesterday=$(date -d "yesterday" '+%d-%m-%Y')
+tomorrow=$(date -d "tomorrow" '+%d-%m-%Y')
+file="$HOME"'/Second-Brain/Periodic-Notes/Daily-Notes/'$(date +"%d-%m-%Y").md
+
+cd ~/Second-Brain || exit
+
+new_note() {
+	touch "$file"
+
+	# Format avec le template
+	cat <<EOF >"$file"
+# $today
+
+[[$yesterday]] - [[$tomorrow]]
+
+## Objectif(s)
+
+Qu'est ce que je veux accomplir aujourd'hui ?
+
+## Suivi
+
+- [ ] Code
+- [ ] Callisthénie ou salle
+- [ ] Lecture
+- [ ] Entraînement jeux
+- [ ] Tâche ménagère
+
+- Tractions : 0
+- Pompes : 0
+- Squats : 0
+
+## Log
+
+EOF
+
+}
+
+#Si la daily note n'existe pas, génère une pour la journée
+if [ ! -f "$file" ]; then
+	echo "La daily note n'existe pas, création d'une nouvelle pour aujourd'hui."
+	new_note
+fi
+
+# Ouverture de la daily note avec le curseur en bas de la page en mode insertion
+nvim -c '+ normal Gzzo' -c "startinsert" "$file"

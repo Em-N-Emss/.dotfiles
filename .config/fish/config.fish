@@ -35,6 +35,7 @@ end
 
 set -gx PATH bin $PATH
 set -gx PATH ~/bin $PATH
+set -gx PATH ~/bin/scripts $PATH
 set -gx PATH ~/.local/bin $PATH
 
 # NodeJS

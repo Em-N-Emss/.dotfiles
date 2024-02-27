@@ -19,6 +19,8 @@ if status is-interactive
     alias ls "ls -p -G"
     alias la "ls -A"
     alias g git
+    alias e exit
+    alias .. "cd .."
     command -qv nvim && alias vim nvim
 
     # Alias pour .dotfiles sur git

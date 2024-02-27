@@ -45,4 +45,5 @@ if [ ! -f "$file" ]; then
 fi
 
 # Ouverture de la daily note avec le curseur en bas de la page en mode insertion
-nvim -c '+ normal Gzzo' -c "startinsert" "$file"
+# nvim -c '+ normal Gzzo' -c "startinsert" "$file"
+nvim -c '+ normal Gzzo' -c "startinsert" "$file" -c :NoNeckPain

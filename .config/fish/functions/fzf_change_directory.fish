@@ -20,6 +20,7 @@ function fzf_change_directory
         ls -ad /mnt/c/Users/*/.*
         ls -ad /mnt/c/Divers/*
         ls -ad $HOME/.config/*
+        ls -ad $HOME/Second-Brain/*/* | grep -v \.git
         ls -ad */ | perl -pe "s#^#$PWD/#" | grep -v \.git
         ls -ad $HOME/Developments/*/* | grep -v \.git
     end | sed -e 's/\/$//' | awk '!a[$0]++' | _fzf_change_directory $argv

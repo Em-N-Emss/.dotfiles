@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Script qui me permet de rédiger une note sur un coup de tête que je trierai plus tard
+# TODO
+# 1. Check si le fichier existe déjà
+
+# Fonction demandant le nom du fichier
+get_filename() {
+	read -p "Nom du fichier : " filename
+	echo "$filename"
+}
+
+# Fonction pour créer et ouvrir le fichier dans le chemin indiqué
+open_file() {
+	# cd dans le répertoire courant
+	cd "$1" || exit
+
+	# Check si le fichier existe déjà
+	if [[ -e "$1/$filename.md" ]]; then
+		nvim '+ normal ggzzi' "$1/$filename.md" -c :NoNeckPain
+		exit 1
+	fi
+
+	# Créer le fichier dans le répertoire courant
+	touch "$1/$filename.md"
+
+	# Créer un identifiant et lien unique
+	timestamp="$(date +"%Y%m%d%H%m")"
+
+	# Format du fichier
+	cat <<EOF >"$1/$filename.md"
+#
+
+
+
+Links :
+
+$timestamp
+EOF
+	nvim '+ normal ggzzi' "$1/$filename.md" -c :NoNeckPain
+}
+
+# Prompt l'utilisateur si le nom du fichier n'est pas donné
+if [[ $# -eq 0 ]]; then
+	filename=$(get_filename)
+fi
+
+# Si plus d'un argument est donné, un message d'erreur apparait et arrête le script
+if [[ $# -gt 1 ]]; then
+	echo "Ecrivez seulement un nom de fichier séparé par des tirets du 6, sans l'extension .md"
+	echo "Exemple : zet ma-nouvelle-note"
+	exit 1
+fi
+
+# Enregistre le nom donné comme nom du fichier
+if [[ $# -eq 1 ]]; then
+	filename=$1
+fi
+
+open_file "$HOME/Second-Brain/Inbox"

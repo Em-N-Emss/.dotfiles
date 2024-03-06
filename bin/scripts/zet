@@ -25,7 +25,7 @@ open_file() {
 	touch "$1/$filename.md"
 
 	# Créer un identifiant et lien unique
-	timestamp="$(date +"%Y%m%d%H%m")"
+	timestamp="$(date +"%Y%m%d%H%M")"
 
 	# Format du fichier
 	cat <<EOF >"$1/$filename.md"

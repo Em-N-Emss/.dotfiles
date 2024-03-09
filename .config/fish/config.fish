@@ -1,7 +1,7 @@
 set fish_greeting ""
 
 # set -gx TERM xterm-256color
-set -gx TERM screen-256color
+# set -gx TERM screen-256color
 
 # theme
 set -g theme_color_scheme terminal-dark

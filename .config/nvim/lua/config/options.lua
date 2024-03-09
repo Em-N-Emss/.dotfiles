@@ -14,7 +14,8 @@ vim.opt.smarttab = true -- TAB intelligent
 vim.opt.autoindent = true -- Aligner le curseur MRC la feature
 vim.opt.smartindent = true -- Alignement en fonction de la structure du code
 vim.opt.breakindent = true -- Garde la forme si le texte dépasse de la fenêtre
-
+vim.opt.signcolumn = "yes"
+vim.opt.termguicolors = true -- Avoir la true color
 -- vim.cmd([[set mouse = a]]) -- Active la souris
 
 vim.opt.title = true -- Met à jour le nom de la fenêtre courante

@@ -17,9 +17,9 @@ function fzf_change_directory
         echo $HOME/.config
         # find $(ghq root) -maxdepth 4 -type d -name .git | sed 's/\/\.git//'
         # WSL
-        ls -ad /mnt/c/Users/*/.*
+        # ls -ad /mnt/c/Users/*/.*
         ls -ad /mnt/c/Divers/*
-        ls -ad $HOME/.config/*
+        ls -ad $HOME/.config/**/*
         ls -adr $HOME/Second-Brain/**/* | grep -v \.git
         ls -ad */ | perl -pe "s#^#$PWD/#" | grep -v \.git
         ls -ad $HOME/Developments/*/* | grep -v \.git

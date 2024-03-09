@@ -10,6 +10,10 @@
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
+--- Activer/deactiver la completion
+keymap.set("n", "<leader>cp", '<cmd>lua require("cmp").setup { enabled = true }<cr>', { desc = "Enable completion" })
+keymap.set("n", "<leader>cP", '<cmd>lua require("cmp").setup { enabled = false }<cr>', { desc = "Disable completion" })
+
 --- Copier-Coler dans le système
 keymap.set({ "n", "v" }, "<leader>y", [["+y]]) -- Copier ce qui est surligné et le met dans le clipboard systeme
 keymap.set("n", "<leader>Y", [["+Y]]) -- Copier la ligne et la met dans le clipboard systeme
@@ -69,9 +73,9 @@ keymap.set("n", "N", "Nzzzv") -- Pareil mais en arrière
 
 -- Diagnostics
 keymap.set("n", "<C-n>", function()
-	vim.diagnostic.goto_next()
+    vim.diagnostic.goto_next()
 end, opts)
 
 keymap.set("n", "<leader>r", function()
-	require("dylan.utils").replaceHexWithHSL()
+    require("dylan.utils").replaceHexWithHSL()
 end)

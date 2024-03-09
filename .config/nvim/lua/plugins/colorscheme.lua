@@ -20,9 +20,12 @@ return {
 	lazy = true,
 	priority = 1000,
 	-- Activer seulement dans Windows Terminal
-	-- opts = {
-	-- 	styles = {
-	-- 		transparency = true,
-	-- 	},
-	-- },
+	opts = {
+		styles = {
+			transparency = true,
+		},
+		require("notify").setup({
+			background_colour = "#000000",
+		}),
+	},
 }

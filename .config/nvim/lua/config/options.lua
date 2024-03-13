@@ -18,6 +18,8 @@ vim.opt.signcolumn = "yes"
 vim.opt.termguicolors = true -- Avoir la true color
 -- vim.cmd([[set mouse = a]]) -- Active la souris
 
+vim.opt.showmode = true -- Affiche le mode VIM en cours
+
 vim.opt.title = true -- Met à jour le nom de la fenêtre courante
 
 vim.opt.wrap = false -- Evite de mettre à la ligne le texte hors de l'écran

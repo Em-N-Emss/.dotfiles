@@ -14,6 +14,9 @@ local opts = { noremap = true, silent = true }
 keymap.set("n", "<leader>cp", '<cmd>lua require("cmp").setup { enabled = true }<cr>', { desc = "Enable completion" })
 keymap.set("n", "<leader>cP", '<cmd>lua require("cmp").setup { enabled = false }<cr>', { desc = "Disable completion" })
 
+-- Merci à ThePrimeagen pour ce Netrw
+keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Netrw" })
+
 --- Copier-Coler dans le système
 keymap.set({ "n", "v" }, "<leader>y", [["+y]]) -- Copier ce qui est surligné et le met dans le clipboard systeme
 keymap.set("n", "<leader>Y", [["+Y]]) -- Copier la ligne et la met dans le clipboard systeme

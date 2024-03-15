@@ -28,8 +28,8 @@ keymap.set("n", "x", '"_x"') -- Coupe sans mettre dans le presse-papier
 keymap.set("i", "<C-c", "<Esc>") -- Quitte l'insertion pour revenir au mode normal
 
 --- Incrémenter/Décrémenter une valeur
-keymap.set("n", "+", "<C-a>")
-keymap.set("n", "-", "<C-x>")
+keymap.set({ "n", "v" }, "+", "<C-a>")
+keymap.set({ "n", "v" }, "-", "<C-x>")
 
 --- Supprime un mot en arrière
 keymap.set("n", "dw", 'vb"_d')

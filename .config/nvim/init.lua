@@ -31,7 +31,8 @@ local function statusline()
 
     local file_name = "%F"
 
-    local modified = " %m %r "
+    -- local modified = " %m %r "
+    local modified = "%{&readonly ? ' [RO]' : &modified ? ' [+]' : ''}"
 
     local align_right = "%="
 

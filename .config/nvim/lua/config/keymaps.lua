@@ -25,7 +25,7 @@ keymap.set({ "n", "v" }, "<leader>d", [["_d]]) -- Coupe (une ou plusieurs lignes
 keymap.set("n", "x", '"_x"') -- Coupe sans mettre dans le presse-papier
 
 --- Tu croyais que j'blaguais Nono ?
-keymap.set("i", "<C-c", "<Esc>") -- Quitte l'insertion pour revenir au mode normal
+keymap.set("i", "<C-c>", "<Esc>") -- Quitte l'insertion pour revenir au mode normal
 
 --- Incrémenter/Décrémenter une valeur
 keymap.set({ "n", "v" }, "+", "<C-a>")

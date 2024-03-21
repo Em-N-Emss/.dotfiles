@@ -12,9 +12,9 @@ set -g theme_hostname always
 
 # Rose pine pour fzf
 set -Ux FZF_DEFAULT_OPTS "
-	--color=fg:#908caa,bg:#100c08,hl:#ebbcba
+	--color=fg:#908caa,hl:#ebbcba
 	--color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
-	--color=border:#403d52,header:#31748f,gutter:#100c08
+	--color=border:#403d52,header:#31748f
 	--color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
 	--color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
 
@@ -30,6 +30,9 @@ if status is-interactive
     alias e exit
     alias .. "cd .."
     command -qv nvim && alias vim nvim
+
+    # Navigation terminal
+    bind \cn kill-line
 
     # Alias pour .dotfiles sur git
     alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'

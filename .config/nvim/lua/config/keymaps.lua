@@ -25,11 +25,13 @@ keymap.set({ "n", "v" }, "<leader>d", [["_d]]) -- Coupe (une ou plusieurs lignes
 keymap.set("n", "x", '"_x"') -- Coupe sans mettre dans le presse-papier
 
 --- Tu croyais que j'blaguais Nono ?
-keymap.set("i", "<C-c>", "<Esc>") -- Quitte l'insertion pour revenir au mode normal
+keymap.set("i", "<C-c>", "<Esc>") -- Quitte l'insertion pour revenir au mode normal utile pour le Visual-Block mode
 
 --- Incrémenter/Décrémenter une valeur
 keymap.set({ "n", "v" }, "+", "<C-a>")
+keymap.set({ "n", "v" }, "g+", "g<C-a>", { desc = "Increment value 1 by 1" }) -- Version continue
 keymap.set({ "n", "v" }, "-", "<C-x>")
+keymap.set({ "n", "v" }, "g-", "g<C-x>", { desc = "Decrement value 1 by 1" }) -- Version continue
 
 --- Supprime un mot en arrière
 keymap.set("n", "dw", 'vb"_d')

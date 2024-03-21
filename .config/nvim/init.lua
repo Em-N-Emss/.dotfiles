@@ -67,3 +67,7 @@ vim.opt.statusline = statusline()
 -- Background et Foreground pour la statusline VIM sans lualine
 vim.cmd("highlight StatusLine ctermbg=1f1d2e guibg=#1f1d2e")
 vim.cmd("highlight StatusLine ctermfg=908caa guifg=#908caa")
+
+-- Pour Netrw
+vim.g.netrw_browse_split = 0
+vim.g.netrw_winsize = 25

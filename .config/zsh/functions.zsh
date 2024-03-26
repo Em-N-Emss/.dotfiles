@@ -55,17 +55,14 @@ function fzf_cd_current_directory() {
 function zsh_user_key_bindings {
     # fzf avec tmux
     bindkey -s '^f' "tmux-sessionizer\n"
-    bindkey -s '^e' "fzf_cd_current_directory\n"
+    bindkey -s '^[e' "fzf_cd_current_directory\n"
 
-
-    # bindkey -s '^o' "__fsel\n"
-    # bindkey -s '^o' "__fsel\n | nvim $(fzf)\n"
-    # bindkey -s '^o' "fzf_open_current_directory\n"
     # bindkey -s '^o' "fzf_open_current_directory\n"
     bindkey '^o' fzf-file-widget
 
     # vim-like
     bindkey '^l' forward-char
+    bindkey '^n' kill-line
 
     # prevent iTerm2 from closing when typing Ctrl-D (EOF)
     bindkey '^d' delete-char

@@ -60,14 +60,14 @@ return {
             },
 
             {
-                "<C-S-H>",
+                "<S-H>",
                 function()
                     harpoon:list():next()
                 end,
                 desc = "Harpoon next buffer",
             },
             {
-                "<C-S-L>",
+                "<S-L>",
                 function()
                     harpoon:list():prev()
                 end,

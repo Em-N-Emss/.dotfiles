@@ -45,7 +45,7 @@ function fzf_open_current_directory() {
 # Fonction pour ouvrir un répertoire et selectionner le dossier avec fzf
 function fzf_cd_current_directory() {
     local selected_directory
-    selected_directory=$(fd . $HOME/ '/mnt/c/Divers/' -H -I -d 6 -t d | grep -v '\.git' | fzf )
+    selected_directory=$(fd . $HOME/ '/mnt/c/Divers/' -H -I -d 6 -t d | grep -v '/\.git\|/node_modules' | fzf --walker-skip .git,node_modules,target)
     if [[ -n $selected_directory ]]; then
         cd $selected_directory
     fi

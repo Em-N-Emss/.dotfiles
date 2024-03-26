@@ -27,6 +27,9 @@ keymap.set("n", "x", '"_x"') -- Coupe sans mettre dans le presse-papier
 --- Tu croyais que j'blaguais Nono ?
 keymap.set("i", "<C-c>", "<Esc>") -- Quitte l'insertion pour revenir au mode normal utile pour le Visual-Block mode
 
+-- tmux-sessionizer
+keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
 --- Incrémenter/Décrémenter une valeur
 keymap.set({ "n", "v" }, "+", "<C-a>")
 keymap.set({ "n", "v" }, "g+", "g<C-a>", { desc = "Increment value 1 by 1" }) -- Version continue

@@ -5,6 +5,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Created by Zap installer
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+plug "zsh-users/zsh-autosuggestions"
+#plug "zap-zsh/supercharge"
+#plug "zap-zsh/zap-prompt"
+plug "zsh-users/zsh-syntax-highlighting"
+
+# Load and initialise completion system
+autoload -Uz compinit
+compinit
+
 # Set up the prompt
 autoload -Uz promptinit
 promptinit
@@ -19,10 +30,6 @@ bindkey -e
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh_history
-
-# Use modern completion system
-autoload -Uz compinit
-compinit
 
 # Utiliser Homebrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

@@ -81,3 +81,10 @@ export FZF_CTRL_T_OPTS="
 --walker-skip .git,node_modules,target
 --preview '${FZF_PREVIEW_FILE_CMD} {}'
 --bind 'ctrl-u:preview-page-up,ctrl-d:preview-page-down'"
+
+export FZF_DEFAULT_OPTS="
+	--color=fg:#908caa,hl:#ebbcba
+	--color=fg+:#e0def4,hl+:#ebbcba
+	--color=border:#403d52,header:#31748f
+	--color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
+	--color=pointer:#eb6f92,marker:#c4a7e7,prompt:#908caa"

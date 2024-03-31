@@ -46,4 +46,4 @@ vim.opt.showcmd = true -- Permet de voir les commandes que l'on tape
 
 vim.opt.cmdheight = 1
 
-vim.opt.shell = "fish" -- Met Fish en shell par defaut
+-- vim.opt.shell = "fish" -- Met Fish en shell par defaut

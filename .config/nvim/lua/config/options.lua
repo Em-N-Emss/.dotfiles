@@ -18,6 +18,8 @@ vim.opt.breakindent = true -- Garde la forme si le texte dépasse de la fenêtre
 vim.opt.signcolumn = "yes"
 vim.opt.termguicolors = true -- Avoir la true color
 vim.g.lazygit_config = false
+vim.opt.clipboard = "" -- Evite de copier dans le clipboard
+
 -- vim.cmd([[set mouse = a]]) -- Active la souris
 
 vim.opt.showmode = true -- Affiche le mode VIM en cours

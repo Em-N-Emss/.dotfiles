@@ -29,6 +29,7 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "rust_analyzer",
+                "marksman",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -76,6 +77,7 @@ return {
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' }, -- Pour luasnip
                 { name = 'codeium' }, -- Pour utiliser codeium
+                { name = 'marksman'}, -- Pour Markdown et avoir un Zettelkasten navigation-like
 
             }, {
                 { name = 'buffer' },

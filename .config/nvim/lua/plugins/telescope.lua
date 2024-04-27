@@ -13,7 +13,7 @@ return {
                 layout_strategy = "vertical",
                 layout_config = {
                     preview_cutoff = 10,
-                    preview_height = 0.7,
+                    preview_height = 0.6,
                     vertical = {
                         size = {
                             width = "95%",

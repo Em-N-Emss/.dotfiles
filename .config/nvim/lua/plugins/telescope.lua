@@ -8,8 +8,22 @@ return {
     },
 
     config = function()
-        require('telescope').setup({})
+        require('telescope').setup({
+            defaults = {
+                layout_strategy = "vertical",
+                layout_config = {
+                    preview_cutoff = 10,
+                    preview_height = 0.7,
+                    vertical = {
+                        size = {
+                            width = "95%",
+                            height = "95%",
+                        },
+                    },
 
+                },
+            },
+        })
 
         local builtin = require('telescope.builtin')
         vim.keymap.set('n', '<leader><leader>', builtin.find_files, {})
@@ -32,7 +46,7 @@ return {
 
         vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 
-        vim.keymap.set('n', '<leader>sb', function()
+        vim.keymap.set('n', '<leader>po', function()
             local SecondBrain = "~/Second-Brain/"
             builtin.find_files({cwd = SecondBrain})
         end)

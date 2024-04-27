@@ -21,6 +21,9 @@ open_file() {
 		exit 1
 	fi
 
+    # Remplace les espaces par des tirets et retire le dernier tiret ajouté par la fonction tr
+    filename=$(echo "$filename" | tr '[:space:]' '-' | sed 's/-$//')
+
 	# Créer le fichier dans le répertoire courant
 	touch "$1/$filename.md"
 

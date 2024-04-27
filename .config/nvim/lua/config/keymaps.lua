@@ -5,6 +5,7 @@ local opts = { noremap = true, silent = true }
 
 -- Merci à ThePrimeagen pour ce Netrw
 keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Netrw" })
+keymap.set("n", "<leader>pV", vim.cmd.Vex, { desc = "Netrw vertical" })
 
 -- Remap pour Lazy
 keymap.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })

@@ -2,7 +2,7 @@ vim.opt.guicursor = "" -- Avoir un cuseur constant même en étant en insert mod
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
-vim.opt.fillchars = { eob = ' ' } -- Permet d'enlever les "~" à la fin du buffer
+-- vim.opt.fillchars = { eob = ' ' } -- Permet d'enlever les "~" à la fin du buffer
 
 vim.opt.termguicolors = true -- Avoir la true color
 vim.opt.laststatus = 3 -- Pour que la statusbar soit la même pour toutes les fenêtres

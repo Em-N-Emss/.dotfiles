@@ -1,11 +1,20 @@
 return {
-	-- add symbols-outline
-	{
-		"shortcuts/no-neck-pain.nvim",
-		cmd = "NoNeckPain",
-		keys = { { "<leader>nn", "<cmd>NoNeckPain<cr>", desc = "[N]o [N]eckpain" } },
-		opts = {},
-	},
+    {
+        "shortcuts/no-neck-pain.nvim",
+        config = function ()
+            require("no-neck-pain").setup({
+                vim.keymap.set("n", "<leader>nn", "<cmd>NoNeckPain<CR>"),
+                buffers = {
+                    colors = {
+                        blend = 0.9,
+                    },
+                    wo = {
+                        fillchars = "eob: ", -- Permet d'enlever les "~" à la fin du buffer
+                    },
+                },
+            })
+        end
+    },
     -- Markdown plugin
     {
 		"iamcco/markdown-preview.nvim",

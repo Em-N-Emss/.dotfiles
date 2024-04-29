@@ -37,12 +37,16 @@ autocmd({"BufWritePre"}, {
 })
 
 
--- Disable the concealing in some file formats
--- The default conceallevel is 3 in LazyVim
-vim.api.nvim_create_autocmd("FileType", {
+-- Désactive le contrôle de la typo dans certains formats
+-- La dissimulation de caractère est au niveau 3 dans LazyVim
+autocmd("FileType", {
 	pattern = { "json", "jsonc", "markdown" },
 	callback = function()
 		vim.opt.conceallevel = 0
+        if vim.bo.filetype == "markdown" then
+            vim.opt.wrap = true -- Permet d'éviter d'avoir du texte en dehors de l'écran seulemnt avec les Markdowns
+            vim.opt.linebreak = true -- Permet d'éviter les retours à la ligne en plein milieu d'un mot
+        end
 	end,
 })
 

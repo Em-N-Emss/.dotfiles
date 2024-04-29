@@ -15,7 +15,7 @@ vim.opt.expandtab = true -- Contrôle si NVIM utilise TAB ou ESPACE pour indente
 vim.opt.smartindent = true -- Alignement en fonction de la structure du code
 vim.opt.breakindent = true -- Garde la forme si le texte dépasse de la fenêtre
 
-vim.opt.wrap = true -- Evite de mettre à la ligne le texte hors de l'écran
+vim.opt.wrap = false -- Permet au texte de sortir de l'écran
 
 vim.opt.swapfile = false -- Permet à VIM de créer un fichier qui servira de recover si un problème arrive
 vim.opt.updatetime = 50 -- Permet de sauvegarder le swapfile tous les 50ms

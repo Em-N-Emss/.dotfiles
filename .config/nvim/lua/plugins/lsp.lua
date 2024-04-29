@@ -78,8 +78,6 @@ return {
                 { name = 'path'},
                 { name = 'luasnip' }, -- Pour luasnip
                 { name = 'codeium' }, -- Pour utiliser codeium
-                { name = 'marksman'}, -- Pour Markdown et avoir un Zettelkasten navigation-like
-
             }, {
                 { name = 'buffer' },
             })

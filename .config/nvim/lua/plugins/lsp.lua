@@ -75,6 +75,7 @@ return {
             }),
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
+                { name = 'path'},
                 { name = 'luasnip' }, -- Pour luasnip
                 { name = 'codeium' }, -- Pour utiliser codeium
                 { name = 'marksman'}, -- Pour Markdown et avoir un Zettelkasten navigation-like

@@ -75,7 +75,7 @@ return {
             },
 
             {
-                "<C-e>",
+                "<A-e>",
                 function()
                     harpoon.ui:toggle_quick_menu(harpoon:list())
                 end,

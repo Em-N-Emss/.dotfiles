@@ -58,19 +58,27 @@ return {
             }
         })
 
-        local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
         cmp.setup({
             snippet = {
                 expand = function(args)
                     require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
                 end,
             },
+            window = {
+                documentation = cmp.config.window.bordered(),
+            },
+            experimental = {
+                ghost_text = true, -- afin d'avoir la completion affiché en texte
+            },
             mapping = cmp.mapping.preset.insert({
-                ['<C-b>'] = cmp.mapping.select_prev_item(cmp_select),
-                ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-                ["<C-Space>"] = cmp.mapping.complete(),
+                ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+                ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+                ['<C-d>'] = cmp.mapping.scroll_docs(4),
+                ['<C-f>'] = cmp.mapping.scroll_docs(-4),
+                ['<C-y>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Insert, select = true }), -- Insère la completion et bouge le curseur sur la droite
+                ['<M-y>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = false}), -- Remplace le texte adjacent avec l'item choisi dans l'autocompletion, il faut mettre le curseur sur ce dernier pour que ça marche
+                ['<C-b>'] = cmp.mapping.complete(),
+                ['<Tab>'] = cmp.config.disable, -- lire :h ins-completion pour comprendre pourquoi j'ai désactiver Tab
 
             }),
             sources = cmp.config.sources({

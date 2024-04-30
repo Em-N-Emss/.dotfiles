@@ -62,7 +62,7 @@ function zsh_user_key_bindings {
 
     # vim-like
     bindkey '^l' forward-char
-    bindkey '^n' kill-line
+    # bindkey '^n' kill-line
 
     # prevent iTerm2 from closing when typing Ctrl-D (EOF)
     bindkey '^d' delete-char
@@ -70,4 +70,3 @@ function zsh_user_key_bindings {
 
 # Execute key bindings function
 zsh_user_key_bindings
-

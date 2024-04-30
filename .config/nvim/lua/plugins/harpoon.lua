@@ -31,28 +31,28 @@ return {
 
         return {
             {
-                "<C-1>",
+                "<A-q>",
                 function()
                     harpoon:list():select(1)
                 end,
                 desc = "Harpoon buffer 1",
             },
             {
-                "<C-2>",
+                "<A-s>",
                 function()
                     harpoon:list():select(2)
                 end,
                 desc = "Harpoon buffer 2",
             },
             {
-                "<C-3>",
+                "<A-d>",
                 function()
                     harpoon:list():select(3)
                 end,
                 desc = "Harpoon buffer 3",
             },
             {
-                "<C-4>",
+                "<A-f>",
                 function()
                     harpoon:list():select(4)
                 end,

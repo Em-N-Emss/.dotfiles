@@ -38,10 +38,6 @@ keymap.set("n", "dw", 'vb"_d')
 --- Selectionne tout le texte
 keymap.set("n", "<C-a>", "gg<S-v>G")
 
---- Désactivation de la continuité en insertion
-keymap.set("n", "<Leader>o", "o<Esc>^Da", opts) --Version en dessous
-keymap.set("n", "<Leader>O", "O<Esc>^Da", opts) --Version au dessus
-
 --- Jumplist
 keymap.set("n", "<C-m>", "<C-i>", opts)
 

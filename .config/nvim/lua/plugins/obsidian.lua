@@ -7,6 +7,21 @@ return {
     },
 
     config = function ()
+
+        -- Global remap pour la daily-note
+        vim.keymap.set("n", "<leader>od", function ()
+            return "<cmd>ObsidianToday<CR><cmd>execute 'sleep 100m' | execute 'NoNeckPain' | execute 'norm Gzzo' | execute 'norm o' | startinsert!<CR>"
+        end, { expr = true })
+
+        -- Pareil pour la version split
+        vim.keymap.set("n", "<leader>oD", function ()
+            return ":rightbelow vsplit<CR><cmd>ObsidianToday<CR><cmd>execute 'sleep 100m' | execute 'NoNeckPain' | execute 'norm Gzzo' | execute 'norm o' | startinsert!<CR>"
+        end, { expr = true })
+
+        vim.keymap.set("n", "<leader>oz", function ()
+            return ":!tmux splitw -h zet<CR>"
+        end, { expr = true })
+
         require("obsidian").setup({
             workspaces = {
                 {
@@ -14,30 +29,71 @@ return {
                     path = "~/Second-Brain",
                 },
             },
-            overrides = {
-                notes_subdir = "Inbox",
-            },
+            notes_subdir = "Inbox",
             new_notes_location = "notes_subdir",
 
             disable_frontmatter = true,
+
             templates = {
                 subdir = "Archive/Templates",
-                date_format = "%Y%m%d",
-                time_format = "%H%M",
+                date_format = "%d-%m-%Y",
+                time_format = "%Y%m%d%H%M",
+                substitutions = {
+
+                    yesterday = function ()
+                        return os.date("%d-%m-%Y", os.time() - 86400)
+                    end,
+
+                    tomorrow = function ()
+                        return os.date("%d-%m-%Y", os.time() + 86400)
+                    end,
+                }
             },
+
+            daily_notes = {
+                folder = "Periodic-Notes/Daily-Notes",
+                date_format = "%d-%m-%Y",
+                -- Optional, if you want to change the date format of the default alias of daily notes.
+                -- alias_format = "%B %-d, %Y",
+                template = "Archive/Templates/Daily-Notes.md"
+            },
+
             -- Ouvre les URLs dans le navigateur
             follow_url_func = function(url)
                 vim.fn.jobstart({"xdg-open", url})  -- linux/WSL
             end,
+
+            -- Remap seulement appliqué dans les markdown
             mappings = {
-                -- overrides the 'gf' mapping to work on markdown/wiki links within your vault
+
+                -- Change le raccourci 'gf' pour se déplacer grâce aux liens Markdown/Wiki
                 ["gd"] = {
                     action = function()
                         return require("obsidian").util.gf_passthrough()
                     end,
                     opts = { noremap = false, expr = true, buffer = true },
                 },
+
+                -- Permet de voir les notes qui font appel au link, ces derniers sont présenté sous le format telescope
+                ["<leader>vrr"] = {
+                    action = function ()
+                        if require("obsidian").util.cursor_on_markdown_link() then
+                            return "<cmd>ObsidianBacklinks<CR>"
+                        end
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
+
+                -- Pour appliquer des templates sans passer par Obsidian
+                ["<leader>ot"] = {
+                    action = function()
+                        return "<cmd>ObsidianTemplate<CR>"
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
             },
+
+            -- LSP
             completion = {
                 nvim_cmp = true,
                 min_chars = 2,

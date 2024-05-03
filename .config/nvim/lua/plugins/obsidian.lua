@@ -11,7 +11,7 @@ return {
         -- Global remap pour la daily-note
         vim.keymap.set("n", "<leader>od", function ()
             return "<cmd>ObsidianToday<CR><cmd>execute 'sleep 100m' | execute 'NoNeckPain' | execute 'norm Gzzo' | execute 'norm o' | startinsert!<CR>"
-        end, { expr = true })
+        end, { expr = true, buffer = true })
 
         -- Pareil pour la version split
         vim.keymap.set("n", "<leader>oD", function ()
@@ -29,8 +29,19 @@ return {
                     path = "~/Second-Brain",
                 },
             },
+
             notes_subdir = "Inbox",
             new_notes_location = "notes_subdir",
+
+            note_id_func = function()
+                local suffix = require("obsidian").util.parse_cursor_link()
+                return suffix
+            end,
+
+            note_path_func = function(spec)
+                local path = spec.dir / tostring(spec.id)
+                return path:with_suffix(".md")
+            end,
 
             disable_frontmatter = true,
 
@@ -39,7 +50,6 @@ return {
                 date_format = "%d-%m-%Y",
                 time_format = "%Y%m%d%H%M",
                 substitutions = {
-
                     yesterday = function ()
                         return os.date("%d-%m-%Y", os.time() - 86400)
                     end,
@@ -53,9 +63,7 @@ return {
             daily_notes = {
                 folder = "Periodic-Notes/Daily-Notes",
                 date_format = "%d-%m-%Y",
-                -- Optional, if you want to change the date format of the default alias of daily notes.
-                -- alias_format = "%B %-d, %Y",
-                template = "Archive/Templates/Daily-Notes.md"
+                template = "Daily-Notes.md"
             },
 
             -- Ouvre les URLs dans le navigateur
@@ -65,7 +73,6 @@ return {
 
             -- Remap seulement appliqué dans les markdown
             mappings = {
-
                 -- Change le raccourci 'gf' pour se déplacer grâce aux liens Markdown/Wiki
                 ["gd"] = {
                     action = function()
@@ -77,7 +84,11 @@ return {
                 -- Permet de voir les notes qui font appel au link, ces derniers sont présenté sous le format telescope
                 ["<leader>vrr"] = {
                     action = function ()
+                        -- Voir les backlinks du markdown sous le curseur
                         if require("obsidian").util.cursor_on_markdown_link() then
+                            return "<cmd>ObsidianBacklinks<CR>"
+                        else
+                            -- Voir les backlinks du buffer
                             return "<cmd>ObsidianBacklinks<CR>"
                         end
                     end,
@@ -88,6 +99,15 @@ return {
                 ["<leader>ot"] = {
                     action = function()
                         return "<cmd>ObsidianTemplate<CR>"
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
+
+
+                -- Permet de créer des notes qui n'existent pas pendant une review
+                ["<leader>on"] = {
+                    action = function()
+                        return "<cmd>ObsidianNew<CR>"
                     end,
                     opts = { noremap = false, expr = true, buffer = true },
                 },

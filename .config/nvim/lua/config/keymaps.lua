@@ -70,8 +70,8 @@ keymap.set("n", "<C-d>", "<C-d>zz") -- Déplacement du curseur vers le bas en re
 keymap.set("n", "<C-u>", "<C-u>zz") -- Déplacement du curseur vers le haut en restant au milieu
 keymap.set("n", "n", "nzzzv") -- Lors de la recherche d'une occurrence, recentre le curseur au milieu de l'ecran
 keymap.set("n", "N", "Nzzzv") -- Pareil mais en arrière
-keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz") -- Se déplacer où y a les erreurs
-keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz") -- Se déplacer où y a les erreurs
+keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
 
 -- Meilleur Indentation
 keymap.set("v", "<", "<gv")

@@ -8,7 +8,7 @@ local function git_branch()
     local branch = vim.fn.system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 
     if string.len(branch) > 0 then
-        return branch
+        return "[" .. branch .. "]"
     else
         return ""
     end
@@ -22,7 +22,7 @@ local function statusline()
 
     -- local set_color_2 = "%#LineNr#"
 
-    local file_name = "%F"
+    local file_name = " %f"
 
     -- local modified = " %m %r "
     local modified = "%{&readonly ? ' [RO]' : &modified ? ' [+]' : ''}"
@@ -42,9 +42,9 @@ local function statusline()
     return string.format(
         "%s %s%s%s%s%s%s%s%s",
         -- set_color_1,
+        file_name,
         branch,
         -- set_color_2,
-        file_name,
         modified,
         align_right,
         filetype,

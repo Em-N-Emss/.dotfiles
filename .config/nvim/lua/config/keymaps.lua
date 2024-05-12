@@ -38,13 +38,8 @@ keymap.set("n", "dw", 'vb"_d')
 --- Selectionne tout le texte
 keymap.set("n", "<C-a>", "gg<S-v>G")
 
---- Jumplist
-keymap.set("n", "<C-m>", "<C-i>", opts)
-
 -- Gestion des onglets
 keymap.set("n", "<leader>te", ":tabedit") -- Ouvre un nouvel onglet
-keymap.set("n", "<tab>", ":tabnext<Return>", opts) -- Passe à l'onglet suivant
-keymap.set("n", "<s-tab>", ":tabprev<Return>", opts) -- Passe à l'onglet précédent
 
 -- Diviser la fenêtre courante
 keymap.set("n", "ss", ":split<Return>", opts) -- Division de la fenêtre horizontalement

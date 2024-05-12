@@ -31,28 +31,28 @@ return {
 
         return {
             {
-                "<A-q>",
+                "<C-q>",
                 function()
                     harpoon:list():select(1)
                 end,
                 desc = "Harpoon buffer 1",
             },
             {
-                "<A-s>",
+                "<C-s>",
                 function()
                     harpoon:list():select(2)
                 end,
                 desc = "Harpoon buffer 2",
             },
             {
-                "<A-d>",
+                "<C-z>",
                 function()
                     harpoon:list():select(3)
                 end,
                 desc = "Harpoon buffer 3",
             },
             {
-                "<A-f>",
+                "<C-w>",
                 function()
                     harpoon:list():select(4)
                 end,
@@ -75,7 +75,7 @@ return {
             },
 
             {
-                "<A-e>",
+                "<C-e>",
                 function()
                     harpoon.ui:toggle_quick_menu(harpoon:list())
                 end,
@@ -90,7 +90,7 @@ return {
             },
 
             {
-                "<leader>;h",
+                "<leader>ph",
                 function()
                     toggle_telescope(harpoon:list())
                 end,

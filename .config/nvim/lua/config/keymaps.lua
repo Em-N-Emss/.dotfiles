@@ -51,12 +51,6 @@ keymap.set("n", "sk", "<C-w>k") -- Aller à la fenêtre en haut
 keymap.set("n", "sj", "<C-w>j") -- Aller à la fenêtre en bas
 keymap.set("n", "sl", "<C-w>l") -- Aller à la fenêtre droite
 
--- Ajuster la fenêtre
-keymap.set("n", "<C-w><left>", "<C-w><") -- Réduit la largeur de la fenêtre
-keymap.set("n", "<C-w><right>", "<C-w>>") -- Augmente la largeur de la fenêtre
-keymap.set("n", "<C-w><up>", "<C-w>+") -- Augmente la hauteur de la fenêtre
-keymap.set("n", "<C-w><down>", "<C-w>-") -- Réduit la hauteur de la fenêtre
-
 -- Recentrage avec les déplacement dans VIM
 keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- Après avoir sélectionnée un morceau de texte, le déplacement d'une ligne vers le bas et le réindente
 keymap.set("v", "K", ":m '<-2<CR>gv=gv") -- Après avoir sélectionnée un morceau de texte, le déplacement d'une ligne vers le haut et le réindente

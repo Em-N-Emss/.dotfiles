@@ -18,8 +18,12 @@ return {
             return ":rightbelow vsplit<CR><cmd>ObsidianToday<CR><cmd>execute 'sleep 100m' | execute 'NoNeckPain' | execute 'norm Gzzo' | execute 'norm o' | startinsert!<CR>"
         end, { expr = true })
 
-        vim.keymap.set("n", "<leader>oz", function ()
+        vim.keymap.set("n", "<leader>oZ", function ()
             return ":!tmux splitw -h zet<CR>"
+
+        end, { expr = true })
+        vim.keymap.set("n", "<leader>oz", function ()
+            return ":!tmux neww zet<CR>"
         end, { expr = true })
 
         require("obsidian").setup({

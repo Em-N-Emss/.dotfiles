@@ -31,7 +31,7 @@ return {
 
         return {
             {
-                "<C-q>",
+                "<C-z>",
                 function()
                     harpoon:list():select(1)
                 end,
@@ -45,7 +45,7 @@ return {
                 desc = "Harpoon buffer 2",
             },
             {
-                "<C-z>",
+                "<C-q>",
                 function()
                     harpoon:list():select(3)
                 end,

@@ -1,19 +1,14 @@
-# source $HOME/.config/zsh/fzf_change_directory.zsh
-
-# Define key bindings
+# Utilisation des keybindings dans zsh
 function zsh_user_key_bindings {
-    # fzf
-    bindkey '^f' fzf_change_directory
+    # fzf avec tmux
+    bindkey -s '^f' "tmux-sessionizer\n"
+    bindkey -s '^[e' "fzf_cd_current_directory\n"
+
+    bindkey '^o' fzf-file-widget
 
     # vim-like
     bindkey '^l' forward-char
 
-    # prevent iTerm2 from closing when typing Ctrl-D (EOF)
+    # Empêche iTerm2 de se fermer quand on fait un Ctrl-D (EOF)
     bindkey '^d' delete-char
 }
-
-# Execute key bindings function
-zsh_user_key_bindings
-
-# fzf plugin configuration
-# export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(cd {})+abort'"

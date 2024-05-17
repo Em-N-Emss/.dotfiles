@@ -1,28 +1,18 @@
-function _fzf_change_directory() {
-    local foo
-    foo=$(fzf)
-    if [[ -n "$foo" ]]; then
-        cd "$foo"
-        zle reset-prompt
-        zle -R
-        if [[ -f "$foo" ]]; then
-            vim "$foo"
-        fi
-    else
-        zle reset-prompt
+# Définit une fonction pour ouvrir le répertoire courant et sélectionner les fichiers avec fzf puis l'ouvir avec VIM
+function fzf_open_current_directory() {
+    local selected_file
+    selected_file=$(fd . -H -I -d 6 -t f | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind "ctrl-u:preview-page-up,ctrl-d:preview-page-down")
+    if [[ -n $selected_file ]]; then
+        ${EDITOR:-vi} "$selected_file"
     fi
 }
 
-function fzf_change_directory() {
-    {
-        echo "$HOME/.config"
-        # find $(ghq root) -maxdepth 4 -type d -name .git | sed 's/\/\.git//'
-        # WSL
-        # ls -ad /mnt/c/Users/*/.*
-        ls -ad /mnt/c/Divers/*
-        ls -ad $HOME/.config/**/*
-        ls -adr $HOME/Second-Brain/**/* | grep -v '\.git'
-        ls -ad */ | sed -e "s#^#$PWD/#" | grep -v '\.git'
-        ls -ad $HOME/Developments/*/* | grep -v '\.git'
-    } | sed -e 's/\/$//' | awk '!a[$0]++' | _fzf_change_directory "$@"
+# Fonction pour ouvrir un répertoire et selectionner le dossier avec fzf
+function fzf_cd_current_directory() {
+    local selected_directory
+    selected_directory=$(fd . $HOME/ '/mnt/c/Divers/' -H -I -d 6 -t d | grep -v '/\.git\|/node_modules' | fzf --walker-skip .git,node_modules,target)
+    if [[ -n $selected_directory ]]; then
+        cd $selected_directory
+    fi
 }
+

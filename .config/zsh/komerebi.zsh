@@ -6,8 +6,15 @@ function kts() {
         pwsh.exe -Command 'komorebic start -c "$Env:USERPROFILE\komorebi.json" --whkd'
     fi
 
-    # Récupère la session "Work" si elle existe, sinon la crée
-    tmux new-session -A -s Work
+    # Au cas où on est déja dans Tmux on est obligé de quitter sinon on fera un Tmux dans un Tmux
+    if [[ ! -z "$TMUX" ]]; then
+        # Evite d'avoir le problème de Tmux nested
+        tmux new -s Work -d
+        tmux switch-client -t Work
+    else
+        # Récupère la session "Work" si elle existe, sinon la crée
+        tmux new-session -A -s Work
+    fi
 }
 
 # Lancer une session Komorebi & Tmux & YASB pour avoir une status bar
@@ -28,9 +35,10 @@ function kte() {
         pwsh.exe -Command 'taskkill /f /im whkd.exe'
     fi
 
-    # Se détache de la session courante
-    tmux detach
-
     # Ferme toutes les sessions Tmux sauf "Work"
     tmux kill-session -a -t Work
+
+    # Se détache de la session Work comme c'est la seule restante
+    tmux detach
+
 }

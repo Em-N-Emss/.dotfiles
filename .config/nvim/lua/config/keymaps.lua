@@ -38,9 +38,6 @@ keymap.set("n", "dw", 'vb"_d')
 --- Selectionne tout le texte
 keymap.set("n", "<C-a>", "gg<S-v>G")
 
--- Gestion des onglets
-keymap.set("n", "<leader>te", ":tabedit") -- Ouvre un nouvel onglet
-
 -- Diviser la fenêtre courante
 keymap.set("n", "ss", ":split<Return>", opts) -- Division de la fenêtre horizontalement
 keymap.set("n", "sv", ":vsplit<Return>", opts) -- Division de la fenêtre verticalement

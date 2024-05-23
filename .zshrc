@@ -58,10 +58,14 @@ alias g="git"
 alias e="exit"
 alias ..="cd .."
 
+
 # Check si nvim command existe et crée un alias vim si c'est le cas
 command -v nvim >/dev/null && alias vim="nvim"
 
 export EDITOR=nvim
+
+# Obsidian
+alias or="vim $HOME/Second-Brain/Inbox/*.md"
 
 # Utilisation d'eza comme exa est plus entretenu
 if command -v eza &>/dev/null; then

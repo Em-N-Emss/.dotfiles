@@ -62,3 +62,6 @@ keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
 -- Meilleur Indentation
 keymap.set("v", "<", "<gv")
 keymap.set("v", ">", ">gv")
+
+-- Formatter le code grâce au LSP
+keymap.set("n", "<leader>f", vim.lsp.buf.format)

@@ -85,6 +85,14 @@ return {
                     opts = { noremap = false, expr = true, buffer = true },
                 },
 
+                -- Permet de voir tous les links d'un markdown
+                ["gD"] = {
+                    action = function()
+                        return "<cmd>ObsidianLinks<CR>"
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
+
                 -- Permet de voir les notes qui font appel au link, ces derniers sont présenté sous le format telescope
                 ["<leader>vrr"] = {
                     action = function ()

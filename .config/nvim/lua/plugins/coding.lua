@@ -1,12 +1,12 @@
 return {
     -- Pour avoir ", {, [, `, ' qui se referme automatiquement
-    {
-        'windwp/nvim-autopairs',
-        event = "InsertEnter",
-        config = true
-        -- use opts = {} for passing setup options
-        -- this is equalent to setup({}) function
-    },
+    -- {
+    --     'windwp/nvim-autopairs',
+    --     event = "InsertEnter",
+    --     config = true
+    --     -- use opts = {} for passing setup options
+    --     -- this is equalent to setup({}) function
+    -- },
 
     -- Pouvoir avoir les commentaires au bout des doigts grâce à "gc"
     {

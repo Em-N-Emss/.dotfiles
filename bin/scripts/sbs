@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Affectation des dossiers
+SECOND_BRAIN_DIR="$HOME/Second-Brain/"
+
+ZETTELKASTEN_DIR="$HOME/Second-Brain/Zettelkasten/"
+
+IMAGE_DIR="$HOME/Second-Brain/Resources/Images/Zettelkasten/"
+
+# Concatène tous les arguments passés dans le script pour avoir le chemin relatif du fichier
+file_name=""
+for arg in "$@"; do
+    file_name="$file_name $arg"
+done
+
+# Enlève tous les espaces à la fin et au début du fichier du à la concatènation
+file_name=$(echo $file_name | xargs)
+echo "Nom du fichier : $file_name"
+
+# Check si le nom est vide et le montre
+if [ -z "$file_name" ]; then
+    echo "Nom du fichier : $file_name"
+    echo "Erreur: Nom du fichier est vide ou invalide."
+    exit 1
+fi
+
+# Récuperation du nom du dossier grace au nom du fichier, basename permettra d'isoler le nom du fichier et on cut pour isoler la 1ere partie qui designe où le fichier atterira
+folder_name=$(basename "$file_name" | cut -d'-' -f1 | cut -d' ' -f1)
+echo "Nom du dossier : $folder_name"
+
+# Recherche du dossier en fonction du nom récupéré
+folder_path=$(find "$SECOND_BRAIN_DIR" -mindepth 1 -maxdepth 5 -type d -name "$folder_name" -print -quit)
+echo "Dossier correspondant : $folder_path"
+
+# Check si le dossier existe si non balance la note dans le dossier Zettelkasten
+if [ -n "$folder_path" ]; then
+    mv "$file_name" "$folder_path/"
+else
+    if [ "$folder_name" == "Pasted" ]; then
+        mv "$file_name" "$IMAGE_DIR"
+    else
+        mv "$file_name" "$ZETTELKASTEN_DIR"
+    fi
+fi

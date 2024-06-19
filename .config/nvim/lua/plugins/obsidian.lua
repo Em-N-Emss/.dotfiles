@@ -18,12 +18,19 @@ return {
             return ":rightbelow vsplit<CR><cmd>ObsidianToday<CR><cmd>execute 'sleep 100m' | execute 'NoNeckPain' | execute 'norm Gzzo' | execute 'norm o' | startinsert!<CR>"
         end, { expr = true })
 
+        -- Créer une note alors qu'on est dans un fichier
         vim.keymap.set("n", "<leader>oZ", function ()
             return ":!tmux splitw -h zet<CR>"
-
         end, { expr = true })
+
+        -- Meme chose mais sans split
         vim.keymap.set("n", "<leader>oz", function ()
             return ":!tmux neww zet<CR>"
+        end, { expr = true })
+
+        -- Trier automatiquement les notes dans leur dossier respectif
+        vim.keymap.set("n", "<leader>os", function ()
+            return "<cmd>silent ! sbs %<CR>"
         end, { expr = true })
 
         require("obsidian").setup({

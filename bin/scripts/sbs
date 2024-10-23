@@ -24,7 +24,8 @@ if [ -z "$file_name" ]; then
     exit 1
 fi
 
-# Récuperation du nom du dossier grace au nom du fichier, basename permettra d'isoler le nom du fichier et on cut pour isoler la 1ere partie qui designe où le fichier atterira
+# Récuperation du nom du dossier grâce au nom du fichier, basename permettra d'isoler le nom du fichier et on cut pour isoler la 1ere partie qui designe où le fichier atterira
+# TODO: Utiliser un autre type de recherche de dossier
 folder_name=$(basename "$file_name" | cut -d'-' -f1 | cut -d' ' -f1)
 echo "Nom du dossier : $folder_name"
 

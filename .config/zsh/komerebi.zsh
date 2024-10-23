@@ -31,6 +31,7 @@ function kte() {
     if [[ $(pwsh.exe -Command 'Get-Process Komorebi' 2>/dev/null) && $(pwsh.exe -Command 'Get-Process whkd' 2>/dev/null) ]]; then
         # Byebye Komorebi
         komorebic stop
+        pwsh.exe -Command 'taskkill /f /im komorebi.exe'
         # Fermer aussi Whkd par précaution
         pwsh.exe -Command 'taskkill /f /im whkd.exe'
     fi

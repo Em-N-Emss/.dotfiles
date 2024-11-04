@@ -1,8 +1,11 @@
+source $HOME/.config/zsh/fzf_pass.zsh
 # Utilisation des keybindings dans zsh
 function zsh_user_key_bindings {
     # fzf avec tmux
     bindkey -s '^f' "tmux-sessionizer\n"
     bindkey -s '^[e' "fzf_cd_current_directory\n"
+    bindkey '^[p' fzf_pass_completion-widget
+
 
     bindkey '^o' fzf-file-widget
 

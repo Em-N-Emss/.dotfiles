@@ -85,7 +85,7 @@ return {
             -- Remap seulement appliqué dans les markdown
             mappings = {
                 -- Change le raccourci 'gf' pour se déplacer grâce aux liens Markdown/Wiki
-                ["gd"] = {
+                ["gf"] = {
                     action = function()
                         return require("obsidian").util.gf_passthrough()
                     end,
@@ -93,7 +93,7 @@ return {
                 },
 
                 -- Permet de voir tous les links d'un markdown
-                ["gD"] = {
+                ["gF"] = {
                     action = function()
                         return "<cmd>ObsidianLinks<CR>"
                     end,

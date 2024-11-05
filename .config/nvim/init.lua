@@ -61,6 +61,12 @@ vim.opt.statusline = statusline()
 vim.cmd("highlight StatusLine ctermbg=1f1d2e guibg=#1f1d2e")
 vim.cmd("highlight StatusLine ctermfg=908caa guifg=#908caa")
 
+vim.cmd [[
+  highlight! Pmenu guibg=#242424 guifg=#e0def4   " Darker grey background for completion
+  highlight! PmenuSel guibg=#303030 guifg=#ffffff " Slightly lighter grey for selected item in completion
+]]
+
+
 -- Pour Netrw
 vim.g.netrw_browse_split = 0
 vim.g.netrw_winsize = 25

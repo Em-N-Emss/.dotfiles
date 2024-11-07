@@ -6,7 +6,7 @@ return {
         require("rose-pine").setup({
             disable_background = true,
             styles = {
-                transparency = true, -- Mettre en com si problème de couleur contrast
+                -- transparency = true, -- Mettre en com si problème de couleur contrast
                 italic = false,
             }
         })

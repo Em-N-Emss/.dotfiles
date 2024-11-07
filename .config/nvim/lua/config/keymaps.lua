@@ -10,6 +10,9 @@ keymap.set("n", "<leader>pV", vim.cmd.Vex, { desc = "Netrw vertical" })
 -- Remap pour Lazy
 keymap.set("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
+-- Evite les missclicks
+keymap.set("n", "Q", "<nop>")
+
 -- Remap pour Mason
 keymap.set("n", "<leader>cm", "<cmd>Mason<cr>", { desc = "Mason" })
 
@@ -17,7 +20,7 @@ keymap.set("n", "<leader>cm", "<cmd>Mason<cr>", { desc = "Mason" })
 keymap.set({ "n", "v" }, "<leader>y", [["+y]]) -- Copier ce qui est surligné et le met dans le clipboard systeme
 keymap.set("n", "<leader>Y", [["+Y]]) -- Copier la ligne et la met dans le clipboard systeme
 keymap.set("x", "<leader>p", [["_dP]]) -- Coupe la partie surlignée sans la mettre dans le presse-papier et colle ce qu'il y avait dans le presse-papier avant le curseur en mode visuel
-keymap.set({ "n", "v" }, "<leader>d", [["_d]]) -- Coupe (une ou plusieurs lignes) SANS mettre dans le presse-papier système
+keymap.set({"n", "v"}, "<leader>d", "\"_d") -- Coupe (une ou plusieurs lignes) SANS mettre dans le presse-papier système
 keymap.set("n", "x", '"_x"') -- Coupe sans mettre dans le presse-papier
 
 --- Tu croyais que j'blaguais Nono ?
@@ -31,9 +34,6 @@ keymap.set({ "n", "v" }, "+", "<C-a>")
 keymap.set({ "n", "v" }, "g+", "g<C-a>", { desc = "Increment value 1 by 1" }) -- Version continue
 keymap.set({ "n", "v" }, "-", "<C-x>")
 keymap.set({ "n", "v" }, "g-", "g<C-x>", { desc = "Decrement value 1 by 1" }) -- Version continue
-
---- Supprime un mot en arrière
-keymap.set("n", "dw", 'vb"_d')
 
 --- Selectionne tout le texte
 keymap.set("n", "<C-a>", "gg<S-v>G")

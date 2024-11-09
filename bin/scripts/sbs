@@ -1,45 +1,67 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Affectation des dossiers
-SECOND_BRAIN_DIR="$HOME/Second-Brain/"
+# Define the base directory and default directory
+BASE_DIR="$HOME/Second-Brain"
+DEFAULT_DIR="$BASE_DIR/Zettelkasten"
+IMAGE_DIR="$BASE_DIR/Resources/Images/Zettelkasten"
 
-ZETTELKASTEN_DIR="$HOME/Second-Brain/Zettelkasten/"
-
-IMAGE_DIR="$HOME/Second-Brain/Resources/Images/Zettelkasten/"
-
-# Concatène tous les arguments passés dans le script pour avoir le chemin relatif du fichier
-file_name=""
-for arg in "$@"; do
-    file_name="$file_name $arg"
-done
-
-# Enlève tous les espaces à la fin et au début du fichier du à la concatènation
-file_name=$(echo $file_name | xargs)
-echo "Nom du fichier : $file_name"
-
-# Check si le nom est vide et le montre
-if [ -z "$file_name" ]; then
-    echo "Nom du fichier : $file_name"
-    echo "Erreur: Nom du fichier est vide ou invalide."
+# Check if a file path is provided
+if [[ $# -eq 0 ]]; then
+    echo "Usage: $0 <file_path>"
     exit 1
 fi
 
-# Récuperation du nom du dossier grâce au nom du fichier, basename permettra d'isoler le nom du fichier et on cut pour isoler la 1ere partie qui designe où le fichier atterira
-# TODO: Utiliser un autre type de recherche de dossier
-folder_name=$(basename "$file_name" | cut -d'-' -f1 | cut -d' ' -f1)
-echo "Nom du dossier : $folder_name"
+# Reconstruct the full file path from all arguments
+file="$*"
+# If the path is not absolute, prepend the current directory
 
-# Recherche du dossier en fonction du nom récupéré
-folder_path=$(find "$SECOND_BRAIN_DIR" -mindepth 1 -maxdepth 5 -type d -name "$folder_name" -print -quit)
-echo "Dossier correspondant : $folder_path"
+if [[ ! "$file" = /* ]]; then
+    file="$PWD/$file"
+fi
 
-# Check si le dossier existe si non balance la note dans le dossier Zettelkasten
-if [ -n "$folder_path" ]; then
-    mv "$file_name" "$folder_path/"
-else
-    if [ "$folder_name" == "Pasted" ]; then
-        mv "$file_name" "$IMAGE_DIR"
+echo "Processing file: $file"
+# Check if the file name starts with "Pasted"
+filename=$(basename "$file")
+echo "Filename: $filename"
+
+if [[ "$filename" =~ ^Pasted[[:space:]]image[[:space:]][0-9]+\.png$ ]]; then
+    echo "File $filename starts with 'Pasted', moving to image directory."
+    # Move the image file
+    if mv "$file" "$IMAGE_DIR/"; then
+        echo "Successfully moved $filename to $IMAGE_DIR"
+        exit 0
     else
-        mv "$file_name" "$ZETTELKASTEN_DIR"
+        echo "Error moving image file"
+        exit 1
     fi
 fi
+
+# Ensure the specified file exists
+if [[ ! -f "$file" ]]; then
+    echo "Error: File $file does not exist."
+    exit 1
+fi
+
+
+# Extract the first wikilink after "## Link" in the file
+target_dir=$(awk '/^## Links/{flag=1; next} flag && /\[\[([^\]]+)\]\]/{print gensub(/.*\[\[([^\]]+)\]\].*/, "\\1", "g"); exit}' "$file")
+
+# Search for the target directory under BASE_DIR
+if [[ -n "$target_dir" ]]; then
+    TARGET_PATH=$(find "$BASE_DIR" -type d -name "$target_dir" -print -quit)
+else
+    TARGET_PATH=""
+fi
+
+
+# Use the default directory if no target directory is found
+if [[ -z "$TARGET_PATH" ]]; then
+    echo "No target directory found for $file, moving to default directory."
+    TARGET_PATH="$DEFAULT_DIR"
+else
+    echo "Found target directory: $TARGET_PATH"
+fi
+
+# Move the file to the target directory
+mv "$file" "$TARGET_PATH"
+echo "Moved $file to $TARGET_PATH"

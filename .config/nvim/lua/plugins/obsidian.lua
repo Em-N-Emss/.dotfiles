@@ -30,7 +30,7 @@ return {
 
         -- Trier automatiquement les notes dans leur dossier respectif
         vim.keymap.set("n", "<leader>os", function ()
-            return "<cmd>silent ! sbs %<CR>"
+            return "<cmd>! sbs %<CR>"
         end, { expr = true })
 
         require("obsidian").setup({

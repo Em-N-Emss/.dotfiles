@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+tmux new-session -d -s Pomodoro -n "Pomodoro" "pomodoro-main"
+
+tmux new-session -d -s Pomodoro-Check -n "Pomo-check" "pomo-check"

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+check_pomodoro_session() {
+    while pgrep -f "$HOME/bin/scripts/pomodoro-main" >/dev/null; do
+        echo "Pomodoro session found."
+        sleep 1  # Check every 60 seconds (adjust as needed)
+    done
+    tmux set-option -g status-right "%A %d/%m %H:%M "
+    echo "Pomodoro session not found. Cleared status line."
+}
+
+check_pomodoro_session

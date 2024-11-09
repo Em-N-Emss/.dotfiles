@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Script qui me permet de rédiger une note sur un coup de tête que je trierai plus tard
 # TODO

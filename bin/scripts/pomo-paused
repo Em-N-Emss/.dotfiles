@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#Check si Pomodoro est run sur la machine
+if pgrep -x "pomodoro-main" > /dev/null
+then
+    echo "Pomodoro is running. Toggling pause state..."
+    kill - SIGUSR1 $(pgrep -x "pomodoro-main")
+else
+    echo "Pomodoro is not running"
+fi

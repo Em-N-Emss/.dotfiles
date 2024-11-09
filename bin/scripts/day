@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 today=$(date +"%d-%m-%Y")
 yesterday=$(date -d "yesterday" '+%d-%m-%Y')

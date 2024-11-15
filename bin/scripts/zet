@@ -32,6 +32,10 @@ open_file() {
 
 	# Format du fichier
 	cat <<EOF >"$1/$filename.md"
+---
+Tags:
+
+---
 #
 
 

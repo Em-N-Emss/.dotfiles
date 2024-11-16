@@ -18,8 +18,7 @@ end
 local function codeium_status()
     local ok, status_string = pcall(require, 'codeium.virtual_text')
     if ok and status_string then
-        return "%3{v:lua.require('codeium.virtual_text').status_string()}"
-    end
+        return "%{v:lua.require('codeium.virtual_text').status_string() == 0 ? '' : v:lua.require('codeium.virtual_text').status_string()}"    end
     return ""
 end
 

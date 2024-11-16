@@ -10,17 +10,20 @@ return {
     config = function()
         require('telescope').setup({
             defaults = {
-                layout_strategy = "vertical",
+                preview = {
+                    enable = true,
+                    hide_on_startup = true,
+                },
                 layout_config = {
-                    preview_cutoff = 10,
-                    preview_height = 0.6,
-                    vertical = {
-                        size = {
-                            width = "95%",
-                            height = "95%",
-                        },
+                    preview_width = 0.6,
+                },
+                mappings = {
+                    i = {
+                        ["<C-o>"] = require('telescope.actions.layout').toggle_preview
                     },
-
+                    n = {
+                        ["<C-o>"] = require('telescope.actions.layout').toggle_preview
+                    },
                 },
             },
         })

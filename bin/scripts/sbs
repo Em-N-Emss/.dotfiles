@@ -1,67 +1,275 @@
 #!/usr/bin/env bash
 
-# Define the base directory and default directory
+
+# ===========================================
+# Configuration
+
+# ===========================================
 BASE_DIR="$HOME/Second-Brain"
 DEFAULT_DIR="$BASE_DIR/Zettelkasten"
 IMAGE_DIR="$BASE_DIR/Resources/Images/Zettelkasten"
+INBOX_DIR="$BASE_DIR/Inbox"
 
-# Check if a file path is provided
-if [[ $# -eq 0 ]]; then
-    echo "Usage: $0 <file_path>"
-    exit 1
-fi
+# ===========================================
 
-# Reconstruct the full file path from all arguments
-file="$*"
-# If the path is not absolute, prepend the current directory
+# Helper Functions
 
-if [[ ! "$file" = /* ]]; then
-    file="$PWD/$file"
-fi
+# ===========================================
+log_info() {
+    echo "[INFO] $1"
+}
 
-echo "Processing file: $file"
-# Check if the file name starts with "Pasted"
-filename=$(basename "$file")
-echo "Filename: $filename"
+log_error() {
+    echo "[ERROR] $1" >&2
+}
 
-if [[ "$filename" =~ ^Pasted[[:space:]]image[[:space:]][0-9]+\.png$ ]]; then
-    echo "File $filename starts with 'Pasted', moving to image directory."
-    # Move the image file
-    if mv "$file" "$IMAGE_DIR/"; then
-        echo "Successfully moved $filename to $IMAGE_DIR"
-        exit 0
-    else
-        echo "Error moving image file"
+create_required_directories() {
+
+    local dirs=("$DEFAULT_DIR" "$IMAGE_DIR")
+    for dir in "${dirs[@]}"; do
+        if [[ ! -d "$dir" ]]; then
+            mkdir -p "$dir" || {
+                log_error "Failed to create directory: $dir"
+                exit 1
+            }
+            log_info "Created directory: $dir"
+        fi
+
+    done
+}
+
+validate_file() {
+    local file="$1"
+
+    if [[ ! -f "$file" ]]; then
+        log_error "File does not exist: $file"
         exit 1
     fi
-fi
+    if [[ ! -r "$file" ]]; then
 
-# Ensure the specified file exists
-if [[ ! -f "$file" ]]; then
-    echo "Error: File $file does not exist."
-    exit 1
-fi
-
-
-# Extract the first wikilink after "## Link" in the file
-target_dir=$(awk '/^## Links/{flag=1; next} flag && /\[\[([^\]]+)\]\]/{print gensub(/.*\[\[([^\]]+)\]\].*/, "\\1", "g"); exit}' "$file")
-
-# Search for the target directory under BASE_DIR
-if [[ -n "$target_dir" ]]; then
-    TARGET_PATH=$(find "$BASE_DIR" -type d -name "$target_dir" -print -quit)
-else
-    TARGET_PATH=""
-fi
+        log_error "File is not readable: $file"
+        exit 1
+    fi
+}
 
 
-# Use the default directory if no target directory is found
-if [[ -z "$TARGET_PATH" ]]; then
-    echo "No target directory found for $file, moving to default directory."
-    TARGET_PATH="$DEFAULT_DIR"
-else
-    echo "Found target directory: $TARGET_PATH"
-fi
+get_absolute_path() {
+    local file="$1"
+    if [[ ! "$file" = /* ]]; then
+        echo "$PWD/$file"
+    else
+        echo "$file"
+    fi
+}
 
-# Move the file to the target directory
-mv "$file" "$TARGET_PATH"
-echo "Moved $file to $TARGET_PATH"
+# Enhanced directory search with multiple strategies
+find_target_directory() {
+    local search_term="$1"
+    local target_path=""
+
+    # Strategy 1: Direct exact match
+    target_path=$(find "$BASE_DIR" -type d -name "$search_term" -print -quit)
+    if [[ -n "$target_path" ]]; then
+        # log_info "Found exact match: $target_path"
+        echo "$target_path"
+        return 0
+    fi
+
+
+    # Strategy 2: Case-insensitive match
+    target_path=$(find "$BASE_DIR" -type d -iname "$search_term" -print -quit)
+    if [[ -n "$target_path" ]]; then
+
+        # log_info "Found case-insensitive match: $target_path"
+        echo "$target_path"
+        return 0
+    fi
+
+    # Strategy 3: Partial match (contains)
+    target_path=$(find "$BASE_DIR" -type d -path "*$search_term*" -print -quit)
+    if [[ -n "$target_path" ]]; then
+        # log_info "Found partial match: $target_path"
+        echo "$target_path"
+        return 0
+    fi
+
+    # Strategy 4: Fuzzy match using similarity score
+    # local best_match=""
+    # local best_score=0
+    # while IFS= read -r dir; do
+    #     local dir_name=$(basename "$dir")
+    #
+    #     local score=0
+    #     # Calculate similarity score based on common characters
+    #     for (( i=0; i<${#search_term}; i++ )); do
+    #         if [[ "$dir_name" == *"${search_term:$i:1}"* ]]; then
+    #             ((score++))
+    #
+    #         fi
+    #     done
+    #
+    #     if (( score > best_score )); then
+    #         best_score=$score
+    #         best_match=$dir
+    #     fi
+    # done < <(find "$BASE_DIR" -type d)
+    #
+    #
+    # if [[ -n "$best_match" && "$best_score" -gt $(( ${#search_term} / 2 )) ]]; then
+    #     log_info "Found fuzzy match: $best_match (score: $best_score)"
+    #     echo "$best_match"
+    #     return 0
+    # fi
+    #
+    return 1
+}
+
+process_image() {
+    local file="$1"
+
+    local filename="$2"
+
+    if [[ "$filename" =~ ^Pasted[[:space:]]image[[:space:]][0-9]+\.png$ ]]; then
+        log_info "Processing image: $filename"
+
+
+        if mv "$file" "$IMAGE_DIR/"; then
+            log_info "Successfully moved $filename to $IMAGE_DIR"
+            return 0
+        else
+            log_error "Failed to move image file"
+            return 1
+        fi
+    fi
+    return 2
+}
+
+# Enhanced markdown processing with better link extraction and prioritization
+process_markdown() {
+    local file="$1"
+
+    # Extract metadata and content sections
+    log_info "Analyzing markdown content structure..."
+
+
+    # Get all wikilinks with context
+
+    local links_data
+    links_data=$(awk '
+        BEGIN {
+            in_links = 0
+            in_tags = 0
+            priority = 0
+        }
+
+        # Track sections
+        /^## Links/ { in_links = 1; next }
+        /^## Tags/ { in_tags = 1; next }
+        /^##/ { in_links = 0; in_tags = 0 }
+
+        # Process links section with priority
+
+        in_links && /\[\[([^\]]+)\]\]/ {
+            # Extract link and calculate priority based on position and context
+            link = gensub(/.*\[\[([^\]]+)\]\].*/, "\\1", "g")
+
+            # Higher priority for links that:
+            # - Are first in the list
+            # - Have descriptive text around them
+            # - Are not part of a larger list/hierarchy
+
+            priority = 10 - NR + 1000  # Base priority
+
+            # Adjust priority based on context
+            if (NR == 1) priority += 100  # First link bonus
+
+            if ($0 ~ /^- /) priority -= 10  # Part of list penalty
+            if ($0 ~ /[A-Za-z].*\[\[/) priority += 50  # Has description bonus
+
+            printf "%s\t%d\n", link, priority
+
+        }
+
+        # Process tags for additional context
+        in_tags && /#[A-Za-z0-9_-]+/ {
+            tags = tags " " $0
+        }
+    ' "$file")
+
+    if [[ -z "$links_data" ]]; then
+        log_info "No wikilinks found, moving to default directory"
+        TARGET_PATH="$DEFAULT_DIR"
+    else
+        # Sort links by priority and try each one
+        local found=0
+        while IFS=$'\t' read -r link priority; do
+            log_info "Trying link '$link' (priority: $priority)"
+            TARGET_PATH=$(find_target_directory "$link")
+            if [[ -n "$TARGET_PATH" ]]; then
+                log_info "Found matching directory for link: $link"
+                if [[ "$link" == "Zettelkasten" ]]; then
+                    mv "$file" "$DEFAULT_DIR"
+                    log_info "Successfully moved $file to $DEFAULT_DIR"
+                    return 0
+                fi
+                found=1
+                break
+            fi
+
+        done < <(echo "$links_data" | sort -nr -k2)
+
+        if [[ $found -eq 0 ]]; then
+            log_info "No matching directory found, using default"
+            TARGET_PATH="$DEFAULT_DIR"
+        fi
+    fi
+
+    # Move the file
+    if mv "$file" "$TARGET_PATH/"; then
+        log_info "Successfully moved $file to $TARGET_PATH"
+        return 0
+    else
+        log_error "Failed to move markdown file"
+
+        return 1
+    fi
+}
+
+# ===========================================
+# Main Script
+
+# ===========================================
+main() {
+    # Validate arguments
+    if [[ $# -eq 0 ]]; then
+        log_error "Usage: $0 <file_path>"
+        exit 1
+    fi
+
+    # Setup
+    create_required_directories
+
+    # Process file
+    local file
+    file=$(get_absolute_path "$*")
+    log_info "Processing file: $file"
+
+    validate_file "$file"
+
+    local filename
+    filename=$(basename "$file")
+
+    # Process based on file type
+    if process_image "$file" "$filename"; then
+        exit 0
+    elif [[ "$filename" =~ \.md$ ]]; then
+        process_markdown "$file"
+        exit $?
+    else
+        log_error "Unsupported file type: $filename"
+        exit 1
+    fi
+}
+
+# Run main function
+main "$@"

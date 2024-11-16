@@ -60,6 +60,8 @@ vim.opt.statusline = statusline()
 -- Background et Foreground pour la statusline VIM sans lualine
 vim.cmd("highlight StatusLine ctermbg=1f1d2e guibg=#1f1d2e")
 vim.cmd("highlight StatusLine ctermfg=908caa guifg=#908caa")
+vim.cmd([[highlight QuickFixLine guibg=grey guifg=#000000]])
+
 
 -- vim.cmd [[
 --   highlight! Pmenu guibg=#242424 guifg=#e0def4   " Darker grey background for completion

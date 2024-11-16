@@ -14,6 +14,15 @@ local function git_branch()
     end
 end
 
+-- Function to get Codeium status
+local function codeium_status()
+    local ok, status_string = pcall(require, 'codeium.virtual_text')
+    if ok and status_string then
+        return "%3{v:lua.require('codeium.virtual_text').status_string()}"
+    end
+    return ""
+end
+
 -- Customisation de la statusline
 local function statusline()
     -- local set_color_1 = "%#PmenuSel#"
@@ -35,12 +44,14 @@ local function statusline()
 
     local filetype = "%y "
 
+    local codeium = codeium_status()
+
     local percentage = "%p%% "
 
     local linecol = " %l:%c "
 
     return string.format(
-        "%s %s%s%s%s%s%s%s%s",
+        "%s %s%s%s%s%s%s%s%s%s",
         -- set_color_1,
         file_name,
         branch,
@@ -50,6 +61,7 @@ local function statusline()
         filetype,
         fileencoding,
         fileformat,
+        codeium,
         linecol,
         percentage
     )
@@ -60,7 +72,7 @@ vim.opt.statusline = statusline()
 -- Background et Foreground pour la statusline VIM sans lualine
 vim.cmd("highlight StatusLine ctermbg=1f1d2e guibg=#1f1d2e")
 vim.cmd("highlight StatusLine ctermfg=908caa guifg=#908caa")
-vim.cmd([[highlight QuickFixLine guibg=grey guifg=#000000]])
+vim.cmd([[highlight QuickFixLine guibg=#d3d3d3 guifg=#000000 gui=bold]])
 
 
 -- vim.cmd [[

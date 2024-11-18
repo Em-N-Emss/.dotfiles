@@ -34,7 +34,7 @@ return {
                 map_keys = true,
                 accept_fallback = nil,
                 key_bindings = {
-                    accept = "<C-y>",
+                    accept = "<C-L>",
                     accept_word = false,
                     accept_line = false,
                     clear = false,

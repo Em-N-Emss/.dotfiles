@@ -67,9 +67,9 @@ return {
             window = {
                 documentation = cmp.config.window.bordered(),
             },
-            experimental = {
-                ghost_text = true, -- afin d'avoir la completion affiché en texte
-            },
+            -- experimental = {
+            --     ghost_text = true, -- afin d'avoir la completion affiché en texte
+            -- },
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
                 ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
@@ -85,7 +85,7 @@ return {
                 { name = 'nvim_lsp' },
                 { name = 'path'},
                 { name = 'luasnip' }, -- Pour luasnip
-                { name = 'codeium' }, -- Pour utiliser codeium
+                -- { name = 'codeium' }, -- Pour utiliser codeium
             }, {
                 { name = 'buffer' },
             })

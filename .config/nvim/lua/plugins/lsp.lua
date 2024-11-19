@@ -75,8 +75,8 @@ return {
                 ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
                 ['<C-d>'] = cmp.mapping.scroll_docs(4),
                 ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-y>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Insert, select = true }), -- Insère la completion et bouge le curseur sur la droite
-                ['<A-y>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = false}), -- Remplace le texte adjacent avec l'item choisi dans l'autocompletion, il faut mettre le curseur sur ce dernier pour que ça marche
+                ['<C-l>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Insert, select = true }), -- Insère la completion et bouge le curseur sur la droite
+                ['<A-l>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = false}), -- Remplace le texte adjacent avec l'item choisi dans l'autocompletion, il faut mettre le curseur sur ce dernier pour que ça marche
                 ['<C-b>'] = cmp.mapping.complete(),
                 ['<Tab>'] = cmp.config.disable, -- lire :h ins-completion pour comprendre pourquoi j'ai désactiver Tab
 

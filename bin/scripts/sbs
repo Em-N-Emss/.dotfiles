@@ -148,66 +148,106 @@ process_image() {
 process_markdown() {
     local file="$1"
 
-    # Extract metadata and content sections
     log_info "Analyzing markdown content structure..."
 
-
-    # Get all wikilinks with context
-
-    local links_data
-    links_data=$(awk '
+    # Extract both YAML tags and wikilinks with context
+    local combined_data
+    combined_data=$(awk '
         BEGIN {
+
+            in_yaml = 0
+            in_yaml_tags = 0
             in_links = 0
             in_tags = 0
             priority = 0
         }
 
-        # Track sections
+        # Track YAML metadata section
+
+        /^---$/ {
+            if (in_yaml) {
+                in_yaml = 0
+                in_yaml_tags = 0
+            } else {
+
+                in_yaml = 1
+
+            }
+
+            next
+        }
+
+        # Detect Tags: section in YAML
+        in_yaml && /^Tags[[:space:]]*:/ {
+            in_yaml_tags = 1
+            next
+        }
+
+        # Process indented hyphen YAML tags
+        in_yaml && in_yaml_tags && /[[:space:]]*-[[:space:]]/ {
+            # Extract tag after hyphen
+            tag = $0
+            # Remove leading spaces, hyphen, and trailing spaces
+            gsub(/^[[:space:]]*-[[:space:]]*|[[:space:]]*$/, "", tag)
+            if (tag != "") {
+
+                printf "%s\t%d\tYAML\n", tag, 2000  # Higher priority for YAML tags
+
+            }
+            next
+        }
+
+        # Track regular sections
         /^## Links/ { in_links = 1; next }
         /^## Tags/ { in_tags = 1; next }
         /^##/ { in_links = 0; in_tags = 0 }
 
-        # Process links section with priority
 
+        # Process links section
         in_links && /\[\[([^\]]+)\]\]/ {
-            # Extract link and calculate priority based on position and context
             link = gensub(/.*\[\[([^\]]+)\]\].*/, "\\1", "g")
+            priority = 10 - NR + 1000
 
-            # Higher priority for links that:
-            # - Are first in the list
-            # - Have descriptive text around them
-            # - Are not part of a larger list/hierarchy
+            if (NR == 1) priority += 100
+            if ($0 ~ /^- /) priority -= 10
 
-            priority = 10 - NR + 1000  # Base priority
+            if ($0 ~ /[A-Za-z].*\[\[/) priority += 50
 
-            # Adjust priority based on context
-            if (NR == 1) priority += 100  # First link bonus
-
-            if ($0 ~ /^- /) priority -= 10  # Part of list penalty
-            if ($0 ~ /[A-Za-z].*\[\[/) priority += 50  # Has description bonus
-
-            printf "%s\t%d\n", link, priority
-
+            printf "%s\t%d\tLINK\n", link, priority
         }
 
-        # Process tags for additional context
+        # Process inline tags section
+
         in_tags && /#[A-Za-z0-9_-]+/ {
-            tags = tags " " $0
+
+            # Extract each tag from the line
+            split($0, line_tags, " ")
+            for (t in line_tags) {
+                tag = line_tags[t]
+                if (tag ~ /^#/) {
+
+                    gsub(/^#/, "", tag)  # Remove # prefix
+                    printf "%s\t%d\tTAG\n", tag, 1500  # Medium priority for inline tags
+                }
+            }
+
         }
     ' "$file")
 
-    if [[ -z "$links_data" ]]; then
-        log_info "No wikilinks found, moving to default directory"
+    if [[ -z "$combined_data" ]]; then
+        log_info "No tags or wikilinks found, moving to default directory"
         TARGET_PATH="$DEFAULT_DIR"
     else
-        # Sort links by priority and try each one
+        # Sort by priority and try each identifier
         local found=0
-        while IFS=$'\t' read -r link priority; do
-            log_info "Trying link '$link' (priority: $priority)"
-            TARGET_PATH=$(find_target_directory "$link")
+        while IFS=$'\t' read -r identifier priority type; do
+            log_info "Trying $type '$identifier' (priority: $priority)"
+
+            TARGET_PATH=$(find_target_directory "$identifier")
+
             if [[ -n "$TARGET_PATH" ]]; then
-                log_info "Found matching directory for link: $link"
-                if [[ "$link" == "Zettelkasten" ]]; then
+                log_info "Found matching directory for $type: $identifier"
+                if [[ "$identifier" == "Zettelkasten" ]]; then
                     mv "$file" "$DEFAULT_DIR"
                     log_info "Successfully moved $file to $DEFAULT_DIR"
                     return 0
@@ -215,8 +255,7 @@ process_markdown() {
                 found=1
                 break
             fi
-
-        done < <(echo "$links_data" | sort -nr -k2)
+        done < <(echo "$combined_data" | sort -nr -k2)
 
         if [[ $found -eq 0 ]]; then
             log_info "No matching directory found, using default"
@@ -224,13 +263,14 @@ process_markdown() {
         fi
     fi
 
+
     # Move the file
+
     if mv "$file" "$TARGET_PATH/"; then
         log_info "Successfully moved $file to $TARGET_PATH"
         return 0
     else
         log_error "Failed to move markdown file"
-
         return 1
     fi
 }

@@ -8,7 +8,13 @@ return {
             styles = {
                 -- transparency = true, -- Mettre en com si problème de couleur contrast
                 italic = false,
-            }
+            },
+            palette = {
+                main = {
+                    love = "#c85d78",   -- Error color (darker red)
+                    foam = "#809fb4",   -- Info color (darker blue)
+                },
+            },
         })
     vim.cmd.colorscheme("rose-pine")
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })

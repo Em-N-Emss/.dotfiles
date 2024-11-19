@@ -12,7 +12,7 @@ return {
             palette = {
                 main = {
                     love = "#c85d78",   -- Error color (darker red)
-                    foam = "#809fb4",   -- Info color (darker blue)
+                    -- foam = "#809fb4",   -- Info color (darker blue)
                 },
             },
         })

@@ -52,7 +52,13 @@ return {
     {
         "nvim-treesitter/nvim-treesitter-context",
         config = function()
-           require("treesitter-context").setup({})
+            require("treesitter-context").setup({
+                -- vim.api.nvim_set_hl(0, "TreesitterContext", { fg = "none" })
+                -- trim_scope = "outer"
+            })
+            vim.keymap.set("n", "[c", function()
+                require("treesitter-context").go_to_context(vim.v.count1)
+            end, { silent = true })
         end
     },
 }

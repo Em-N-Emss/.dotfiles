@@ -15,10 +15,14 @@ return {
                     -- foam = "#809fb4",   -- Info color (darker blue)
                 },
             },
+            highlight_groups = {
+                TreesitterContext = { bg = 'NONE' },
+                TreesitterContextLineNumber = { bg = 'NONE' },
+            }
         })
-    vim.cmd.colorscheme("rose-pine")
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+        vim.cmd.colorscheme("rose-pine")
     end
 }
 

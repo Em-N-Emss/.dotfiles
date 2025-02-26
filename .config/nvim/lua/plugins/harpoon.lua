@@ -26,48 +26,24 @@ return {
                     sorter = conf.generic_sorter({}),
                 }):find()
         end
+        vim.keymap.set("n", "<leader>A", function() harpoon:list():prepend() end)
+        vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+        vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+        vim.keymap.set("n", "<leader>ph", function() toggle_telescope(harpoon:list()) end)
 
-        return {
-            {
-                "<C-S-h>", function() harpoon:list():select(1) end,
-                desc = "Harpoon buffer 1",
-            },
-            {
-                "<C-S-t>", function() harpoon:list():select(2) end,
-                desc = "Harpoon buffer 2",
-            },
-            {
-                "<C-S-n>", function() harpoon:list():select(3) end,
-                desc = "Harpoon buffer 3",
-            },
-            {
-                "<C-S-s>", function() harpoon:list():select(4) end,
-                desc = "Harpoon buffer 4",
-            },
 
-            {
-                "<S-H>", function() harpoon:list():next() end,
-                desc = "Harpoon next buffer",
-            },
-            {
-                "<S-L>", function() harpoon:list():prev() end,
-                desc = "Harpoon prev buffer",
-            },
+        vim.keymap.set("n", "<C-S-h>", function() harpoon:list():select(1) end)
+        vim.keymap.set("n", "<C-S-t>", function() harpoon:list():select(2) end)
+        vim.keymap.set("n", "<C-S-n>", function() harpoon:list():select(3) end)
+        vim.keymap.set("n", "<C-S-s>", function() harpoon:list():select(4) end)
 
-            {
-                "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-                desc = "Harpoon Toggle Menu",
-            },
-            {
-                "<leader>a", function() harpoon:list():add() end,
-                desc = "Harpoon add file",
-            },
+        vim.keymap.set("n", "<leader><C-S-h>", function() harpoon:list():replace_at(1) end)
+        vim.keymap.set("n", "<leader><C-S-t>", function() harpoon:list():replace_at(2) end)
+        vim.keymap.set("n", "<leader><C-S-n>", function() harpoon:list():replace_at(3) end)
+        vim.keymap.set("n", "<leader><C-S-s>", function() harpoon:list():replace_at(4) end)
 
-            {
-                "<leader>ph", function() toggle_telescope(harpoon:list()) end,
-                desc = "Open Harpoon window",
-            },
-        }
+        vim.keymap.set("n", "<S-H>", function() harpoon:list():prev() end)
+        vim.keymap.set("n", "<S-L>", function() harpoon:list():next() end)
     end,
 
     opts = function(_, opts)

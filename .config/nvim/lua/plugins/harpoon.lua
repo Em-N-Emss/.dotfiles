@@ -17,83 +17,54 @@ return {
                 table.insert(file_paths, item.value)
             end
 
-            require("telescope.pickers")
-                .new({}, {
+            require("telescope.pickers").new({}, {
                     prompt_title = "Harpoon",
                     finder = require("telescope.finders").new_table({
                         results = file_paths,
                     }),
                     previewer = conf.file_previewer({}),
                     sorter = conf.generic_sorter({}),
-                })
-                :find()
+                }):find()
         end
 
         return {
             {
-                "<C-S-h>",
-                function()
-                    harpoon:list():select(1)
-                end,
+                "<C-S-h>", function() harpoon:list():select(1) end,
                 desc = "Harpoon buffer 1",
             },
             {
-                "<C-S-t>",
-                function()
-                    harpoon:list():select(2)
-                end,
+                "<C-S-t>", function() harpoon:list():select(2) end,
                 desc = "Harpoon buffer 2",
             },
             {
-                "<C-S-n>",
-                function()
-                    harpoon:list():select(3)
-                end,
+                "<C-S-n>", function() harpoon:list():select(3) end,
                 desc = "Harpoon buffer 3",
             },
             {
-                "<C-S-s>",
-                function()
-                    harpoon:list():select(4)
-                end,
+                "<C-S-s>", function() harpoon:list():select(4) end,
                 desc = "Harpoon buffer 4",
             },
 
             {
-                "<S-H>",
-                function()
-                    harpoon:list():next()
-                end,
+                "<S-H>", function() harpoon:list():next() end,
                 desc = "Harpoon next buffer",
             },
             {
-                "<S-L>",
-                function()
-                    harpoon:list():prev()
-                end,
+                "<S-L>", function() harpoon:list():prev() end,
                 desc = "Harpoon prev buffer",
             },
 
             {
-                "<C-e>",
-                function()
-                    harpoon.ui:toggle_quick_menu(harpoon:list())
-                end,
+                "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
                 desc = "Harpoon Toggle Menu",
             },
             {
-                "<leader>a",
-                function()
-                    harpoon:list():add()
-                end,
+                "<leader>a", function() harpoon:list():add() end,
                 desc = "Harpoon add file",
             },
 
             {
-                "<leader>ph",
-                function()
-                    toggle_telescope(harpoon:list())
-                end,
+                "<leader>ph", function() toggle_telescope(harpoon:list()) end,
                 desc = "Open Harpoon window",
             },
         }

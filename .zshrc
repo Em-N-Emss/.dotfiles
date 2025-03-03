@@ -91,4 +91,5 @@ export FZF_DEFAULT_OPTS="
 	--color=fg+:#e0def4,hl+:#ebbcba
 	--color=border:#403d52,header:#31748f
 	--color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
-	--color=pointer:#eb6f92,marker:#c4a7e7,prompt:#908caa"
+	--color=pointer:#eb6f92,marker:#c4a7e7,prompt:#908caa
+    --pointer '>'"

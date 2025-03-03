@@ -32,15 +32,15 @@ return {
         vim.keymap.set("n", "<leader>ph", function() toggle_telescope(harpoon:list()) end)
 
 
-        vim.keymap.set("n", "<C-S-h>", function() harpoon:list():select(1) end)
-        vim.keymap.set("n", "<C-S-t>", function() harpoon:list():select(2) end)
-        vim.keymap.set("n", "<C-S-n>", function() harpoon:list():select(3) end)
-        vim.keymap.set("n", "<C-S-s>", function() harpoon:list():select(4) end)
+        vim.keymap.set("n", "<C-H>", function() harpoon:list():select(1) end)
+        vim.keymap.set("n", "<C-T>", function() harpoon:list():select(2) end)
+        vim.keymap.set("n", "<C-N>", function() harpoon:list():select(3) end)
+        vim.keymap.set("n", "<C-S>", function() harpoon:list():select(4) end)
 
-        vim.keymap.set("n", "<leader><C-S-h>", function() harpoon:list():replace_at(1) end)
-        vim.keymap.set("n", "<leader><C-S-t>", function() harpoon:list():replace_at(2) end)
-        vim.keymap.set("n", "<leader><C-S-n>", function() harpoon:list():replace_at(3) end)
-        vim.keymap.set("n", "<leader><C-S-s>", function() harpoon:list():replace_at(4) end)
+        vim.keymap.set("n", "<leader><C-H>", function() harpoon:list():replace_at(1) end)
+        vim.keymap.set("n", "<leader><C-T>", function() harpoon:list():replace_at(2) end)
+        vim.keymap.set("n", "<leader><C-N>", function() harpoon:list():replace_at(3) end)
+        vim.keymap.set("n", "<leader><C-S>", function() harpoon:list():replace_at(4) end)
 
         vim.keymap.set("n", "<S-H>", function() harpoon:list():prev() end)
         vim.keymap.set("n", "<S-L>", function() harpoon:list():next() end)

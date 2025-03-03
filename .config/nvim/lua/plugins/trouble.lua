@@ -1,6 +1,23 @@
 return {
     "folke/trouble.nvim",
-    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    opts = {
+        icons = {
+            indent = {
+                middle = " ",
+                last = " ",
+                top = " ",
+                ws = "│  ",
+            },
+        },
+        modes = {
+            diagnostics = {
+                groups = {
+                    { "filename", format = "{file_icon} {basename:Title} {count}" },
+
+                },
+            },
+        },
+    }, -- for default options, refer to the configuration section for custom setup.
     cmd = "Trouble",
     keys = {
         {

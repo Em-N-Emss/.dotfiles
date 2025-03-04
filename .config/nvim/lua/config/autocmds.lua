@@ -52,6 +52,15 @@ autocmd("FileType", {
 	end,
 })
 
+-- Update statusline dynamically
+vim.api.nvim_create_autocmd({"BufEnter", "FocusGained", "ShellCmdPost"}, {
+    pattern = "*",
+    callback = function()
+        vim.opt.statusline = statusline()
+    end,
+})
+
+
 autocmd('LspAttach', {
     group = EmGroup,
     callback = function(e)

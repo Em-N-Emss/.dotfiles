@@ -53,7 +53,7 @@ autocmd("FileType", {
 })
 
 -- Update statusline dynamically
-vim.api.nvim_create_autocmd({"BufEnter", "FocusGained", "ShellCmdPost"}, {
+autocmd({"BufEnter", "FocusGained", "ShellCmdPost"}, {
     pattern = "*",
     callback = function()
         vim.opt.statusline = statusline()

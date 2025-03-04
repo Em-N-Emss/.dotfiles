@@ -38,8 +38,8 @@ return {
                     accept_word = false,
                     accept_line = false,
                     clear = false,
-                    next = "<C-p>",
-                    prev = "<C-n>",
+                    next = "<A-p>",
+                    prev = "<A-n>",
                 }
             }
 

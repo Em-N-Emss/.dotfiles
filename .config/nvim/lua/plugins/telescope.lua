@@ -28,6 +28,18 @@ return {
             },
         })
 
+        -- Pour utiliser git_worktree
+        local git_worktree = require('telescope')
+        git_worktree.load_extension("git_worktree")
+
+        vim.keymap.set("n", "<leader>pt", function()
+             git_worktree.extensions.git_worktree.git_worktrees()
+        end)
+        vim.keymap.set("n", "<leader>pT",  function()
+            git_worktree.extensions.git_worktree.create_git_worktree()
+        end)
+
+        -- Fonction builtin de Telescope
         local builtin = require('telescope.builtin')
         vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
 

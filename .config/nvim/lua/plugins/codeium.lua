@@ -19,6 +19,7 @@ return {
                     ".svn",
                     "_FOSSIL_",
                     "package.json",
+                    ".obsidian",
                 },
             },
             -- Optionally disable cmp source if using virtual text only
@@ -37,12 +38,12 @@ return {
                     accept = "<C-y>",
                     accept_word = false,
                     accept_line = false,
-                    clear = false,
-                    next = "<A-p>",
-                    prev = "<A-n>",
+                    clear = "<A-c>",
+                    next = "<A-n>",
+                    prev = "<A-p>",
                 }
             }
-
         })
+        vim.keymap.set("i","<A-n>", function() require("codeium.virtual_text").cycle_or_complete() end)
     end
 }

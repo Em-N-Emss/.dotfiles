@@ -67,9 +67,9 @@ return {
             window = {
                 documentation = cmp.config.window.bordered(),
             },
-            experimental = {
-                ghost_text = true, -- afin d'avoir la completion affiché en texte
-            },
+            -- experimental = {
+            --     ghost_text = true, -- afin d'avoir la completion affiché en texte
+            -- },
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
                 ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
@@ -78,7 +78,7 @@ return {
                 ['<C-l>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Insert, select = true }), -- Insère la completion et bouge le curseur sur la droite
                 ['<A-l>'] = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = false}), -- Remplace le texte adjacent avec l'item choisi dans l'autocompletion, il faut mettre le curseur sur ce dernier pour que ça marche
                 ['<C-b>'] = cmp.mapping.complete(),
-                ['<A-b>'] = cmp.mapping.close(),
+                ['<A-n>'] = cmp.mapping.close(),
                 ['<Tab>'] = cmp.config.disable, -- lire :h ins-completion pour comprendre pourquoi j'ai désactiver Tab
 
             }),

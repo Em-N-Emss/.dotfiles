@@ -19,10 +19,11 @@ function kts() {
 
 # Lancer une session Komorebi & Tmux & YASB pour avoir une status bar
 function ktys() {
-    kts
-
     # Isole YASB dans une session Tmux à part du reste
     tmux new -d -s yasb pwsh.exe -Command 'cd $Env:USERPROFILE\.yasb && python src\main.py'
+
+    kts
+
 }
 
 # Permet de kill tout ce qui est en rapport avec Komorebi

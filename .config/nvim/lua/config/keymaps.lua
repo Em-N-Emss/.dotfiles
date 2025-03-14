@@ -30,13 +30,13 @@ keymap.set("i", "<C-c>", "<Esc>") -- Quitte l'insertion pour revenir au mode nor
 keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 --- Incrémenter/Décrémenter une valeur
-keymap.set({ "n", "v" }, "+", "<C-a>")
-keymap.set({ "n", "v" }, "g+", "g<C-a>", { desc = "Increment value 1 by 1" }) -- Version continue
-keymap.set({ "n", "v" }, "-", "<C-x>")
-keymap.set({ "n", "v" }, "g-", "g<C-x>", { desc = "Decrement value 1 by 1" }) -- Version continue
+-- keymap.set({ "n", "v" }, "+", "<C-a>")
+-- keymap.set({ "n", "v" }, "g+", "g<C-a>", { desc = "Increment value 1 by 1" }) -- Version continue
+-- keymap.set({ "n", "v" }, "-", "<C-x>")
+-- keymap.set({ "n", "v" }, "g-", "g<C-x>", { desc = "Decrement value 1 by 1" }) -- Version continue
 
 --- Selectionne tout le texte
-keymap.set("n", "<C-a>", "gg<S-v>G")
+-- keymap.set("n", "<C-a>", "gg<S-v>G")
 
 -- Diviser la fenêtre courante
 keymap.set("n", "ss", ":split<Return>", opts) -- Division de la fenêtre horizontalement

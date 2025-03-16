@@ -64,6 +64,8 @@ command -v nvim >/dev/null && alias vim="nvim"
 
 export EDITOR=nvim
 
+alias tmux="tmux -2"
+
 # Obsidian
 alias or="vim $HOME/Second-Brain/Inbox/*.md"
 

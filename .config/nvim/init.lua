@@ -6,7 +6,6 @@ require("config.lazy")
 -- Récupérer la branche Git dynamiquement
 local function git_branch()
     local handle = io.popen("git rev-parse --abbrev-ref HEAD 2>/dev/null")
-
     if not handle then
         return "" -- Return si aucune branche n'est trouvée
     end
@@ -54,6 +53,19 @@ local function statusline()
         percentage
     )
 end
+
+-- Affiche la colonne 80 quand la ligne atteint ou dépasse 80 caractères
+local function toggle_colorcolumn()
+    local line = vim.api.nvim_get_current_line()
+    if #line >= 80 then
+        vim.opt.colorcolumn = "80"  -- Affiche la colonne de couleur
+    else
+        vim.opt.colorcolumn = ""    -- Désactive la colonne si la ligne est trop courte
+    end
+end
+
+-- Pour que toggle_colorcolumn soit accessible globalement pour autocmds
+_G.toggle_colorcolumn = toggle_colorcolumn
 
 -- Pour que statusline soit accessible globalement pour autocmds
 _G.statusline = statusline

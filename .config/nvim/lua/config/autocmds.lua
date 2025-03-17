@@ -1,8 +1,10 @@
 local augroup = vim.api.nvim_create_augroup
-local EmGroup = augroup('Em', {})
+local EmGroup = augroup("Em", {})
 
 local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup('HighlightYank', {})
+local yank_group = augroup("HighlightYank", {})
+
+local colorColumnGroup = augroup("ColorColumnToggle", {})
 
 -- Quand on est pas en Insert Mode, permet de coller du texte sans perdre son indention de base
 autocmd("InsertLeave", {
@@ -36,7 +38,6 @@ autocmd({"BufWritePre"}, {
     command = [[%s/\s\+$//e]],
 })
 
-
 -- Désactive le contrôle de la typo dans certains formats
 -- La dissimulation de caractère est au niveau 3 dans LazyVim
 autocmd("FileType", {
@@ -60,6 +61,14 @@ autocmd({"BufEnter", "FocusGained", "ShellCmdPost"}, {
     end,
 })
 
+-- Utilisation d'EmGroup pour intégrer cette autocommande à vos autres
+autocmd({ "CursorMoved", "CursorMovedI", "TextChanged", "TextChangedI" }, {
+    group = colorColumnGroup,
+    pattern = "*",
+    callback = function()
+        vim.opt.colorcolumn = toggle_colorcolumn()
+    end,
+})
 
 autocmd('LspAttach', {
     group = EmGroup,

@@ -113,7 +113,6 @@ fi
 # Définir zsh comme shell par défaut
 echo "Setting zsh as the default shell..."
 if command -v zsh &>/dev/null; then
-
     chsh -s "$(command -v zsh)"
     echo "zsh has been set as your default shell. You may need to log out and log back in for the change to take effect."
 else

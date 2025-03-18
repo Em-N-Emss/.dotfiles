@@ -1,6 +1,6 @@
 [user]
 	email = sengchanh.dylan@gmail.com
-	name = Em-N-Ems
+	name = Em-N-Emss
 [core]
 	excludesfile = ~/.gitignore
 	editor = nvim
@@ -47,7 +47,7 @@
   tool = nvimdiff
 [difftool "nvimdiff"]
 	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "nvimdiff"]
 	cmd = nvim -d \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true

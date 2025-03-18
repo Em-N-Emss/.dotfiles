@@ -4,7 +4,6 @@
 
 - Neovim >= **0.9.0** (needs to be built with **LuaJIT**)
 - Git >= **2.19.0** (for partial clones support)
-- [LazyVim](https://www.lazyvim.org/)
 - a [Nerd Font](https://www.nerdfonts.com/)(v3.0 or greater) **_(optional, but needed to display some icons)_**
 - [lazygit](https://github.com/jesseduffield/lazygit) **_(optional)_**
 - [Brew](https://brew.sh/) - Package/Plugin manager
@@ -14,11 +13,7 @@
   - **live grep**: [ripgrep](https://github.com/BurntSushi/ripgrep)
   - **find files**: [fd](https://github.com/sharkdp/fd)
 - a terminal that support true color and _undercurl_:
-  - [kitty](https://github.com/kovidgoyal/kitty) **_(Linux & Macos)_**
-  - [wezterm](https://github.com/wez/wezterm) **_(Linux, Macos & Windows)_**
   - [alacritty](https://github.com/alacritty/alacritty) **_(Linux, Macos & Windows)_**
-  - [iterm2](https://iterm2.com/) **_(Macos)_**
-- [Solarized Osaka](https://github.com/craftzdog/solarized-osaka.nvim)
 
 ## Importer mes dotfiles
 
@@ -84,20 +79,16 @@ Aborting
 config config --local status.showUntrackedFiles no
 ```
 
-## Shell setup (macOS & Linux)
+## Shell setup (macOS & Linux & WSL)
 
-- [Fish shell](https://fishshell.com/) - BIEN SUIVRE LES INSTRUCTIONS SINON CRASH TERMINAL
-- [Fisher](https://github.com/jorgebucaran/fisher) - Plugin manager
-- [Tide](https://github.com/IlanCosman/tide) - Shell theme. Use version 6:
-
-```bash
-fisher install ilancosman/tide@v6
-```
-
-- [Zoxide](https://github.com/ajeetdsouza/zoxide) - Directory jumping (ne pas oublier de prendre la version fish [z for fish](https://github.com/jethrokuan/z))
-- [Eza](https://github.com/eza-community/eza) - `ls` replacement (Même chose ne pas oublier de prendre avec la version fish [Eza_fish](https://github.com/plttn/fish-eza))
+- [Zsh] - Installer avec [Brew](https://brew.sh/)
+- [Zap](https://github.com/zap-zsh/zap) - Plugin manager
+- [Powerlevel10k](https://github.com/romkatv/powerlevel10k) - Prompt theme installé avec [Brew](https://brew.sh/)
+- [Zoxide](https://github.com/ajeetdsouza/zoxide) - Directory jumping
+- [Eza](https://github.com/eza-community/eza) - `ls` replacement
 - [ghq](https://github.com/x-motemen/ghq) - Local Git repository organizer
-- [Fzf](https://github.com/junegunn/fzf) - Interactive filtering (Version fish : [fzf](https://github.com/PatrickF1/fzf.fish))
+- [Fzf](https://github.com/junegunn/fzf) - Interactive filtering
+- [jq](https://github.com/jqlang/jq) - Command-line JSON processor installé avec [Brew](https://brew.sh/)
 
 ## PowerShell setup (Windows)
 
@@ -109,7 +100,7 @@ fisher install ilancosman/tide@v6
 - [z](https://www.powershellgallery.com/packages/z) - Directory jumper
 - [PSFzf](https://github.com/kelleyma49/PSFzf) - Fuzzy finder
 
-## Dossier bin, link au système Windows
+### Dossier bin, link au système Windows avec WSL
 
 - Ne pas oublier de créer le dossier bin dans la racine avec :
 
@@ -124,10 +115,12 @@ mkdir -p ~/bin/
 ln -s /mnt/c/chemin/vers/fichier ~/bin/fichier
 ```
 
-## Windows Tiling
+## QOL
 
-- [Komorebi](https://github.com/LGUG2Z/komorebi) - Un peu comme i3 mais pour Windows
-- Après avoir suivi l'installation de Komorebi, créer un lien symbolique avec `komorebic`.
+### Windows Tiling
+
+- [Komorebi](https://github.com/LGUG2Z/komorebi) V0.1.19 - Un peu comme i3 mais pour Windows
+- Après avoir suivi l'installation de Komorebi dans Windows, créer un lien symbolique avec `komorebic`.
   Pour cela la commande est :
 
 ```bash
@@ -136,7 +129,7 @@ ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/bin/komorebic
 
 - Exemple avec moi ce serait : `ln -s /mnt/c/Users/{user}/scoop/shims/komorebic.exe ~/bin/komorebic`
 
-## Remap hotkeys
+### Remap hotkeys
 
 - [AutoHotKey](https://www.autohotkey.com/) - Permet de remap des touches sur windows
 
@@ -155,7 +148,13 @@ ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/bin/komorebic
   %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
   ```
 
+### Password manager
+
+- [Pass](https://git.zx2c4.com/password-store/) - Password manager installé avec [Brew](https://brew.sh/)
+
 ## Git workflow
+
+### Meilleurs commits
 
 - [commitizen](https://github.com/commitizen/cz-cli) - Permet de générer des meilleurs commits
 
@@ -170,6 +169,8 @@ ln -s /mnt/c/chemin/vers/komorebic/komorebic.exe ~/bin/komorebic
   ```bash
   echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
   ```
+
+### Possibilité d'accéder à la page github de n'importe quel projet
 
 - [hub](https://github.com/mislav/hub) - Permet d'ouvrir la page github du projet
 

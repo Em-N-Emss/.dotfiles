@@ -12,7 +12,9 @@ return {
             palette = {
                 main = {
                     love = "#c85d78",   -- Error color (darker red)
-                    -- foam = "#809fb4",   -- Info color (darker blue)
+                    gold = "#e9bcb3",  -- Muted gold
+                    pine = "#5b7b8b",  -- Softer pine
+                    -- foam = "#8bbfbb",  -- Muted foam
                 },
             },
             highlight_groups = {

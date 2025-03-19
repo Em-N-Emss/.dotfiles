@@ -35,7 +35,15 @@ autocmd('TextYankPost', {
 autocmd({"BufWritePre"}, {
     group = EmGroup,
     pattern = "*",
-    command = [[%s/\s\+$//e]],
+    callback = function(args)
+        -- Créer le dossier si il n'existe pas
+        local dir = vim.fn.fnamemodify(args.file, ":p:h")
+        if vim.fn.isdirectory(dir) == 0 then
+            vim.fn.mkdir(dir, "p")
+        end
+        -- Retirer les espaces en fin de ligne
+        vim.cmd("%s/\\s\\+$//e")
+    end,
 })
 
 -- Désactive le contrôle de la typo dans certains formats

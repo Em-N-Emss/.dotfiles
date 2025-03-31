@@ -164,6 +164,9 @@ echo "Initiating package installation script..."
 # Check if run.sh exists and is executable
 if [ -f "run.sh" ] && [ -x "run.sh" ]; then
     ./run.sh # Use ./ to run from the current directory
+elif [ -f "$HOME/tmp/run_dotfiles.sh" ] && [ -x "$HOME/tmp/run_dotfiles.sh" ]; then
+    ./$HOME/tmp/run_dotfiles.sh # Use ./ to run from the current directory
+
 else
    echo "ERROR: run.sh not found or not executable in the current directory."
    exit 1

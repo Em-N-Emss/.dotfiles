@@ -2,27 +2,45 @@
 
 set -euo pipefail  # Exit immediately if a command fails, exit on error, exit unset var, pipe failure
 
-echo "in run.sh"
 ##################
 #  OS Detection  #
 ##################
-detect_os() {
-    OS_NAME="$(uname -s)"
+# detect_os() {
+#     OS_NAME="$(uname -s)"
+#
+#     if [[ "$OS_NAME" == "linux-gnu"* ]]; then
+#         if grep -qi microsoft /proc/version; then
+#             echo "WSL"
+#         else
+#             echo "Linux"
+#         fi
+#     elif [[ "$OS_NAME" == "darwin"* ]]; then
+#         echo "Mac"
+#     else
+#         echo "Unsupported"
+#         exit 1
+#     fi
+# }
 
-    if [[ "$OS_NAME" == "linux-gnu"* ]]; then
-        if grep -qi microsoft /proc/version; then
+detect_os() {
+    local os_name kernel_name
+    os_name=$(uname -s)
+    kernel_name=$(uname -r) # For WSL detection
+
+    if [[ "$os_name" == "Linux" ]]; then
+        # Check for Microsoft signature in kernel release for WSL
+        if [[ "$kernel_name" == *"Microsoft"* || "$kernel_name" == *"microsoft-standard-WSL2"* ]]; then
             echo "WSL"
         else
             echo "Linux"
         fi
-    elif [[ "$OS_NAME" == "darwin"* ]]; then
+    elif [[ "$os_name" == "Darwin" ]]; then
         echo "Mac"
     else
-        echo "Unsupported"
+        echo "Unsupported ($os_name)"
         exit 1
     fi
 }
-
 OS=$(detect_os)
 echo "Detected OS: $OS"
 

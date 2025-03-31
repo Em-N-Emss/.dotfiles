@@ -80,13 +80,13 @@ else
             if mv "$HOME/$file" "$BACKUP_DIR/$file"; then
                  echo "--> Moved to $BACKUP_DIR/$file"
             else
-                 warn "--> FAILED to move $HOME/$file"
+                 echo "--> FAILED to move $HOME/$file"
             fi
         else
             # This might happen if the grep/awk pattern is too broad or file gone
             echo "Skipping $file (listed as conflict but not found at $HOME/$file)"
         fi
-    done || warn "Problem during conflict identification/backup pipe."
+    done || echo "Problem during conflict identification/backup pipe."
     # # Now uses the config function
     # CONFLICTING_FILES=$(config checkout 2>&1 | grep -E '^\s+' | awk '{print $1}')
     #

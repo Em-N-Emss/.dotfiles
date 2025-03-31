@@ -30,7 +30,12 @@ echo "Setting up dotfiles..."
 
 # Define the 'config' alias for this script's duration
 
-alias config='/usr/bin/git --git-dir=$DOTFILES_DIR/ --work-tree=$HOME'
+# alias config='/usr/bin/git --git-dir=$DOTFILES_DIR/ --work-tree=$HOME'
+# --- Define the 'config' function ---
+config() {
+    # Use quotes around variables and "$@" to handle arguments correctly
+    /usr/bin/git --git-dir="$DOTFILES_DIR/" --work-tree="$HOME" "$@"
+}
 
 # Ensure the .dotfiles directory is ignored to prevent recursion issues
 
@@ -52,33 +57,82 @@ else
     git clone --bare "$DOTFILES_REPO" "$DOTFILES_DIR"
 fi
 
+# Attempt to check out the dotfiles
+# Now uses the config function
+if config checkout; then
+    echo "Dotfiles checked out successfully."
+else
+    echo "Conflicts detected during dotfiles checkout."
+    echo "Backing up pre-existing dotfiles..."
+    # NOTE: Consider using a timestamped backup directory again as previously discussed
+    # BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d%H%M%S)"
+    BACKUP_DIR="$HOME/.config-backup"
+    mkdir -p "$BACKUP_DIR" # Ensure backup directory exists
+
+    echo "Identifying conflicting files..."
+    # Now uses the config function
+    CONFLICTING_FILES=$(config checkout 2>&1 | grep -E '^\s+' | awk '{print $1}')
+
+    if [[ -z "$CONFLICTING_FILES" ]]; then
+        warn "Could not automatically identify conflicting files, though checkout failed."
+        warn "Manual intervention might be required in $HOME."
+    else
+        echo "Moving conflicting files to backup directory: $BACKUP_DIR"
+        echo "$CONFLICTING_FILES" | while read -r file; do
+            if [[ -e "$HOME/$file" ]]; then
+                echo "Backing up: $file"
+                mkdir -p "$BACKUP_DIR/$(dirname "$file")" # Create parent dirs in backup
+                mv "$HOME/$file" "$BACKUP_DIR/$file"
+            else
+                 echo "Skipping $file (listed as conflict but not found at $HOME/$file)"
+            fi
+        done
+    fi
+
+    # --- Removed the potentially problematic `rm -f "$HOME/.gitignore"` ---
+    # The backup process should handle the original .gitignore if it conflicted.
+    # Let's rely on the retry below. If .gitignore was the *only* conflict,
+    # it should be in the backup dir now and checkout should succeed.
+
+    echo "Retrying dotfiles checkout after backup..."
+    # Now uses the config function
+    if config checkout; then
+        echo "Dotfiles checked out successfully after backup."
+    else
+        echo "ERROR: Checkout failed even after backing up conflicting files."
+        echo "Please check the state manually in $HOME and $DOTFILES_DIR."
+        # You could attempt `config status` here to show more info
+        exit 1 # Hard fail if checkout doesn't work after backup
+    fi
+fi
+
 
 # Attempt to check out the dotfiles
-if config checkout; then
-    echo "Dotfiles checked out successfully."
-else
-    echo "Conflicts detected during dotfiles checkout."
-    echo "Backing up pre-existing dotfiles..."
-    mkdir -p "$HOME/.config-backup-$(date +%Y%m%d%H%M%S)"
-    config checkout 2>&1 | egrep "\s+\." | awk '{print $1}' | while read -r file; do
-        echo "Moving $file to backup folder."
-        mv "$file" "$HOME/.config-backup/"
-    done
-    echo "Removing conflicting .gitignore..."
-    rm -f "$HOME/.gitignore"
-    echo "Retrying dotfiles checkout..."
-
-    # config checkout
-    echo "Retrying dotfiles checkout after backup..."
-    if config checkout; then
-        echo "Dotfiles checked out successfully after backup."
-    else
-        echo "ERROR: Checkout failed even after backing up conflicting files."
-        echo "Please check the state manually in $HOME and $DOTFILES_DIR."
-        # SUGGESTION: Maybe list the remaining conflicts here?
-        exit 1 # Hard fail if checkout doesn't work after backup
-    fi
-fi
+# if config checkout; then
+#     echo "Dotfiles checked out successfully."
+# else
+#     echo "Conflicts detected during dotfiles checkout."
+#     echo "Backing up pre-existing dotfiles..."
+#     mkdir -p "$HOME/.config-backup-$(date +%Y%m%d%H%M%S)"
+#     config checkout 2>&1 | egrep "\s+\." | awk '{print $1}' | while read -r file; do
+#         echo "Moving $file to backup folder."
+#         mv "$file" "$HOME/.config-backup/"
+#     done
+#     echo "Removing conflicting .gitignore..."
+#     rm -f "$HOME/.gitignore"
+#     echo "Retrying dotfiles checkout..."
+#
+#     # config checkout
+#     echo "Retrying dotfiles checkout after backup..."
+#     if config checkout; then
+#         echo "Dotfiles checked out successfully after backup."
+#     else
+#         echo "ERROR: Checkout failed even after backing up conflicting files."
+#         echo "Please check the state manually in $HOME and $DOTFILES_DIR."
+#         # SUGGESTION: Maybe list the remaining conflicts here?
+#         exit 1 # Hard fail if checkout doesn't work after backup
+#     fi
+# fi
 
 # Configure git to hide untracked files in the dotfiles repository
 

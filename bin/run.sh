@@ -93,7 +93,11 @@ install_apt_packages() {
 
 install_brew_packages() {
     echo "Installing packages via Homebrew..."
-    brew install "${BREW_PACKAGES[@]}" "${CORE_PACKAGES[@]}"
+    if [[ "$OS" == "Mac" ]]; then
+        brew install "${BREW_PACKAGES[@]}" "${CORE_PACKAGES[@]}"
+    else
+        brew install "${BREW_PACKAGES[@]}"
+    fi
 }
 
 if [[ "$OS" == "Linux" || "$OS" == "WSL" ]]; then

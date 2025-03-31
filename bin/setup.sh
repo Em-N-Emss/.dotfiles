@@ -60,11 +60,11 @@ fi
 # Attempt to check out the dotfiles
 # Now uses the config function
 if config checkout; then
-    echo "Dotfiles checked out successfully."
+    echo "Dotfiles checked out successfully."
 else
-    echo "Conflicts detected during dotfiles checkout."
-    echo "Backing up pre-existing dotfiles..."
-    # NOTE: Consider using a timestamped backup directory again as previously discussed
+    echo "Conflicts detected during dotfiles checkout."
+    echo "Backing up pre-existing dotfiles..."
+    # NOTE: Consider using a timestamped backup directory
     # BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d%H%M%S)"
     BACKUP_DIR="$HOME/.config-backup"
     mkdir -p "$BACKUP_DIR" # Ensure backup directory exists
@@ -73,7 +73,7 @@ else
     # Now uses the config function
     CONFLICTING_FILES=$(config checkout 2>&1 | grep -E '^\s+' | awk '{print $1}')
 
-    if [[ -z "$CONFLICTING_FILES" ]]; then
+    if [[ -z "$CONFLICTING_FILES" ]]; then # <--- INNER IF 1 starts
         warn "Could not automatically identify conflicting files, though checkout failed."
         warn "Manual intervention might be required in $HOME."
     else
@@ -97,15 +97,14 @@ else
     echo "Retrying dotfiles checkout after backup..."
     # Now uses the config function
     if config checkout; then
-        echo "Dotfiles checked out successfully after backup."
-    else
-        echo "ERROR: Checkout failed even after backing up conflicting files."
-        echo "Please check the state manually in $HOME and $DOTFILES_DIR."
+        echo "Dotfiles checked out successfully after backup."
+    else
+        echo "ERROR: Checkout failed even after backing up conflicting files."
+        echo "Please check the state manually in $HOME and $DOTFILES_DIR."
         # You could attempt `config status` here to show more info
-        exit 1 # Hard fail if checkout doesn't work after backup
-    fi
+        exit 1 # Hard fail if checkout doesn't work after backup
+    fi
 fi
-
 
 # Attempt to check out the dotfiles
 # if config checkout; then

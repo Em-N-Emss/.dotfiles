@@ -54,9 +54,9 @@ command_exists() {
 }
 
 # Define core packages (for all systems)
-CORE_PACKAGES=(git neovim hub zsh gcc make tmux pass fzf fd-find jq ripgrep)
+CORE_PACKAGES=(git neovim hub zsh gcc make tmux pass fzf jq ripgrep)
 # Additional packages to be installed with Homebrew
-BREW_PACKAGES=(ghq zoxide eza powerlevel10k)
+BREW_PACKAGES=(ghq fd zoxide eza powerlevel10k)
 
 install_homebrew() {
     if ! command_exists brew; then

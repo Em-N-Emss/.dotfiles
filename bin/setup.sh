@@ -163,8 +163,10 @@ echo "Initiating package installation script..."
 # bash run.sh
 # Check if run.sh exists and is executable
 if [ -f "run.sh" ] && [ -x "run.sh" ]; then
+    echo "Running run.sh..."
     ./run.sh # Use ./ to run from the current directory
 elif [ -f "$HOME/tmp/run_dotfiles.sh" ] && [ -x "$HOME/tmp/run_dotfiles.sh" ]; then
+    echo "Running run_dotfiles.sh..."
     bash "$HOME/tmp/run_dotfiles.sh" # Use ./ to run from the current directory
 
 else

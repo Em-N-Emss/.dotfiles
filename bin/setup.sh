@@ -70,24 +70,41 @@ else
     mkdir -p "$BACKUP_DIR" # Ensure backup directory exists
 
     echo "Identifying conflicting files..."
-    # Now uses the config function
-    CONFLICTING_FILES=$(config checkout 2>&1 | grep -E '^\s+' | awk '{print $1}')
-
-    if [[ -z "$CONFLICTING_FILES" ]]; then # <--- INNER IF 1 starts
-        warn "Could not automatically identify conflicting files, though checkout failed."
-        warn "Manual intervention might be required in $HOME."
-    else
-        echo "Moving conflicting files to backup directory: $BACKUP_DIR"
-        echo "$CONFLICTING_FILES" | while read -r file; do
-            if [[ -e "$HOME/$file" ]]; then
-                echo "Backing up: $file"
-                mkdir -p "$BACKUP_DIR/$(dirname "$file")" # Create parent dirs in backup
-                mv "$HOME/$file" "$BACKUP_DIR/$file"
+    config checkout 2>&1 | grep -E '^\s+' | awk '{print $1}' | while read -r file; do
+        # Check if the file exists relative to HOME
+        if [[ -e "$HOME/$file" ]]; then
+            echo "Backing up: $file"
+            # Create the necessary subdirectory structure in the backup folder
+            mkdir -p "$BACKUP_DIR/$(dirname "$file")"
+            # Move the file from HOME to the structured backup location
+            if mv "$HOME/$file" "$BACKUP_DIR/$file"; then
+                 echo "--> Moved to $BACKUP_DIR/$file"
             else
-                 echo "Skipping $file (listed as conflict but not found at $HOME/$file)"
+                 warn "--> FAILED to move $HOME/$file"
             fi
-        done
-    fi
+        else
+            # This might happen if the grep/awk pattern is too broad or file gone
+            echo "Skipping $file (listed as conflict but not found at $HOME/$file)"
+        fi
+    done || warn "Problem during conflict identification/backup pipe."
+    # # Now uses the config function
+    # CONFLICTING_FILES=$(config checkout 2>&1 | grep -E '^\s+' | awk '{print $1}')
+    #
+    # if [[ -z "$CONFLICTING_FILES" ]]; then # <--- INNER IF 1 starts
+    #     warn "Could not automatically identify conflicting files, though checkout failed."
+    #     warn "Manual intervention might be required in $HOME."
+    # else
+    #     echo "Moving conflicting files to backup directory: $BACKUP_DIR"
+    #     echo "$CONFLICTING_FILES" | while read -r file; do
+    #         if [[ -e "$HOME/$file" ]]; then
+    #             echo "Backing up: $file"
+    #             mkdir -p "$BACKUP_DIR/$(dirname "$file")" # Create parent dirs in backup
+    #             mv "$HOME/$file" "$BACKUP_DIR/$file"
+    #         else
+    #              echo "Skipping $file (listed as conflict but not found at $HOME/$file)"
+    #         fi
+    #     done
+    # fi
 
     # --- Removed the potentially problematic `rm -f "$HOME/.gitignore"` ---
     # The backup process should handle the original .gitignore if it conflicted.

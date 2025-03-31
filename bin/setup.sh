@@ -48,7 +48,6 @@ if [ -d "$DOTFILES_DIR" ]; then
     echo "Fetching latest changes for dotfiles..."
     config fetch origin || echo "Could not fetch dotfiles repo, maybe offline?"
 else
-else
     echo "Cloning dotfiles repository in bare mode..."
     git clone --bare "$DOTFILES_REPO" "$DOTFILES_DIR"
 fi

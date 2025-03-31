@@ -2,6 +2,9 @@
 
 set -euo pipefail  # Exit immediately if a command fails, exit on error, exit unset var, pipe failure
 
+RUN_SCRIPT="bin/run.sh"
+TMP_RUN_SCRIPT="$HOME/tmp/run_dotfiles.sh"
+
 echo "Updating package list and upgrading system (if applicable)..."
 # Check if apt exists before running it
 if command -v apt &> /dev/null; then
@@ -162,12 +165,24 @@ config config --local status.showUntrackedFiles no
 echo "Initiating package installation script..."
 # bash run.sh
 # Check if run.sh exists and is executable
-if [ -f "run.sh" ] && [ -x "run.sh" ]; then
+if [ -f "$RUN_SCRIPT" ] && [ -x "$RUN_SCRIPT" ]; then
     echo "Running run.sh..."
-    ./run.sh # Use ./ to run from the current directory
-elif [ -f "$HOME/tmp/run_dotfiles.sh" ] && [ -x "$HOME/tmp/run_dotfiles.sh" ]; then
+    if bash "$TMP_RUN_SCRIPT"; then
+        info "Your run.sh script executed successfully."
+    else
+        # Capture the exit code from run.sh
+        EXIT_CODE=$?
+        error "Your run.sh script failed with exit code $EXIT_CODE. Check its output above."
+    fi
+elif [ -f "$TMP_RUN_SCRIPT" ] && [ -x "$TMP_RUN_SCRIPT" ]; then
     echo "Running run_dotfiles.sh..."
-    bash "$HOME/tmp/run_dotfiles.sh" # Use ./ to run from the current directory
+    if bash "$TMP_RUN_SCRIPT"; then
+        info "Your run_dotfiles.sh script executed successfully."
+    else
+        # Capture the exit code from run_dotfiles.sh
+        EXIT_CODE=$?
+        error "Your run_dotfiles.sh script failed with exit code $EXIT_CODE. Check its output above."
+    fi
 
 else
    echo "ERROR: run.sh not found or not executable in the current directory."

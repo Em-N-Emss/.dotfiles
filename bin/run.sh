@@ -2,6 +2,7 @@
 
 set -euo pipefail  # Exit immediately if a command fails, exit on error, exit unset var, pipe failure
 
+echo "in run.sh"
 ##################
 #  OS Detection  #
 ##################

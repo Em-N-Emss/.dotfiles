@@ -5,23 +5,6 @@ set -euo pipefail  # Exit immediately if a command fails, exit on error, exit un
 ##################
 #  OS Detection  #
 ##################
-# detect_os() {
-#     OS_NAME="$(uname -s)"
-#
-#     if [[ "$OS_NAME" == "linux-gnu"* ]]; then
-#         if grep -qi microsoft /proc/version; then
-#             echo "WSL"
-#         else
-#             echo "Linux"
-#         fi
-#     elif [[ "$OS_NAME" == "darwin"* ]]; then
-#         echo "Mac"
-#     else
-#         echo "Unsupported"
-#         exit 1
-#     fi
-# }
-
 detect_os() {
     local os_name kernel_name
     os_name=$(uname -s)

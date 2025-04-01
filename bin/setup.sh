@@ -157,23 +157,18 @@ fi
 
 config config --local status.showUntrackedFiles no
 
-# Source the .zshrc file to apply configurations
-# source ~/.zshrc
-
-# # Proceed to run.sh for package installations
-# # NOTE: Make sure run.sh is executable
-# echo "Initiating package installation script..."
-# # bash run.sh
-# # Check if run.sh exists and is executable
-# if [ -f "$RUN_SCRIPT" ] && [ -x "$RUN_SCRIPT" ]; then
-#     echo "Running run.sh..."
-#     if bash "$RUN_SCRIPT"; then
-#         info "Your run.sh script executed successfully."
-#     else
-#         # Capture the exit code from run.sh
-#         EXIT_CODE=$?
-#         error "Your run.sh script failed with exit code $EXIT_CODE. Check its output above."
-#     fi
+# Proceed to run.sh for package installations
+echo "Initiating package installation script..."
+# Check if run.sh exists and is executable
+if [ -f "$RUN_SCRIPT" ] && [ -x "$RUN_SCRIPT" ]; then
+    echo "Running run.sh..."
+    if bash "$RUN_SCRIPT"; then
+        info "Your run.sh script executed successfully."
+    else
+        # Capture the exit code from run.sh
+        EXIT_CODE=$?
+        error "Your run.sh script failed with exit code $EXIT_CODE. Check its output above."
+    fi
 # elif [ -f "$TMP_RUN_SCRIPT" ] && [ -x "$TMP_RUN_SCRIPT" ]; then
 #     echo "Running run_dotfiles.sh..."
 #     if bash "$TMP_RUN_SCRIPT"; then
@@ -184,10 +179,10 @@ config config --local status.showUntrackedFiles no
 #         error "Your run_dotfiles.sh script failed with exit code $EXIT_CODE. Check its output above."
 #     fi
 #
-# else
-#    echo "ERROR: run.sh not found or not executable in the current directory."
-#    exit 1
-# fi
+else
+   echo "ERROR: run.sh not found or not executable in the current directory."
+   exit 1
+fi
 
 echo "###########################################################"
 echo "# Dotfiles setup complete!                                #"

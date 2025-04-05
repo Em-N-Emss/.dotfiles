@@ -17,6 +17,15 @@
 
 ## Importer mes dotfiles
 
+### Bootstrap setup
+- Faire seulement cela :
+```bash
+bash <(curl -sSL https://gist.github.com/Em-N-Emss/fcd646755f5579ec9ea21cfa88a62c52/bootstrap.sh)
+
+```
+
+### Manual setup
+
 - Avant de cloner faire ceci pour le shell de base :
 
 ```bash

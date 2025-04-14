@@ -65,3 +65,6 @@ keymap.set("v", ">", ">gv")
 
 -- Formatter le code grâce au LSP
 keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
+-- Remplacer le mot sous le curseur
+keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])

@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+
+
+# sbf: Second Brain Formatter - Appends tags as wikilinks
+
+
+# ===========================================
+# Helper Functions
+# ===========================================
+
+# Simple logging function for info messages
+log_info() {
+    echo "[INFO] sbf: $1"
+}
+
+
+# Simple logging function for error messages and exit
+log_error() {
+    echo "[ERROR] sbf: $1" >&2
+    exit 1
+}
+
+# ===========================================
+# Main Script Logic
+# ===========================================
+
+main() {
+    # Validate arguments
+    if [[ $# -eq 0 ]]; then
+        log_error "Usage: $0 <file_path>"
+
+    fi
+
+    local file="$1"
+
+
+    # Validate the file: exists, is readable, and is writable (for appending)
+    if [[ ! -f "$file" ]]; then
+        log_error "File not found: '$file'"
+    fi
+    if [[ ! -r "$file" ]]; then
+         log_error "File not readable: '$file'"
+    fi
+     if [[ ! -w "$file" ]]; then
+         log_error "File not writable: '$file'"
+    fi
+
+    # Use the validated absolute path for operations
+
+    # realpath resolves symbolic links and gives the absolute path
+    local target_file=$(realpath "$file")
+
+
+    log_info "Processing file: '$target_file'"
+
+    log_info "Extracting tags for appending wikilinks."
+    local tags_to_append
+
+    # Awk command to extract tags:
+    # 1. Handles YAML front matter tags (- TagName)
+    # 2. Handles inline #hashtags anywhere outside YAML
+    # 3. Pipe to sort -u to get unique tag names
+    tags_to_append=$(awk '
+        BEGIN {
+            in_yaml = 0
+            in_yaml_tags = 0
+        }
+        # Detect YAML front matter start/end
+        /^---$/ {
+            if (in_yaml) {
+                in_yaml = 0
+                in_yaml_tags = 0 # Reset YAML tag flag on exit
+            } else {
+                in_yaml = 1
+            }
+            next # Skip the --- line itself
+        }
+        # Detect "Tags:" line within YAML
+        in_yaml && /^Tags[[:space:]]*:/ {
+            in_yaml_tags = 1
+            next # Skip the Tags: line
+        }
+        # Process indented hyphen YAML tags while inside YAML tags section
+
+        in_yaml && in_yaml_tags && /[[:space:]]*-[[:space:]]/ {
+            tag = $0
+            # Remove leading spaces, hyphen, and any trailing spaces
+            gsub(/^[[:space:]]*-[[:space:]]*|[[:space:]]*$/, "", tag)
+            if (tag != "") {
+                print tag # Print the cleaned tag name
+            }
+            next # Process next line
+
+        }
+        # Handle inline #hashtags outside YAML front matter
+        !in_yaml && /#[A-Za-z0-9_-]+/ {
+            # Split the line into words and check each word
+            split($0, line_tags, " ")
+            for (t in line_tags) {
+                tag = line_tags[t]
+                if (tag ~ /^#/) {
+                    # Remove the leading # and print the tag name
+                    gsub(/^#/, "", tag)
+                    print tag
+                }
+            }
+        }
+    ' "$target_file" | sort -u) # Feed file content to awk and pipe output to sort -u
+
+    # Check if any tags were found
+    if [[ -n "$tags_to_append" ]]; then
+        log_info "Found tags to append as wikilinks."
+
+        # Loop through each unique tag found and append it as a wikilink on a new line
+        # The `while read` loop processes each line (each unique tag) from the `tags_to_append` variable
+
+        # IFS= read -r prevents issues with spaces or backslashes in tag names
+        while IFS= read -r tag; do
+            # Append [[tag]] followed by a newline (echo does this by default)
+            echo "" >> "$target_file"
+            echo "[[$tag]]" >> "$target_file"
+            log_info "Appended wikilink: [[$tag]]"
+        done <<< "$tags_to_append" # Use a here-string to feed the list of tags into the loop
+    else
+        log_info "No tags found to append as wikilinks."
+    fi
+
+    log_info "Processing complete for '$target_file'."
+}
+
+# Run the main function with all script arguments
+main "$@"

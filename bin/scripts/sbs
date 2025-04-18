@@ -241,27 +241,27 @@ process_markdown() {
         # Sort by priority and try each identifier
         local found=0
 
-        log_info "Extracting tags for appending wikilinks."
-        local tags_to_append
-        # Filter combined_data for lines where the type is 'YAML' or 'TAG' (columns 3)
-        # Extract the identifier (column 1)
-        # Sort and get unique tag names
-        tags_to_append=$(echo "$combined_data" | awk '$3 == "YAML" || $3 == "TAG" { print $1 }' | sort -u)
-
-        if [[ -n "$tags_to_append" ]]; then
-            log_info "Found tags to append as wikilinks."
-
-            # Loop through each unique tag found and append it as a wikilink on a new line
-            # The `while read` loop processes each line (each unique tag) from the `tags_to_append` variable
-            while IFS= read -r tag; do
-                # Append [[tag]] followed by a newline (echo does this by default)
-                echo "" >> "$file"
-                echo "[[$tag]]" >> "$file"
-                log_info "Appended wikilink: [[$tag]]"
-            done <<< "$tags_to_append" # Use a here-string to feed the list of tags into the loop
-        else
-            log_info "No tags found to append as wikilinks."
-        fi
+        # log_info "Extracting tags for appending wikilinks."
+        # local tags_to_append
+        # # Filter combined_data for lines where the type is 'YAML' or 'TAG' (columns 3)
+        # # Extract the identifier (column 1)
+        # # Sort and get unique tag names
+        # tags_to_append=$(echo "$combined_data" | awk '$3 == "YAML" || $3 == "TAG" { print $1 }' | sort -u)
+        #
+        # if [[ -n "$tags_to_append" ]]; then
+        #     log_info "Found tags to append as wikilinks."
+        #
+        #     # Loop through each unique tag found and append it as a wikilink on a new line
+        #     # The `while read` loop processes each line (each unique tag) from the `tags_to_append` variable
+        #     while IFS= read -r tag; do
+        #         # Append [[tag]] followed by a newline (echo does this by default)
+        #         echo "" >> "$file"
+        #         echo "[[$tag]]" >> "$file"
+        #         log_info "Appended wikilink: [[$tag]]"
+        #     done <<< "$tags_to_append" # Use a here-string to feed the list of tags into the loop
+        # else
+        #     log_info "No tags found to append as wikilinks."
+        # fi
 
         while IFS=$'\t' read -r identifier priority type; do
             log_info "Trying $type '$identifier' (priority: $priority)"

@@ -33,6 +33,11 @@ return {
             return "<cmd>! sbs %<CR>"
         end, { expr = true })
 
+        -- Ajouter les tags en wikilinks
+        vim.keymap.set("n", "<leader>of", function ()
+            return "<cmd>! sbf %<CR>"
+        end, { expr = true })
+
         require("obsidian").setup({
             workspaces = {
                 {

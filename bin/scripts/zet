@@ -30,6 +30,16 @@ open_file() {
 	# Créer un identifiant et lien unique
 	timestamp="$(date +"%Y%m%d%H%M")"
 
+    # Extract the first word before the first hyphen
+	# Use bash parameter expansion: ${variable%%pattern} removes the longest suffix matching pattern
+	local first_word="${filename%%-*}"
+
+	# Ensure the first word is not empty before creating the wikilink
+	local wikilink=""
+	if [[ -n "$first_word" ]]; then
+		wikilink="[[${first_word}]]"
+	fi
+
 	# Format du fichier
 	cat <<EOF >"$1/$filename.md"
 ---
@@ -44,6 +54,8 @@ Tags:
 ## Links :
 
 $timestamp
+
+${wikilink}
 EOF
 	nvim '+ normal ggzzi' "$1/$filename.md" -c :NoNeckPain
 }

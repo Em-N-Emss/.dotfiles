@@ -55,9 +55,9 @@ autocmd("FileType", {
             vim.opt.wrap = true -- Permet d'éviter d'avoir du texte en dehors de l'écran seulemnt avec les Markdowns
             vim.opt.linebreak = true -- Permet d'éviter les retours à la ligne en plein milieu d'un mot
             vim.opt.conceallevel = 1 -- Avoir un meilleur rendu visuel quand on a pas le curseur sur une ligne en particulier
-            vim.schedule(function()
-                vim.cmd("NoNeckPain") -- Appeler le plugin NoNeckPain
-            end)
+            -- vim.schedule(function()
+            --     vim.cmd("NoNeckPain") -- Appeler le plugin NoNeckPain
+            -- end)
             return
         end
 		vim.opt.conceallevel = 0

@@ -7,7 +7,6 @@ return {
     },
 
     config = function ()
-
         -- Global remap pour la daily-note
         vim.keymap.set("n", "<leader>od", function ()
             return "<cmd>ObsidianToday<CR><cmd>execute 'sleep 100m' | execute 'NoNeckPain' | execute 'norm Gzzo' | execute 'norm o' | startinsert!<CR>"
@@ -127,6 +126,13 @@ return {
                     opts = { noremap = false, expr = true, buffer = true },
                 },
 
+                -- Applique le template 'New-Note' direct sans paser par telescope
+                ["<leader>oT"] = {
+                    action = function()
+                        return "<cmd>ObsidianTemplate New-Note<CR>"
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
 
                 -- Permet de créer des notes qui n'existent pas pendant une review
                 ["<leader>on"] = {

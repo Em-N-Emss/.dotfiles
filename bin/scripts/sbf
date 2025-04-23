@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-
 # sbf: Second Brain Formatter - Appends tags as wikilinks
-
 
 # ===========================================
 # Helper Functions
@@ -12,7 +10,6 @@
 log_info() {
     echo "[INFO] sbf: $1"
 }
-
 
 # Simple logging function for error messages and exit
 log_error() {
@@ -28,13 +25,11 @@ main() {
     # Validate arguments
     if [[ $# -eq 0 ]]; then
         log_error "Usage: $0 <file_path>"
-
     fi
 
     local file="$1"
 
-
-    # Validate the file: exists, is readable, and is writable (for appending)
+    # Validate the file: exists, is readable, and is writable (for appending and correcting)
     if [[ ! -f "$file" ]]; then
         log_error "File not found: '$file'"
     fi
@@ -42,7 +37,7 @@ main() {
          log_error "File not readable: '$file'"
     fi
      if [[ ! -w "$file" ]]; then
-         log_error "File not writable: '$file'"
+          log_error "File not writable: '$file'"
     fi
 
     # Use the validated absolute path for operations
@@ -50,16 +45,57 @@ main() {
     # realpath resolves symbolic links and gives the absolute path
     local target_file=$(realpath "$file")
 
-
     log_info "Processing file: '$target_file'"
 
+    # ===========================================
+    # Typo Correction: 'tags:' to 'Tags:'
+    # ===========================================
+    log_info "Checking for and correcting 'tags:' typo..."
+
+    # Use grep -q to check if the typo exists at the start of a line
+    # We'll use sed -i to perform the in-place replacement globally.
+    # This assumes 'tags:' will only appear as the YAML tag marker.
+    if grep -q '^tags[[:space:]]*:' "$target_file"; then
+        log_info "Found 'tags:' typo. Attempting to correct to 'Tags:'."
+        # Use sed -i to perform the in-place replacement
+        # s/.../.../ - substitution command
+        # ^tags[[:space:]]*: - regex pattern to match 'tags' at the start of the line,
+        #                     followed by zero or more spaces and a colon.
+
+        # Tags:             - replacement string
+        # The sed command replaces lines starting with 'tags:' (case-sensitive)
+        # with 'Tags:'. It does this directly in the file (-i).
+        sed -i 's/^tags[[:space:]]*:/Tags:/' "$target_file"
+
+
+        # Check if sed was successful (optional but good practice)
+        if [ $? -eq 0 ]; then
+            log_info "'tags:' typo corrected successfully to 'Tags:'."
+        else
+            log_error "Failed to correct 'tags:' typo using sed. Please check file permissions or content."
+            # Decide if you want to exit here or continue processing
+            # If you continue, the script will likely miss tags under 'tags:'
+            # For safety, exiting on failure to correct seems reasonable.
+            exit 1
+        fi
+    else
+        log_info "No 'tags:' typo found. File seems correctly formatted for the tag marker."
+    fi
+
+    # ===========================================
+    # Tag Extraction and Appending
+
+    # ===========================================
     log_info "Extracting tags for appending wikilinks."
     local tags_to_append
+
 
     # Awk command to extract tags:
     # 1. Handles YAML front matter tags (- TagName)
     # 2. Handles inline #hashtags anywhere outside YAML
     # 3. Pipe to sort -u to get unique tag names
+    # NOTE: The correction step above ensures that the YAML tag marker is 'Tags:'.
+    # The awk script below already correctly looks for /^Tags[[:space:]]*:/
     tags_to_append=$(awk '
         BEGIN {
             in_yaml = 0
@@ -75,9 +111,10 @@ main() {
             }
             next # Skip the --- line itself
         }
-        # Detect "Tags:" line within YAML
+        # Detect "Tags:" line within YAML (This now reliably finds 'Tags:' due to the correction step)
         in_yaml && /^Tags[[:space:]]*:/ {
             in_yaml_tags = 1
+
             next # Skip the Tags: line
         }
         # Process indented hyphen YAML tags while inside YAML tags section
@@ -100,6 +137,7 @@ main() {
                 tag = line_tags[t]
                 if (tag ~ /^#/) {
                     # Remove the leading # and print the tag name
+
                     gsub(/^#/, "", tag)
                     print tag
                 }
@@ -109,16 +147,16 @@ main() {
 
     # Check if any tags were found
     if [[ -n "$tags_to_append" ]]; then
-        log_info "Found tags to append as wikilinks."
+        log_info "Found unique tags to append as wikilinks."
 
         # Loop through each unique tag found and append it as a wikilink on a new line
         # The `while read` loop processes each line (each unique tag) from the `tags_to_append` variable
-
         # IFS= read -r prevents issues with spaces or backslashes in tag names
         while IFS= read -r tag; do
-            # Append [[tag]] followed by a newline (echo does this by default)
+            # Append an empty line then the wikilink on a new line for separation
             echo "" >> "$target_file"
             echo "[[$tag]]" >> "$target_file"
+
             log_info "Appended wikilink: [[$tag]]"
         done <<< "$tags_to_append" # Use a here-string to feed the list of tags into the loop
     else

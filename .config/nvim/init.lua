@@ -78,3 +78,4 @@ vim.cmd([[highlight QuickFixLine guibg=#d3d3d3 guifg=#000000 gui=bold]])
 -- Pour Netrw
 vim.g.netrw_browse_split = 0
 vim.g.netrw_winsize = 25
+vim.g.netrw_banner = 0

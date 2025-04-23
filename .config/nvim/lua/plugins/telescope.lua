@@ -32,10 +32,10 @@ return {
         local git_worktree = require('telescope')
         git_worktree.load_extension("git_worktree")
 
-        vim.keymap.set("n", "<leader>pt", function()
+        vim.keymap.set("n", "<leader>pwt", function()
              git_worktree.extensions.git_worktree.git_worktrees()
         end)
-        vim.keymap.set("n", "<leader>pT",  function()
+        vim.keymap.set("n", "<leader>pwT",  function()
             git_worktree.extensions.git_worktree.create_git_worktree()
         end)
 

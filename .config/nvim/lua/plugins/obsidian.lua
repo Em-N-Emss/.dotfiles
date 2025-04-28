@@ -62,22 +62,22 @@ return {
 
             templates = {
                 subdir = "Archive/Templates",
-                date_format = "%d-%m-%Y",
+                date_format = "%Y-%m-%d",
                 time_format = "%Y%m%d%H%M",
                 substitutions = {
                     yesterday = function ()
-                        return os.date("%d-%m-%Y", os.time() - 86400)
+                        return os.date("%Y-%m-%d", os.time() - 86400)
                     end,
 
                     tomorrow = function ()
-                        return os.date("%d-%m-%Y", os.time() + 86400)
+                        return os.date("%Y-%m-%d", os.time() + 86400)
                     end,
                 }
             },
 
             daily_notes = {
                 folder = "Periodic-Notes/Daily-Notes",
-                date_format = "%d-%m-%Y",
+                date_format = "%Y-%m-%d",
                 template = "Daily-Notes.md"
             },
 

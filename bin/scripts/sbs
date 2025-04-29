@@ -9,7 +9,7 @@ BASE_DIR="$HOME/Second-Brain"
 DEFAULT_DIR="$BASE_DIR/Zettelkasten"
 IMAGE_DIR="$BASE_DIR/Resources/Images/Zettelkasten"
 INBOX_DIR="$BASE_DIR/Inbox"
-
+ARCHIVE_DIR="$BASE_DIR/Archive"
 # ===========================================
 
 # Helper Functions
@@ -68,7 +68,8 @@ find_target_directory() {
     local target_path=""
 
     # Strategy 1: Direct exact match
-    target_path=$(find "$BASE_DIR" -type d -name "$search_term" -print -quit)
+    # target_path=$(find "$BASE_DIR" -type d -name "$search_term" -print -quit)
+    target_path=$(find "$BASE_DIR" -path "$ARCHIVE_DIR" -prune -o type d -name "$search_term" -print -quit)
     if [[ -n "$target_path" ]]; then
         # log_info "Found exact match: $target_path"
         echo "$target_path"
@@ -77,16 +78,17 @@ find_target_directory() {
 
 
     # Strategy 2: Case-insensitive match
-    target_path=$(find "$BASE_DIR" -type d -iname "$search_term" -print -quit)
+    # target_path=$(find "$BASE_DIR" -type d -iname "$search_term" -print -quit)
+    target_path=$(find "$BASE_DIR" -path "$ARCHIVE_DIR" -prune -o -type d -iname "$search_term" -print -quit)
     if [[ -n "$target_path" ]]; then
-
         # log_info "Found case-insensitive match: $target_path"
         echo "$target_path"
         return 0
     fi
 
     # Strategy 3: Partial match (contains)
-    target_path=$(find "$BASE_DIR" -type d -path "*$search_term*" -print -quit)
+    # target_path=$(find "$BASE_DIR" -type d -path "*$search_term*" -print -quit)
+    target_path=$(find "$BASE_DIR" -path "$ARCHIVE_DIR" -prune -o -type d -path "*$search_term*" -print -quit)
     if [[ -n "$target_path" ]]; then
         # log_info "Found partial match: $target_path"
         echo "$target_path"

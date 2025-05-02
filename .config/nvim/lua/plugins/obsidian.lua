@@ -154,6 +154,13 @@ return {
                     end,
                     opts = { noremap = false, expr = true, buffer = true },
                 },
+                -- Ouvrir Obsidian sur la note dans laquelle on est
+                ["<leader>op"] = {
+                    action = function()
+                        return "<cmd>ObsidianOpen<CR>"
+                    end,
+                    opts = { noremap = false, expr = true, buffer = true },
+                },
             },
 
             -- LSP

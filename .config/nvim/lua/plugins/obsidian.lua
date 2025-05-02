@@ -48,9 +48,22 @@ return {
             notes_subdir = "Inbox",
             new_notes_location = "notes_subdir",
 
-            note_id_func = function()
-                local suffix = require("obsidian").util.parse_cursor_link()
-                return suffix
+            note_id_func = function(title)
+                -- local suffix = require("obsidian").util.parse_cursor_link()
+                -- return suffix
+                -- 1) If user supplied a title, use that.
+                if title and title:match("%S") then
+                    return title
+                end
+
+                -- 2) Otherwise try the wiki-link under the cursor.
+                local loc = require("obsidian").util.parse_cursor_link()
+                if loc and loc:match("%S") then
+                    return loc
+                end
+
+                -- 3) Fallback to Zettelkasten ID.
+                return require("obsidian").util.zettel_id()
             end,
 
             note_path_func = function(spec)

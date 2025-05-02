@@ -1,3 +1,14 @@
+-- Place this at the top of your init.lua, *before* any plugin setups
+local orig_notify = vim.notify
+vim.notify = function(msg, level, opts)
+  if opts and opts.title == "Codeium" then
+    -- swallow Codeium notifications
+    return
+  end
+  -- otherwise, call the original notify
+  return orig_notify(msg, level, opts)
+end
+
 require("config.options")
 require("config.autocmds")
 require("config.keymaps")

@@ -21,7 +21,7 @@ keymap.set({ "n", "v" }, "<leader>y", [["+y]]) -- Copier ce qui est surligné et
 keymap.set("n", "<leader>Y", [["+Y]]) -- Copier la ligne et la met dans le clipboard systeme
 keymap.set("x", "<leader>p", [["_dP]]) -- Coupe la partie surlignée sans la mettre dans le presse-papier et colle ce qu'il y avait dans le presse-papier avant le curseur en mode visuel
 keymap.set({"n", "v"}, "<leader>d", "\"_d") -- Coupe (une ou plusieurs lignes) SANS mettre dans le presse-papier système
-keymap.set("n", "x", '"_x"') -- Coupe sans mettre dans le presse-papier
+keymap.set("n", "x", '"_x') -- Coupe sans mettre dans le presse-papier
 
 --- Tu croyais que j'blaguais Nono ?
 keymap.set("i", "<C-c>", "<Esc>") -- Quitte l'insertion pour revenir au mode normal utile pour le Visual-Block mode
@@ -43,10 +43,10 @@ keymap.set("n", "ss", ":split<Return>", opts) -- Division de la fenêtre horizon
 keymap.set("n", "sv", ":vsplit<Return>", opts) -- Division de la fenêtre verticalement
 
 -- Déplacement de fenêtre en fenêtre
-keymap.set("n", "sh", "<C-w>h") -- Aller à la fenêtre gauche
-keymap.set("n", "sk", "<C-w>k") -- Aller à la fenêtre en haut
-keymap.set("n", "sj", "<C-w>j") -- Aller à la fenêtre en bas
-keymap.set("n", "sl", "<C-w>l") -- Aller à la fenêtre droite
+-- keymap.set("n", "sh", "<C-w>h") -- Aller à la fenêtre gauche
+-- keymap.set("n", "sk", "<C-w>k") -- Aller à la fenêtre en haut
+-- keymap.set("n", "sj", "<C-w>j") -- Aller à la fenêtre en bas
+-- keymap.set("n", "sl", "<C-w>l") -- Aller à la fenêtre droite
 
 -- Recentrage avec les déplacement dans VIM
 keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- Après avoir sélectionnée un morceau de texte, le déplacement d'une ligne vers le bas et le réindente

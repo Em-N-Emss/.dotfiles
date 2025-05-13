@@ -176,14 +176,6 @@ function setup_zsh() {
         log "zsh is already the default shell"
     fi
 
-    # Install Oh My Zsh if not already installed
-    if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        log "Installing Oh My Zsh..."
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    else
-        log "Oh My Zsh is already installed"
-    fi
-
     # Install Powerlevel10k if not already installed
     if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
         log "Installing Powerlevel10k theme..."

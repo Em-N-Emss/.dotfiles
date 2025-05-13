@@ -120,18 +120,19 @@ fi
 
 # Clone repository
 echo "Cloning repository..."
-if [ ! -d "$HOME/personal/dev" ]; then
-    git clone https://github.com/Em-N-Emss/.dotfiles "$HOME/personal/dev"
-else
-    echo "Repository already exists. Pulling latest changes..."
-    pushd "$HOME/personal/dev" > /dev/null
-    git pull
-    popd > /dev/null
-fi
+git clone https://github.com/Em-N-Emss/.dotfiles "$HOME/.dotfiles"
+# if [ ! -d "$HOME/personal/dev" ]; then
+#     git clone https://github.com/Em-N-Emss/.dotfiles "$HOME/personal/dev"
+# else
+#     echo "Repository already exists. Pulling latest changes..."
+#     pushd "$HOME/personal/dev" > /dev/null
+#     git pull
+#     popd > /dev/null
+# fi
 
 
 # Run the setup script from the repository
-echo "Running the setup script..."
-pushd "$HOME/personal/dev" > /dev/null
-./run
-popd > /dev/null
+# echo "Running the setup script..."
+# pushd "$HOME/personal/dev" > /dev/null
+# ./run
+# popd > /dev/null

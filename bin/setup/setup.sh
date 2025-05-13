@@ -121,6 +121,17 @@ fi
 # Clone repository
 echo "Cloning repository..."
 git clone https://github.com/Em-N-Emss/.dotfiles "$HOME/.dotfiles"
+
+# Append a custom line to ~/.bashrc and source it
+CONFIG='config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME''
+if ! grep -Fxq "$CONFIG" "$HOME/.bashrc"; then
+    echo "Adding config line to ~/.bashrc..."
+    echo "$CONFIG" >> "$HOME/.bashrc"
+fi
+
+echo "Sourcing ~/.bashrc..."
+# shellcheck disable=SC1090
+source "$HOME/.bashrc"
 # if [ ! -d "$HOME/personal/dev" ]; then
 #     git clone https://github.com/Em-N-Emss/.dotfiles "$HOME/personal/dev"
 # else

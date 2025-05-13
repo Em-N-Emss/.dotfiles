@@ -31,7 +31,7 @@ return {
         dependencies = {
             'nvim-telescope/telescope.nvim',
         },
-    }
+    },
  --    {
 	-- 	"iamcco/markdown-preview.nvim",
 	-- 	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -46,6 +46,13 @@ return {
     --     ---@module 'render-markdown'
     --     ---@type render.md.UserConfig
     --     opts = {
+    --         render_modes = { "n", "c", "t" },
+    --         heading = {
+    --             signs = false,
+    --             position = "inline",
+    --             icons = { "# ", "## ", "### ", "#### ", "##### ", "###### " },
+    --         },
+    --         sign = { enabled = false },
     --     },
     -- },
 }

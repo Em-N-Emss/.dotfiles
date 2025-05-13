@@ -119,8 +119,12 @@ if [ ! -d "$HOME/personal" ]; then
 fi
 
 # Clone repository
-echo "Cloning repository..."
-git clone https://github.com/Em-N-Emss/.dotfiles "$HOME/.dotfiles"
+if [ ! -d "$HOME/.dotfiles" ]; then
+    echo "Cloning repository..."
+    git clone https://github.com/Em-N-Emss/.dotfiles "$HOME/.dotfiles"
+else
+    echo "Repository already exists. Pulling latest changes..."
+fi
 
 # Append a custom line to ~/.bashrc and source it
 CONFIG='config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME''

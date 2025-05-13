@@ -33,32 +33,48 @@ return {
                 "clangd",
                 "marksman",
             },
-            handlers = {
-                function(server_name) -- default handler (optional)
-
-                    require("lspconfig")[server_name].setup {
-                        capabilities = capabilities
-                    }
-                end,
-
-                ["lua_ls"] = function()
-
-                    local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup {
-                        capabilities = capabilities,
-                        settings = {
-                            Lua = {
-                                diagnostics = {
-                                    globals = { "vim", "it", "describe", "before_each", "after_each" },
-                                }
-                            }
-                        }
-
-                    }
-                end,
-
-            }
+            -- handlers = {
+            --     function(server_name) -- default handler (optional)
+            --
+            --         require("lspconfig")[server_name].setup {
+            --             capabilities = capabilities
+            --         }
+            --     end,
+            --
+            --     ["lua_ls"] = function()
+            --
+            --         local lspconfig = require("lspconfig")
+            --         lspconfig.lua_ls.setup {
+            --             capabilities = capabilities,
+            --             settings = {
+            --                 Lua = {
+            --                     diagnostics = {
+            --                         globals = { "vim", "it", "describe", "before_each", "after_each" },
+            --                     }
+            --                 }
+            --             }
+            --
+            --         }
+            --     end,
+            --
+            -- }
         })
+
+        -- Configure LSP servers
+        local servers = { 'lua_ls', 'rust_analyzer', 'clangd', 'marksman' }
+        for _, server in ipairs(servers) do
+            local opts = { capabilities = capabilities }
+            if server == 'lua_ls' then
+                opts.settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { 'vim', 'it', 'describe', 'before_each', 'after_each' },
+                        },
+                    },
+                }
+            end
+            require('lspconfig')[server].setup(opts)
+        end
 
         cmp.setup({
             snippet = {

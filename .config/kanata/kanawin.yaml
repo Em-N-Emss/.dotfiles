@@ -1,0 +1,37 @@
+# "exe" can be full path or part of full path.
+# Use "*" match all processes(This is not wildcard nor regular), please put it on last.
+
+# "target_layer" must be exist in kanata config,
+
+- exe: "ProjectZomboid64.exe"
+  target_layer: "game"
+
+- exe: "SC2_x64.exe"
+  target_layer: "game"
+
+- exe: "javaw.exe" # Minecraft Tlauncher
+  target_layer: "game"
+
+- exe: "diabloIII.exe" # Diablo III à vérifier
+  target_layer: "game"
+
+- exe: "brave.exe"
+  target_layer: "browser"
+
+- exe: "zen.exe"
+  target_layer: "browser"
+
+- exe: "Obsidian.exe"
+  target_layer: "browser"
+
+- exe: "Discord.exe"
+  target_layer: "browser"
+
+- exe: "msedge.exe"
+  target_layer: "browser"
+
+- exe: "explorer.exe"
+  target_layer: "browser"
+
+- exe: "*"
+  target_layer: "default"

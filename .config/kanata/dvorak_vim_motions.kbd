@@ -1,0 +1,128 @@
+;; Kanata configuration converted from AutoHotKey script
+
+;; Based on my AHK script
+;; Using Real Programmer Dvorak layout by ThePrimeagen
+;; With French AZERTY physical keyboard layout
+
+
+;; ==========================================
+;; === Define layers and key mappings ===
+;; ==========================================
+
+(defcfg
+  ;; Linux users: Set your input/output devices. Example:
+
+  ;; linux-dev /dev/input/by-id/usb-Microsoft_Microsoft_Wired_Keyboard_600-event-kbd
+
+  ;; linux-dev-names true
+
+  ;; Windows users: Set your output mode
+  windows-altgr cancel-lctl-press ;; Enable AltGr for French layout
+
+  ;; For general use
+  process-unmapped-keys yes
+)
+
+(defsrc
+    esc  f1  f2  f3  f4  f5  f6  f7  f8  f9  f10  f11  f12
+    grv  1   2   3   4   5   6   7   8   9   0
+         a       e           y   u       o   p
+    caps q   s   d   f       h   j   k   l   m
+         w       c   v       n
+)
+
+(defvar
+    tap-time-caps 100
+    hold-time-caps 100
+
+    tap-time-mod 200
+    hold-time-mod 300
+)
+
+(defalias
+
+    ;; Switch layers
+    def (layer-switch default)
+    vim (layer-switch vim-motions)
+    game (layer-switch game)
+
+    ;; Caps lock remap
+    caps lctrl ;; caps -> ctrl
+    escctrl (tap-hold $tap-time-caps $hold-time-caps esc lctrl) ;; Tap to esc, hold for ctrl
+    escvim (tap-hold $tap-time-caps $hold-time-caps esc (layer-while-held vim-motions)) ;; Same but hold for entering vim-motions
+
+    ;; Homerow dvorak modifiers-keys
+    a-mod (tap-hold $tap-time-mod $hold-time-mod a lmet)
+    o-mod (tap-hold $tap-time-mod $hold-time-mod o lalt)
+    e-mod (tap-hold $tap-time-mod $hold-time-mod e lctrl)
+    u-mod (tap-hold $tap-time-mod $hold-time-mod u lshift)
+    h-mod (tap-hold $tap-time-mod $hold-time-mod h rshift)
+    t-mod (tap-hold $tap-time-mod $hold-time-mod t rctrl)
+    n-mod (tap-hold $tap-time-mod $hold-time-mod n ralt)
+    s-mod (tap-hold $tap-time-mod $hold-time-mod s altgr)
+
+    ;; Vim-like cursor movements
+    vim-h left            ;; h -> Left Arrow
+    vim-j down            ;; j -> Down Arrow
+    vim-k up              ;; k -> Up Arrow
+    vim-l right           ;; l -> Right Arrow
+
+    ;; Quick jump to line start/end
+    vim-$ end             ;; $ -> End of line
+    vim-0 home            ;; 0 -> Beginning of line
+
+    ;; Scroll up/down
+    vim-d pgdn            ;; d -> Page Down
+    vim-u pgup            ;; u -> Page Up
+
+    ;; Delete previous word with one key (Ctrl+Backspace)
+    vim-w C-Backspace     ;; w -> Ctrl+Backspace
+
+    ;; Enter terminal like
+    vim-m ent            ;; m -> Enter
+
+    ;; LSP like
+    vim-y tab            ;; y -> Tab
+    vim-n down           ;; n -> Down Arrow pour le lsp
+    vim-p up             ;; p -> Up Arrow pour le lsp
+
+    ;; Keep the other Ctrl+keys remap
+    vim-o C-o
+    vim-e C-e
+    vim-c C-c
+    vim-v C-v
+    vim-s C-s
+    vim-f C-f
+)
+
+(deflayer default
+    _        _ _ _ _ _ _ _ _ _ _ _ _
+    _        _ _ _ _ _ _ _ _ _ _
+             _   _     _ _   _ _
+    @escctrl _ _ _ _   _ _ _ _ _
+             _   _ _   _
+)
+
+(deflayer browser
+    _       _ _ _ _ _ _ _ _ _ _ _ _
+    _       _ _ _ _ _ _ _ _ _ _
+            _   _     _ _   _ _
+    @escvim _ _ _ _   _ _ _ _ _
+            _   _ _   _
+)
+
+(deflayer vim-motions
+    _      _   _   _      _   _    _      _      _      _      _      _ _
+    @vim-$ C-1 C-2 C-3    C-4 C-5  C-6    C-7    C-8    C-9    @vim-0
+           C-a     C-e             @vim-y @vim-u        C-o    @vim-p
+    @caps  C-q C-s @vim-d C-f      @vim-h @vim-j @vim-k @vim-l @vim-m
+           @vim-w  C-c    C-v      @vim-n
+)
+
+(deflayer game
+    _     _ _ _ _ _ _ _ _ _ _ _ _
+    _     _ _ _ _ _ _ _ _ _ _
+          _   _     _ _   _ _
+    @caps _ _ _ _   _ _ _ _ _
+          _   _ _   _
+)

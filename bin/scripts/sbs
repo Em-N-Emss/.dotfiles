@@ -317,7 +317,7 @@ main() {
     fi
 
     # Setup
-    create_required_directories
+    # create_required_directories
 
     # Process file
     local file

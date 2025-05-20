@@ -53,6 +53,10 @@
                         {
                             "kind": "Exe",
                             "id": "javaw.exe"
+                        },
+                        {
+                            "kind": "Exe",
+                            "id": "scrcpy.exe"
                         }
                     ],
                     "layout_rules": {}

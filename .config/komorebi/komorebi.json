@@ -44,6 +44,10 @@
                         },
                         {
                             "kind": "Exe",
+                            "id": "steam.exe"
+                        },
+                        {
+                            "kind": "Exe",
                             "id": "steamwebhelper.exe"
                         },
                         {
@@ -109,12 +113,16 @@
                         {
                             "kind": "Exe",
                             "id": "Discord.exe"
+                        },
+                        {
+                            "kind": "Exe",
+                            "id": "Spotify.exe"
                         }
-
                     ]
                 },
                 {
                     "name": "VI",
+                    "layout": "BSP",
                     "initial_workspace_rules": [
                         {
                             "kind": "Exe",

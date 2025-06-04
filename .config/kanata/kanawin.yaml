@@ -15,6 +15,9 @@
 - exe: "diabloIII.exe" # Diablo III à vérifier
   target_layer: "game"
 
+- exe: "DOOMSandBox64vk.exe" # Doom Eternal avec mods
+  target_layer: "game-doom"
+
 - exe: "brave.exe"
   target_layer: "browser"
 

@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
+# sbs: Second Brain Sorter - Sorts notes into the correct directories
 
 # ===========================================
 # Configuration
-
 # ===========================================
 BASE_DIR="$HOME/Second-Brain"
 DEFAULT_DIR="$BASE_DIR/Zettelkasten"
 IMAGE_DIR="$BASE_DIR/Resources/Images/Zettelkasten"
 INBOX_DIR="$BASE_DIR/Inbox"
 ARCHIVE_DIR="$BASE_DIR/Archive"
+
 # ===========================================
-
 # Helper Functions
-
 # ===========================================
 log_info() {
+
     echo "[INFO] $1"
 }
 
@@ -23,38 +23,23 @@ log_error() {
     echo "[ERROR] $1" >&2
 }
 
-create_required_directories() {
-
-    local dirs=("$DEFAULT_DIR" "$IMAGE_DIR")
-    for dir in "${dirs[@]}"; do
-        if [[ ! -d "$dir" ]]; then
-            mkdir -p "$dir" || {
-                log_error "Failed to create directory: $dir"
-                exit 1
-            }
-            log_info "Created directory: $dir"
-        fi
-
-    done
-}
-
 validate_file() {
     local file="$1"
-
     if [[ ! -f "$file" ]]; then
         log_error "File does not exist: $file"
         exit 1
     fi
     if [[ ! -r "$file" ]]; then
-
         log_error "File is not readable: $file"
         exit 1
     fi
+
 }
 
 
 get_absolute_path() {
     local file="$1"
+
     if [[ ! "$file" = /* ]]; then
         echo "$PWD/$file"
     else
@@ -62,79 +47,46 @@ get_absolute_path() {
     fi
 }
 
-# Enhanced directory search with multiple strategies
+# Search for a directory matching the given term inside Second-Brain/
+# Strategies: exact match → case-insensitive match → partial match
+
 find_target_directory() {
     local search_term="$1"
     local target_path=""
 
-    # Strategy 1: Direct exact match
-    # target_path=$(find "$BASE_DIR" -type d -name "$search_term" -print -quit)
-    target_path=$(find "$BASE_DIR" -path "$ARCHIVE_DIR" -prune -o type d -name "$search_term" -print -quit)
+    # Strategy 1: exact match
+    target_path=$(find "$BASE_DIR" -path "$ARCHIVE_DIR" -prune -o -type d -name "$search_term" -print -quit)
     if [[ -n "$target_path" ]]; then
-        # log_info "Found exact match: $target_path"
         echo "$target_path"
         return 0
     fi
 
-
-    # Strategy 2: Case-insensitive match
-    # target_path=$(find "$BASE_DIR" -type d -iname "$search_term" -print -quit)
+    # Strategy 2: case-insensitive match
     target_path=$(find "$BASE_DIR" -path "$ARCHIVE_DIR" -prune -o -type d -iname "$search_term" -print -quit)
     if [[ -n "$target_path" ]]; then
-        # log_info "Found case-insensitive match: $target_path"
         echo "$target_path"
         return 0
     fi
 
-    # Strategy 3: Partial match (contains)
-    # target_path=$(find "$BASE_DIR" -type d -path "*$search_term*" -print -quit)
+    # Strategy 3: partial match (contains)
     target_path=$(find "$BASE_DIR" -path "$ARCHIVE_DIR" -prune -o -type d -path "*$search_term*" -print -quit)
     if [[ -n "$target_path" ]]; then
-        # log_info "Found partial match: $target_path"
         echo "$target_path"
+
         return 0
     fi
 
-    # Strategy 4: Fuzzy match using similarity score
-    # local best_match=""
-    # local best_score=0
-    # while IFS= read -r dir; do
-    #     local dir_name=$(basename "$dir")
-    #
-    #     local score=0
-    #     # Calculate similarity score based on common characters
-    #     for (( i=0; i<${#search_term}; i++ )); do
-    #         if [[ "$dir_name" == *"${search_term:$i:1}"* ]]; then
-    #             ((score++))
-    #
-    #         fi
-    #     done
-    #
-    #     if (( score > best_score )); then
-    #         best_score=$score
-    #         best_match=$dir
-    #     fi
-    # done < <(find "$BASE_DIR" -type d)
-    #
-    #
-    # if [[ -n "$best_match" && "$best_score" -gt $(( ${#search_term} / 2 )) ]]; then
-    #     log_info "Found fuzzy match: $best_match (score: $best_score)"
-    #     echo "$best_match"
-    #     return 0
-    # fi
-    #
     return 1
+
 }
+
 
 process_image() {
     local file="$1"
-
     local filename="$2"
 
     if [[ "$filename" =~ ^Pasted[[:space:]]image[[:space:]][0-9]+\.png$ ]]; then
         log_info "Processing image: $filename"
-
-
         if mv "$file" "$IMAGE_DIR/"; then
             log_info "Successfully moved $filename to $IMAGE_DIR"
             return 0
@@ -143,193 +95,171 @@ process_image() {
             return 1
         fi
     fi
+
     return 2
+
 }
 
-# Enhanced markdown processing with better link extraction and prioritization
+
 process_markdown() {
+
     local file="$1"
 
     log_info "Analyzing markdown content structure..."
 
-    # Extract both YAML tags and wikilinks with context
-    local combined_data
-    combined_data=$(awk '
-        BEGIN {
+    # ===========================================
+    # Extract YAML tags (in order of appearance)
 
-            in_yaml = 0
-            in_yaml_tags = 0
-            in_links = 0
-            in_tags = 0
-            priority = 0
-        }
-
-        # Track YAML metadata section
-
+    # ===========================================
+    # Do NOT sort: we want to preserve the declaration order from the file.
+    # Each tag receives a position index (1, 2, 3...) used as priority.
+    local yaml_tags
+    yaml_tags=$(awk '
+        BEGIN { in_yaml = 0; in_yaml_tags = 0; idx = 0 }
         /^---$/ {
-            if (in_yaml) {
-                in_yaml = 0
-                in_yaml_tags = 0
-            } else {
-
-                in_yaml = 1
-
-            }
-
+            if (in_yaml) { in_yaml = 0; in_yaml_tags = 0 }
+            else { in_yaml = 1 }
             next
-        }
 
-        # Detect Tags: section in YAML
-        in_yaml && /^Tags[[:space:]]*:/ {
-            in_yaml_tags = 1
-            next
         }
-
-        # Process indented hyphen YAML tags
+        in_yaml && /^Tags[[:space:]]*:/ { in_yaml_tags = 1; next }
         in_yaml && in_yaml_tags && /[[:space:]]*-[[:space:]]/ {
-            # Extract tag after hyphen
             tag = $0
-            # Remove leading spaces, hyphen, and trailing spaces
             gsub(/^[[:space:]]*-[[:space:]]*|[[:space:]]*$/, "", tag)
+
             if (tag != "") {
 
-                printf "%s\t%d\tYAML\n", tag, 2000  # Higher priority for YAML tags
-
+                idx++
+                printf "%s\t%d\tYAML\n", tag, idx
             }
             next
         }
-
-        # Track regular sections
-        /^## Links/ { in_links = 1; next }
-        /^## Tags/ { in_tags = 1; next }
-        /^##/ { in_links = 0; in_tags = 0 }
+        # Exit the tags section when another YAML key is encountered
+        in_yaml && in_yaml_tags && /^[A-Za-z]/ { in_yaml_tags = 0 }
+    ' "$file")
 
 
-        # Process links section
-        in_links && /\[\[([^\]]+)\]\]/ {
-            link = gensub(/.*\[\[([^\]]+)\]\].*/, "\\1", "g")
-            priority = 10 - NR + 1000
+    # ===========================================
+    # Extract wikilinks outside YAML (in order of appearance)
+    # ===========================================
 
-            if (NR == 1) priority += 100
-            if ($0 ~ /^- /) priority -= 10
-
-            if ($0 ~ /[A-Za-z].*\[\[/) priority += 50
-
-            printf "%s\t%d\tLINK\n", link, priority
+    local wikilinks
+    wikilinks=$(awk '
+        BEGIN { in_yaml = 0; idx = 0 }
+        /^---$/ {
+            if (in_yaml) { in_yaml = 0 }
+            else { in_yaml = 1 }
+            next
         }
+        !in_yaml && /\[\[([^\]]+)\]\]/ {
+            line = $0
+            # Extract all wikilinks from the line in order
+            while (match(line, /\[\[([^\]]+)\]\]/, arr)) {
+                idx++
+                printf "%s\t%d\tLINK\n", arr[1], idx
 
-        # Process inline tags section
+                # Advance past the matched wikilink
 
-        in_tags && /#[A-Za-z0-9_-]+/ {
-
-            # Extract each tag from the line
-            split($0, line_tags, " ")
-            for (t in line_tags) {
-                tag = line_tags[t]
-                if (tag ~ /^#/) {
-
-                    gsub(/^#/, "", tag)  # Remove # prefix
-                    printf "%s\t%d\tTAG\n", tag, 1500  # Medium priority for inline tags
-                }
+                line = substr(line, RSTART + RLENGTH)
             }
-
         }
     ' "$file")
 
-    if [[ -z "$combined_data" ]]; then
-        log_info "No tags or wikilinks found, moving to default directory"
-        TARGET_PATH="$DEFAULT_DIR"
-    else
-        # Sort by priority and try each identifier
-        local found=0
 
-        # log_info "Extracting tags for appending wikilinks."
-        # local tags_to_append
-        # # Filter combined_data for lines where the type is 'YAML' or 'TAG' (columns 3)
-        # # Extract the identifier (column 1)
-        # # Sort and get unique tag names
-        # tags_to_append=$(echo "$combined_data" | awk '$3 == "YAML" || $3 == "TAG" { print $1 }' | sort -u)
-        #
-        # if [[ -n "$tags_to_append" ]]; then
-        #     log_info "Found tags to append as wikilinks."
-        #
-        #     # Loop through each unique tag found and append it as a wikilink on a new line
-        #     # The `while read` loop processes each line (each unique tag) from the `tags_to_append` variable
-        #     while IFS= read -r tag; do
-        #         # Append [[tag]] followed by a newline (echo does this by default)
-        #         echo "" >> "$file"
-        #         echo "[[$tag]]" >> "$file"
-        #         log_info "Appended wikilink: [[$tag]]"
-        #     done <<< "$tags_to_append" # Use a here-string to feed the list of tags into the loop
-        # else
-        #     log_info "No tags found to append as wikilinks."
-        # fi
+    # ===========================================
+    # Priority: YAML tags first (in order), then wikilinks (in order)
+    # ===========================================
 
-        while IFS=$'\t' read -r identifier priority type; do
-            log_info "Trying $type '$identifier' (priority: $priority)"
+    # YAML tags are evaluated first by position index.
+    # Wikilinks are only evaluated if no tag matched a directory.
 
-            TARGET_PATH=$(find_target_directory "$identifier")
+    local target_path=""
 
-            if [[ -n "$TARGET_PATH" ]]; then
-                log_info "Found matching directory for $type: $identifier"
-                if [[ "$identifier" == "Zettelkasten" ]]; then
-                    mv "$file" "$DEFAULT_DIR"
-                    log_info "Successfully moved $file to $DEFAULT_DIR"
-                    return 0
-                fi
-                found=1
+    # --- Pass 1: YAML tags in order of appearance ---
+    if [[ -n "$yaml_tags" ]]; then
+        while IFS=$'\t' read -r identifier position type; do
+            log_info "Trying YAML tag #$position: '$identifier'"
+            # Short-circuit: Zettelkasten always resolves to DEFAULT_DIR directly,
+            # bypassing find_target_directory which could match a deeper subfolder first.
+            if [[ "$identifier" == "Zettelkasten" ]]; then
+                target_path="$DEFAULT_DIR"
+                log_info "Zettelkasten tag detected: resolved directly to $DEFAULT_DIR"
                 break
             fi
-        done < <(echo "$combined_data" | sort -nr -k2)
+            target_path=$(find_target_directory "$identifier")
+            if [[ -n "$target_path" ]]; then
+                log_info "Directory found via YAML tag: '$identifier' → $target_path"
+                break
+            else
+                log_info "No directory for tag '$identifier', trying next."
+            fi
 
-        if [[ $found -eq 0 ]]; then
-            log_info "No matching directory found, using default"
-            TARGET_PATH="$DEFAULT_DIR"
-            # Add an additional newline after the link for the blank line
-            echo "" >> "$file"
-            # Append the Zettelkasten link
-            echo "[[Zettelkasten]]" >> "$file"
-            log_info "Appended [[Zettelkasten]] to '$file'"
-        fi
+        done < <(echo "$yaml_tags" | sort -t$'\t' -k2 -n)
+        # sort -k2 -n: numeric sort on position column → guaranteed appearance order
+
+    fi
+
+    # --- Pass 2: Wikilinks in order of appearance (only if no tag matched) ---
+    if [[ -z "$target_path" && -n "$wikilinks" ]]; then
+        log_info "No YAML tag matched a directory. Falling back to wikilinks..."
+        while IFS=$'\t' read -r identifier position type; do
+
+            log_info "Trying wikilink #$position: '$identifier'"
+            # Short-circuit: same Zettelkasten safeguard applied to wikilinks.
+            if [[ "$identifier" == "Zettelkasten" ]]; then
+                target_path="$DEFAULT_DIR"
+                log_info "Zettelkasten wikilink detected: resolved directly to $DEFAULT_DIR"
+                break
+            fi
+            target_path=$(find_target_directory "$identifier")
+            if [[ -n "$target_path" ]]; then
+                log_info "Directory found via wikilink: '$identifier' → $target_path"
+                break
+            else
+                log_info "No directory for wikilink '$identifier', trying next."
+            fi
+        done < <(echo "$wikilinks" | sort -t$'\t' -k2 -n)
+    fi
+
+    # --- Fallback: default Zettelkasten directory ---
+    if [[ -z "$target_path" ]]; then
+        log_info "No tag or wikilink matched a directory. Using default directory."
+
+        target_path="$DEFAULT_DIR"
     fi
 
 
     # Move the file
-
-    if mv "$file" "$TARGET_PATH/"; then
-        log_info "Successfully moved $file to $TARGET_PATH"
+    if mv "$file" "$target_path/"; then
+        log_info "Successfully moved file to: $target_path"
         return 0
     else
-        log_error "Failed to move markdown file"
+        log_error "Failed to move file to: $target_path"
+
         return 1
     fi
 }
 
 # ===========================================
 # Main Script
-
 # ===========================================
 main() {
-    # Validate arguments
     if [[ $# -eq 0 ]]; then
         log_error "Usage: $0 <file_path>"
         exit 1
     fi
 
-    # Setup
-    # create_required_directories
-
-    # Process file
     local file
+
     file=$(get_absolute_path "$*")
     log_info "Processing file: $file"
 
     validate_file "$file"
 
+
     local filename
     filename=$(basename "$file")
 
-    # Process based on file type
     if process_image "$file" "$filename"; then
         exit 0
     elif [[ "$filename" =~ \.md$ ]]; then
@@ -341,5 +271,4 @@ main() {
     fi
 }
 
-# Run main function
 main "$@"

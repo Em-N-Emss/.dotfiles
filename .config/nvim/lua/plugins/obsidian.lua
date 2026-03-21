@@ -42,9 +42,15 @@ return {
                 {
                     name = "Second-Brain",
                     path = "~/Second-Brain",
+
+                },
+                {
+                    name = "Portfolio",
+                    path = "~/Portfolio/portfolio",
                 },
             },
 
+            -- notes_subdir = "~/Second-Brain/Inbox",
             notes_subdir = "Inbox",
             new_notes_location = "notes_subdir",
 
@@ -74,6 +80,7 @@ return {
             disable_frontmatter = true,
 
             templates = {
+                -- subdir = "~/Second-Brain/Archive/Templates",
                 subdir = "Archive/Templates",
                 date_format = "%Y-%m-%d",
                 time_format = "%Y%m%d%H%M",
@@ -89,6 +96,7 @@ return {
             },
 
             daily_notes = {
+                -- folder = "~/Second-Brain/Periodic-Notes/Daily-Notes",
                 folder = "Periodic-Notes/Daily-Notes",
                 date_format = "%Y-%m-%d",
                 template = "Daily-Notes.md"

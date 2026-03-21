@@ -52,7 +52,6 @@ autocmd("FileType", {
     callback = function()
         vim.wo.cursorline = true
         vim.cmd([[highlight QuickFixLine guibg=#d3d3d3 guifg=#000000 gui=bold]])
-        vim.api.nvim_set_hl(0, "CursorLine", { bg = "#d3d3d3" })
     end,
 })
 

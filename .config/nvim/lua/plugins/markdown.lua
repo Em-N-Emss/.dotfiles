@@ -144,16 +144,34 @@ return {
             end)
             -- Zen Markdown v.2
             vim.keymap.set("n", "<leader>zM", function()
-                require("zen-mode").setup {
-                    window = {
-                        width = 83,
-                        options = { }
-                    },
-                }
-                require("zen-mode").toggle()
-                vim.wo.number = false
-                vim.wo.rnu = false
-                vim.opt.colorcolumn = "0"
+                -- require("zen-mode").setup {
+                --     window = {
+                --         width = 83,
+                --         options = { }
+                --     },
+                -- }
+                -- require("zen-mode").toggle()
+                -- vim.wo.number = false
+                -- vim.wo.rnu = false
+                -- vim.opt.colorcolumn = "0"
+                vim.keymap.set("n", "<leader>zM", function()
+                    local zen = require("zen-mode")
+                    local twilight = require("twilight")
+
+                    -- Si zen est déjà ouvert on ferme et on désactive twilight
+                    if vim.g.zen_mode_active then
+                        zen.toggle()
+                        twilight.disable()
+                        vim.g.zen_mode_active = false
+                    else
+                        zen.toggle()
+                        twilight.enable()
+                        vim.wo.number = false
+                        vim.wo.rnu = false
+                        vim.opt.colorcolumn = "0"
+                        vim.g.zen_mode_active = true
+                    end
+                end)
             end)
         end
     }

@@ -46,6 +46,16 @@ autocmd({"BufWritePre"}, {
     end,
 })
 
+-- Afin de pouvoir avoir une quickfix list avec des couleurs lors du Zen Mode
+autocmd("FileType", {
+    pattern = "qf",
+    callback = function()
+        vim.wo.cursorline = true
+        vim.cmd([[highlight QuickFixLine guibg=#d3d3d3 guifg=#000000 gui=bold]])
+        vim.api.nvim_set_hl(0, "CursorLine", { bg = "#d3d3d3" })
+    end,
+})
+
 -- Désactive le contrôle de la typo dans certains formats
 -- La dissimulation de caractère est au niveau 3 dans LazyVim
 autocmd("FileType", {
@@ -55,9 +65,14 @@ autocmd("FileType", {
             vim.opt.wrap = true -- Permet d'éviter d'avoir du texte en dehors de l'écran seulemnt avec les Markdowns
             vim.opt.linebreak = true -- Permet d'éviter les retours à la ligne en plein milieu d'un mot
             vim.opt.conceallevel = 1 -- Avoir un meilleur rendu visuel quand on a pas le curseur sur une ligne en particulier
-            -- vim.schedule(function()
-            --     vim.cmd("NoNeckPain") -- Appeler le plugin NoNeckPain
-            -- end)
+            vim.schedule(function()
+                local ok, zen = pcall(require, "zen-mode")
+                if ok then
+                    zen.open() -- open() plutôt que toggle() pour éviter de le fermer si déjà ouvert
+                    vim.wo.number = true
+                    vim.wo.rnu = true
+                end
+            end)
             return
         end
 		vim.opt.conceallevel = 0

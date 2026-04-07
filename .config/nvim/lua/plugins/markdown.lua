@@ -100,7 +100,7 @@ return {
                     vim.cmd("highlight StatusLine ctermbg=1f1d2e guibg=#1f1d2e")
                     vim.cmd("highlight StatusLine ctermfg=908caa guifg=#908caa")
                     vim.cmd([[highlight QuickFixLine guibg=#d3d3d3 guifg=#000000 gui=bold]])
-                    vim.api.nvim_set_hl(0, "CursorLine", { bg = "#d3d3d3" })
+                    -- vim.api.nvim_set_hl(0, "CursorLine", { bg = "#d3d3d3" })
 
                     vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "#1f1d2e" })
                     vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "#1f1d2e" })

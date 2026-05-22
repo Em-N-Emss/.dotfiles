@@ -61,9 +61,11 @@ return {
 
         vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 
-        vim.keymap.set('n', '<leader>po', function()
+        vim.keymap.set('n', '<leader>pO', function()
             local SecondBrain = "~/Second-Brain/"
             builtin.find_files({cwd = SecondBrain})
         end)
+
+        vim.keymap.set('n', '<leader>po', ':ObsidianQuickSwitch<CR>', { noremap = true, silent = true })
     end
 }
